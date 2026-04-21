@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luke Cottrell</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div id="cursor"></div>
+
+    <div id="loader">
+        <canvas id="loader-canvas" width="75" height="75"></canvas>
+    </div>
+
+    <nav class="nav">
+        <canvas id="nav-name-canvas" class="nav-name" width="147" height="40"></canvas>
+        <a class="nav-link" href="#" data-page="experience">Experience</a>
+        <div class="nav-contact-wrap">
+            <canvas id="nav-contact-canvas" class="nav-contact"></canvas>
+        </div>
+        <button id="burger-btn" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <div id="mobile-menu">
+        <button id="mobile-menu-close" aria-label="Close"></button>
+        <a class="mobile-menu-item" id="mob-experience">Experience</a>
+        <a class="mobile-menu-item" id="mob-instagram">Instagram</a>
+        <a class="mobile-menu-item" id="mob-email">Email</a>
+    </div>
+
+    <div class="nav-divider"></div>
+
+    <div class="content-area">
+
+        <h1 class="page-title" id="page-title">Showreel</h1>
+
+        <div class="tab-row">
+            <div class="panel active content-panel" data-index="0">
+                <div class="panel-inner">
+                    <div class="page active" id="page-showreel"></div>
+                </div>
+            </div>
+            <div class="panel" data-index="1" style="--tab-color:#5470FF;"></div>
+            <div class="panel" data-index="2" style="--tab-color:#FFAE00;"></div>
+            <div class="panel" data-index="3" style="--tab-color:#00346B;"></div>
+            <div class="panel" data-index="4" style="--tab-color:#434343;"></div>
+            <div class="panel" data-index="5" style="--tab-color:#D61A33;"></div>
+            <div class="panel" data-index="6" style="--tab-color:#FF6600;"></div>
+            <div class="panel" data-index="7" style="--tab-color:#00794A;"></div>
+            <div class="panel" data-index="8" style="--tab-color:#FFB0F8;"></div>
+            <div class="panel" data-index="9" style="--tab-color:#AB6ED9;"></div>
+        </div>
+
+        <!-- Experience overlay -->
+        <div id="experience-overlay">
+            <h1 class="page-title" id="exp-title"></h1>
+            <div id="exp-avatar-wrap">
+                <canvas id="exp-avatar-canvas" width="200" height="200"></canvas>
+            </div>
+            <div class="exp-content">
+                <div class="exp-row">
+                    <span class="exp-label">Current</span>
+                    <span class="exp-text">Motion design at 44pixels for UI UX.</span>
+                </div>
+                <div class="exp-row">
+                    <span class="exp-label">Freelance</span>
+                    <span class="exp-text">2D animator and motion designer working with character, narratives, branding and effects.</span>
+                </div>
+                <div class="exp-row">
+                    <span class="exp-label">University</span>
+                    <span class="exp-text">BA Animation 2.1, University of West England</span>
+                </div>
+                <div class="exp-row">
+                    <span class="exp-label">Internships</span>
+                    <span class="exp-text">Aardman, Bulletproof</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://unpkg.com/@rive-app/canvas@2.37.2/rive.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
