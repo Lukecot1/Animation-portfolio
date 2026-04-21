@@ -24,8 +24,15 @@ let position         = 0;
 let lastSnappedPanel = 0;
 let mythLockEl       = null;
 let mythDismissed    = false;
+let mythVideos       = [];
 let showreelVideoEl  = null;
 let showreelPlayBool = null;
+let cookiesVideoEl   = null;
+let cookiesPlayBool  = null;
+let ryeVideoEl          = null;
+let ryePlayBool         = null;
+let chinatownVideoEl    = null;
+let chinatownPlayBool   = null;
 
 const panelTitles = [
     'Showreel',                  // 0
@@ -120,8 +127,46 @@ function renderAt(prog) {
 
     if (showreelVideoEl && clamped > 0) {
         if (!showreelVideoEl.paused) showreelVideoEl.pause();
-        if (!showreelVideoEl.muted) showreelVideoEl.muted = true;
+        if (!showreelVideoEl.muted) {
+            showreelVideoEl.muted = true;
+            const vb = document.getElementById('showreel-vol');
+            if (vb) vb.classList.remove('unmuted');
+        }
         if (showreelPlayBool) showreelPlayBool.value = false;
+    }
+
+    if (cookiesVideoEl && Math.abs(clamped - 1) > 0) {
+        if (!cookiesVideoEl.paused) cookiesVideoEl.pause();
+        if (!cookiesVideoEl.muted) {
+            cookiesVideoEl.muted = true;
+            const vb = document.getElementById('cookies-vol');
+            if (vb) vb.classList.remove('unmuted');
+        }
+        if (cookiesPlayBool) cookiesPlayBool.value = false;
+    }
+
+    if (chinatownVideoEl && Math.abs(clamped - 5) > 0) {
+        if (!chinatownVideoEl.paused) chinatownVideoEl.pause();
+        if (!chinatownVideoEl.muted) {
+            chinatownVideoEl.muted = true;
+            const vb = document.getElementById('chinatown-vol');
+            if (vb) vb.classList.remove('unmuted');
+        }
+        if (chinatownPlayBool) chinatownPlayBool.value = false;
+    }
+
+    if (ryeVideoEl && Math.abs(clamped - 7) > 0) {
+        if (!ryeVideoEl.paused) ryeVideoEl.pause();
+        if (!ryeVideoEl.muted) {
+            ryeVideoEl.muted = true;
+            const vb = document.getElementById('rye-vol');
+            if (vb) vb.classList.remove('unmuted');
+        }
+        if (ryePlayBool) ryePlayBool.value = false;
+    }
+
+    if (Math.abs(clamped - 6) > 0 && mythVideos.length > 0 && mythVideos.some(v => !v.paused)) {
+        stopAllMythVideos();
     }
 
     if (mythLockEl) {
@@ -173,6 +218,7 @@ function onSettled() {
                 mythLockEl.style.transition = '';
             }
             mythDismissed = false;
+            document.getElementById('myth-content').classList.remove('revealed');
             const input = document.getElementById('myth-input');
             if (input) input.value = '';
             sessionStorage.removeItem('myth-unlocked');
@@ -185,6 +231,36 @@ function onSettled() {
             } else {
                 showreelVideoEl.pause();
                 if (showreelPlayBool) showreelPlayBool.value = false;
+            }
+        }
+
+        if (cookiesVideoEl) {
+            if (snapped === 1) {
+                cookiesVideoEl.play();
+                if (cookiesPlayBool) cookiesPlayBool.value = true;
+            } else {
+                cookiesVideoEl.pause();
+                if (cookiesPlayBool) cookiesPlayBool.value = false;
+            }
+        }
+
+        if (chinatownVideoEl) {
+            if (snapped === 5) {
+                chinatownVideoEl.play();
+                if (chinatownPlayBool) chinatownPlayBool.value = true;
+            } else {
+                chinatownVideoEl.pause();
+                if (chinatownPlayBool) chinatownPlayBool.value = false;
+            }
+        }
+
+        if (ryeVideoEl) {
+            if (snapped === 7) {
+                ryeVideoEl.play();
+                if (ryePlayBool) ryePlayBool.value = true;
+            } else {
+                ryeVideoEl.pause();
+                if (ryePlayBool) ryePlayBool.value = false;
             }
         }
 
@@ -487,6 +563,9 @@ Promise.all([pageLoaded, minDelay]).then(() => {
 });
 
 showreelVideoEl = document.getElementById('showreel-video');
+cookiesVideoEl      = document.getElementById('cookies-video');
+chinatownVideoEl    = document.getElementById('chinatown-video');
+ryeVideoEl          = document.getElementById('rye-video');
 
 // Showreel Rive play/pause button
 const showreelPlayRive = new rive.Rive({
@@ -513,12 +592,16 @@ let showreelFadeTimer = null;
 
 function startFadeTimer() {
     clearTimeout(showreelFadeTimer);
-    showreelFadeTimer = setTimeout(() => showreelPlayCanvas.classList.add('faded'), 2000);
+    showreelFadeTimer = setTimeout(() => {
+        showreelPlayCanvas.classList.add('faded');
+        document.getElementById('showreel-vol').classList.add('faded');
+    }, 2000);
 }
 
 showreelVideoWrap.addEventListener('mouseenter', () => {
     clearTimeout(showreelFadeTimer);
     showreelPlayCanvas.classList.remove('faded');
+    document.getElementById('showreel-vol').classList.remove('faded');
 });
 
 showreelVideoWrap.addEventListener('mouseleave', () => startFadeTimer());
@@ -528,15 +611,235 @@ startFadeTimer();
 showreelPlayCanvas.addEventListener('click', () => {
     if (!showreelVideoEl) return;
     if (showreelVideoEl.paused) {
-        showreelVideoEl.muted = false;
         showreelVideoEl.play();
         if (showreelPlayBool) showreelPlayBool.value = true;
     } else {
         showreelVideoEl.pause();
-        showreelVideoEl.muted = true;
         if (showreelPlayBool) showreelPlayBool.value = false;
     }
     startFadeTimer();
+});
+
+const showreelVolBtn = document.getElementById('showreel-vol');
+showreelVolBtn.addEventListener('click', () => {
+    showreelVideoEl.muted = !showreelVideoEl.muted;
+    showreelVolBtn.classList.toggle('unmuted', !showreelVideoEl.muted);
+    startFadeTimer();
+});
+
+// Do you accept cookies? Rive play/pause
+const cookiesPlayRive = new rive.Rive({
+    src: 'Rive/pause&play.riv',
+    canvas: document.getElementById('cookies-play-canvas'),
+    artboard: 'Pause and play',
+    stateMachines: 'State Machine 1',
+    autoplay: true,
+    autoBind: true,
+    layout: new rive.Layout({ fit: rive.Fit.Contain }),
+    onLoad() {
+        cookiesPlayRive.resizeDrawingSurfaceToCanvas();
+        const vmi = cookiesPlayRive.viewModelInstance;
+        const colorProp = vmi.color('colorProperty');
+        if (colorProp) colorProp.value = 0xFF5470FF;
+        cookiesPlayBool = vmi.boolean('puase/play');
+        if (cookiesPlayBool) cookiesPlayBool.value = false;
+    },
+});
+
+const cookiesPlayCanvas = document.getElementById('cookies-play-canvas');
+const cookiesVideoWrap = document.querySelectorAll('.showreel-video-wrap')[1];
+let cookiesFadeTimer = null;
+
+function startCookiesFadeTimer() {
+    clearTimeout(cookiesFadeTimer);
+    cookiesFadeTimer = setTimeout(() => {
+        cookiesPlayCanvas.classList.add('faded');
+        document.getElementById('cookies-vol').classList.add('faded');
+    }, 2000);
+}
+
+cookiesVideoWrap.addEventListener('mouseenter', () => {
+    clearTimeout(cookiesFadeTimer);
+    cookiesPlayCanvas.classList.remove('faded');
+    document.getElementById('cookies-vol').classList.remove('faded');
+});
+cookiesVideoWrap.addEventListener('mouseleave', () => startCookiesFadeTimer());
+startCookiesFadeTimer();
+
+cookiesPlayCanvas.addEventListener('click', () => {
+    if (!cookiesVideoEl) return;
+    if (cookiesVideoEl.paused) {
+        cookiesVideoEl.play();
+        if (cookiesPlayBool) cookiesPlayBool.value = true;
+    } else {
+        cookiesVideoEl.pause();
+        if (cookiesPlayBool) cookiesPlayBool.value = false;
+    }
+    startCookiesFadeTimer();
+});
+
+const cookiesVolBtn = document.getElementById('cookies-vol');
+cookiesVolBtn.addEventListener('click', () => {
+    cookiesVideoEl.muted = !cookiesVideoEl.muted;
+    cookiesVolBtn.classList.toggle('unmuted', !cookiesVideoEl.muted);
+    startCookiesFadeTimer();
+});
+
+// China Town Rive play/pause
+const chinatownPlayRive = new rive.Rive({
+    src: 'Rive/pause&play.riv',
+    canvas: document.getElementById('chinatown-play-canvas'),
+    artboard: 'Pause and play',
+    stateMachines: 'State Machine 1',
+    autoplay: true,
+    autoBind: true,
+    layout: new rive.Layout({ fit: rive.Fit.Contain }),
+    onLoad() {
+        chinatownPlayRive.resizeDrawingSurfaceToCanvas();
+        const vmi = chinatownPlayRive.viewModelInstance;
+        const colorProp = vmi.color('colorProperty');
+        if (colorProp) colorProp.value = 0xFFD61A33;
+        chinatownPlayBool = vmi.boolean('puase/play');
+        if (chinatownPlayBool) chinatownPlayBool.value = false;
+    },
+});
+
+const chinatownPlayCanvas = document.getElementById('chinatown-play-canvas');
+const chinatownVideoWrap  = document.querySelectorAll('.showreel-video-wrap')[1];
+let chinatownFadeTimer    = null;
+
+function startChinatownFadeTimer() {
+    clearTimeout(chinatownFadeTimer);
+    chinatownFadeTimer = setTimeout(() => {
+        chinatownPlayCanvas.classList.add('faded');
+        document.getElementById('chinatown-vol').classList.add('faded');
+    }, 2000);
+}
+
+chinatownVideoWrap.addEventListener('mouseenter', () => {
+    clearTimeout(chinatownFadeTimer);
+    chinatownPlayCanvas.classList.remove('faded');
+    document.getElementById('chinatown-vol').classList.remove('faded');
+});
+chinatownVideoWrap.addEventListener('mouseleave', () => startChinatownFadeTimer());
+startChinatownFadeTimer();
+
+chinatownPlayCanvas.addEventListener('click', () => {
+    if (!chinatownVideoEl) return;
+    if (chinatownVideoEl.paused) {
+        chinatownVideoEl.play();
+        if (chinatownPlayBool) chinatownPlayBool.value = true;
+    } else {
+        chinatownVideoEl.pause();
+        if (chinatownPlayBool) chinatownPlayBool.value = false;
+    }
+    startChinatownFadeTimer();
+});
+
+const chinatownVolBtn = document.getElementById('chinatown-vol');
+chinatownVolBtn.addEventListener('click', () => {
+    chinatownVideoEl.muted = !chinatownVideoEl.muted;
+    chinatownVolBtn.classList.toggle('unmuted', !chinatownVideoEl.muted);
+    startChinatownFadeTimer();
+});
+
+// Rye Lane Bagels Rive play/pause
+const ryePlayRive = new rive.Rive({
+    src: 'Rive/pause&play.riv',
+    canvas: document.getElementById('rye-play-canvas'),
+    artboard: 'Pause and play',
+    stateMachines: 'State Machine 1',
+    autoplay: true,
+    autoBind: true,
+    layout: new rive.Layout({ fit: rive.Fit.Contain }),
+    onLoad() {
+        ryePlayRive.resizeDrawingSurfaceToCanvas();
+        const vmi = ryePlayRive.viewModelInstance;
+        const colorProp = vmi.color('colorProperty');
+        if (colorProp) colorProp.value = 0xFF00794A;
+        ryePlayBool = vmi.boolean('puase/play');
+        if (ryePlayBool) ryePlayBool.value = false;
+    },
+});
+
+const ryePlayCanvas  = document.getElementById('rye-play-canvas');
+const ryeVideoWrap   = document.querySelectorAll('.showreel-video-wrap')[3];
+let ryeFadeTimer     = null;
+
+function startRyeFadeTimer() {
+    clearTimeout(ryeFadeTimer);
+    ryeFadeTimer = setTimeout(() => {
+        ryePlayCanvas.classList.add('faded');
+        document.getElementById('rye-vol').classList.add('faded');
+    }, 2000);
+}
+
+ryeVideoWrap.addEventListener('mouseenter', () => {
+    clearTimeout(ryeFadeTimer);
+    ryePlayCanvas.classList.remove('faded');
+    document.getElementById('rye-vol').classList.remove('faded');
+});
+ryeVideoWrap.addEventListener('mouseleave', () => startRyeFadeTimer());
+startRyeFadeTimer();
+
+ryePlayCanvas.addEventListener('click', () => {
+    if (!ryeVideoEl) return;
+    if (ryeVideoEl.paused) {
+        ryeVideoEl.play();
+        if (ryePlayBool) ryePlayBool.value = true;
+    } else {
+        ryeVideoEl.pause();
+        if (ryePlayBool) ryePlayBool.value = false;
+    }
+    startRyeFadeTimer();
+});
+
+const ryeVolBtn = document.getElementById('rye-vol');
+ryeVolBtn.addEventListener('click', () => {
+    ryeVideoEl.muted = !ryeVideoEl.muted;
+    ryeVolBtn.classList.toggle('unmuted', !ryeVideoEl.muted);
+    startRyeFadeTimer();
+});
+
+// Myth Studio videos
+mythVideos = Array.from(document.querySelectorAll('.myth-video'));
+
+mythVideos.forEach(video => {
+    const wrap    = video.closest('.myth-video-wrap');
+    const playBtn = wrap.querySelector('.myth-play-btn');
+    const volBtn  = wrap.querySelector('.myth-vol');
+
+    playBtn.addEventListener('click', () => {
+        if (video.paused) {
+            video.play();
+            playBtn.classList.add('playing');
+        } else {
+            video.pause();
+            playBtn.classList.remove('playing');
+        }
+    });
+
+    volBtn.addEventListener('click', () => {
+        video.muted = !video.muted;
+        volBtn.classList.toggle('unmuted', !video.muted);
+    });
+});
+
+function stopAllMythVideos() {
+    mythVideos.forEach(video => {
+        video.pause();
+        video.muted = true;
+        const wrap    = video.closest('.myth-video-wrap');
+        const playBtn = wrap.querySelector('.myth-play-btn');
+        const volBtn  = wrap.querySelector('.myth-vol');
+        if (playBtn) playBtn.classList.remove('playing');
+        if (volBtn)  volBtn.classList.remove('unmuted');
+    });
+}
+
+// Cookies expand/collapse
+document.getElementById('cookies-expand').addEventListener('click', () => {
+    panels[1].classList.toggle('expanded');
 });
 
 // Myth Studio password lock
@@ -545,9 +848,7 @@ mythLockEl = document.getElementById('myth-lock');
 const mythForm  = document.getElementById('myth-form');
 const mythInput = document.getElementById('myth-input');
 
-if (sessionStorage.getItem('myth-unlocked')) {
-    mythDismissed = true;
-}
+sessionStorage.removeItem('myth-unlocked');
 
 document.getElementById('myth-relock').addEventListener('click', () => {
     mythLockEl.classList.remove('unlocked');
@@ -563,6 +864,11 @@ mythForm.addEventListener('submit', (e) => {
         setTimeout(() => {
             mythLockEl.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
             mythDismissed = true;
+            document.getElementById('myth-content').classList.add('revealed');
+            mythVideos.forEach(v => {
+                v.play();
+                v.closest('.myth-video-wrap').querySelector('.myth-play-btn').classList.add('playing');
+            });
             renderAt(visualPos);
         }, 1000);
     } else {
