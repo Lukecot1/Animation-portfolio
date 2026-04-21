@@ -40,8 +40,15 @@
 
         <div class="tab-row">
             <div class="panel active content-panel" data-index="0">
-                <div class="panel-inner">
-                    <div class="page active" id="page-showreel"></div>
+                <div class="panel-inner showreel-inner">
+                    <div class="showreel-video-wrap">
+                        <video id="showreel-video" src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/Luke%20Cottrell%20showreel%202025.mp4" muted loop playsinline></video>
+                        <canvas id="showreel-play-canvas" width="100" height="100"></canvas>
+                    </div>
+                    <div class="showreel-meta">
+                        <span class="showreel-title">Showreel</span>
+                        <span class="showreel-sub">Animation showreel 2025</span>
+                    </div>
                 </div>
             </div>
             <div class="panel" data-index="1" style="--tab-color:#5470FF;"></div>
@@ -49,7 +56,24 @@
             <div class="panel" data-index="3" style="--tab-color:#00346B;"></div>
             <div class="panel" data-index="4" style="--tab-color:#434343;"></div>
             <div class="panel" data-index="5" style="--tab-color:#D61A33;"></div>
-            <div class="panel" data-index="6" style="--tab-color:#FF6600;"></div>
+            <div class="panel" data-index="6" style="--tab-color:#FF6600;">
+                <div class="panel-inner" id="myth-content"></div>
+                <div class="panel-lock" id="myth-lock">
+                    <form class="lock-form" id="myth-form">
+                        <div class="lock-pill">
+                            <input type="password" class="lock-input" id="myth-input" placeholder="Password" autocomplete="off">
+                            <button type="submit" class="lock-btn" aria-label="Unlock">
+                                <svg width="18" height="22" viewBox="0 0 18 22" fill="none"><rect x="1" y="10" width="16" height="11" rx="3" fill="#000"/><path d="M4 10V7a5 5 0 0 1 10 0v3" stroke="#000" stroke-width="2.5" stroke-linecap="round"/></svg>
+                            </button>
+                        </div>
+                    </form>
+                    <div class="lock-open">
+                        <button class="lock-open-btn" id="myth-relock" aria-label="Lock">
+                            <svg width="18" height="22" viewBox="0 0 18 22" fill="none"><rect x="1" y="10" width="16" height="11" rx="3" fill="#000"/><path d="M4 10V7a5 5 0 0 1 10 0" stroke="#000" stroke-width="2.5" stroke-linecap="round"/></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
             <div class="panel" data-index="7" style="--tab-color:#00794A;"></div>
             <div class="panel" data-index="8" style="--tab-color:#FFB0F8;"></div>
             <div class="panel" data-index="9" style="--tab-color:#AB6ED9;"></div>

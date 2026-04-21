@@ -280,6 +280,7 @@ body {
     overflow: hidden;
     cursor: pointer;
     transition: none;
+    position: relative;
 }
 
 .panel.active {
@@ -306,6 +307,69 @@ body {
 
 .page.active {
     display: block;
+}
+
+/* SHOWREEL */
+
+.showreel-inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 16px;
+    height: 100%;
+}
+
+.showreel-video-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    flex-shrink: 0;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+#showreel-video {
+    width: 100%;
+    height: 100%;
+    display: block;
+    background: #000;
+}
+
+#showreel-play-canvas {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 100px;
+    pointer-events: auto;
+    opacity: 1;
+    transition: opacity 0.4s ease;
+}
+
+#showreel-play-canvas.faded {
+    opacity: 0;
+}
+
+.showreel-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.showreel-title {
+    color: #fff;
+    font-size: 20px;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+}
+
+.showreel-sub {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 14px;
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
 }
 
 /* EXPERIENCE OVERLAY */
@@ -394,6 +458,84 @@ body {
 
 .exp-text {
     color: #000;
+}
+
+
+/* PANEL LOCK */
+
+.panel-lock {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.lock-open {
+    display: none;
+}
+
+.panel-lock.unlocked .lock-form {
+    display: none;
+}
+
+.panel-lock.unlocked .lock-open {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lock-open-btn {
+    width: 48px;
+    height: 48px;
+    background: #fff;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lock-form {
+    width: 230px;
+}
+
+.lock-pill {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border-radius: 100px;
+    padding: 10px 10px 10px 20px;
+    gap: 8px;
+}
+
+.lock-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: 'Aeonik', sans-serif;
+    font-size: 16px;
+    color: #000;
+    min-width: 0;
+}
+
+.lock-input::placeholder {
+    color: #aaa;
+}
+
+.lock-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
 }
 
 

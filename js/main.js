@@ -22,6 +22,10 @@ let lastTime         = null;
 let snapTimer        = null;
 let position         = 0;
 let lastSnappedPanel = 0;
+let mythLockEl       = null;
+let mythDismissed    = false;
+let showreelVideoEl  = null;
+let showreelPlayBool = null;
 
 const panelTitles = [
     'Showreel',                  // 0
@@ -113,6 +117,26 @@ function renderAt(prog) {
     const t = clamped - fromIdx;
     if (t < 0.0001) renderWidths(fromIdx, -1, 0);
     else             renderWidths(fromIdx, fromIdx + 1, t);
+
+    if (showreelVideoEl && clamped > 0) {
+        if (!showreelVideoEl.paused) showreelVideoEl.pause();
+        if (!showreelVideoEl.muted) showreelVideoEl.muted = true;
+        if (showreelPlayBool) showreelPlayBool.value = false;
+    }
+
+    if (mythLockEl) {
+        if (mythDismissed) {
+            mythLockEl.style.opacity = 0;
+            mythLockEl.style.pointerEvents = 'none';
+        } else {
+            mythLockEl.style.transition = '';
+            const dist = Math.abs(clamped - 6);
+            const p = Math.max(0, 1 - dist);
+            mythLockEl.style.opacity = p;
+            mythLockEl.style.transform = `scale(${0.88 + 0.12 * p})`;
+            mythLockEl.style.pointerEvents = p > 0.5 ? 'auto' : 'none';
+        }
+    }
 }
 
 // --- Lerp animation loop ---
@@ -142,6 +166,28 @@ function onSettled() {
     const snapped = Math.round(visualPos);
     if (snapped !== lastSnappedPanel) {
         typewriteTitle(panelTitles[snapped]);
+
+        if (lastSnappedPanel === 6 && snapped !== 6) {
+            if (mythLockEl) {
+                mythLockEl.classList.remove('unlocked');
+                mythLockEl.style.transition = '';
+            }
+            mythDismissed = false;
+            const input = document.getElementById('myth-input');
+            if (input) input.value = '';
+            sessionStorage.removeItem('myth-unlocked');
+        }
+
+        if (showreelVideoEl) {
+            if (snapped === 0) {
+                showreelVideoEl.play();
+                if (showreelPlayBool) showreelPlayBool.value = true;
+            } else {
+                showreelVideoEl.pause();
+                if (showreelPlayBool) showreelPlayBool.value = false;
+            }
+        }
+
         lastSnappedPanel = snapped;
         position = snapped;
     }
@@ -439,3 +485,90 @@ Promise.all([pageLoaded, minDelay]).then(() => {
         loaderRive.cleanup();
     }, { once: true });
 });
+
+showreelVideoEl = document.getElementById('showreel-video');
+
+// Showreel Rive play/pause button
+const showreelPlayRive = new rive.Rive({
+    src: 'Rive/pause&play.riv',
+    canvas: document.getElementById('showreel-play-canvas'),
+    artboard: 'Pause and play',
+    stateMachines: 'State Machine 1',
+    autoplay: true,
+    autoBind: true,
+    layout: new rive.Layout({ fit: rive.Fit.Contain }),
+    onLoad() {
+        showreelPlayRive.resizeDrawingSurfaceToCanvas();
+        const vmi = showreelPlayRive.viewModelInstance;
+        const colorProp = vmi.color('colorProperty');
+        if (colorProp) colorProp.value = 0xFFBEBEBE;
+        showreelPlayBool = vmi.boolean('puase/play');
+        if (showreelPlayBool) showreelPlayBool.value = false;
+    },
+});
+
+const showreelPlayCanvas = document.getElementById('showreel-play-canvas');
+const showreelVideoWrap = document.querySelector('.showreel-video-wrap');
+let showreelFadeTimer = null;
+
+function startFadeTimer() {
+    clearTimeout(showreelFadeTimer);
+    showreelFadeTimer = setTimeout(() => showreelPlayCanvas.classList.add('faded'), 2000);
+}
+
+showreelVideoWrap.addEventListener('mouseenter', () => {
+    clearTimeout(showreelFadeTimer);
+    showreelPlayCanvas.classList.remove('faded');
+});
+
+showreelVideoWrap.addEventListener('mouseleave', () => startFadeTimer());
+
+startFadeTimer();
+
+showreelPlayCanvas.addEventListener('click', () => {
+    if (!showreelVideoEl) return;
+    if (showreelVideoEl.paused) {
+        showreelVideoEl.muted = false;
+        showreelVideoEl.play();
+        if (showreelPlayBool) showreelPlayBool.value = true;
+    } else {
+        showreelVideoEl.pause();
+        showreelVideoEl.muted = true;
+        if (showreelPlayBool) showreelPlayBool.value = false;
+    }
+    startFadeTimer();
+});
+
+// Myth Studio password lock
+const MYTH_PASSWORD = 'luke2001';
+mythLockEl = document.getElementById('myth-lock');
+const mythForm  = document.getElementById('myth-form');
+const mythInput = document.getElementById('myth-input');
+
+if (sessionStorage.getItem('myth-unlocked')) {
+    mythDismissed = true;
+}
+
+document.getElementById('myth-relock').addEventListener('click', () => {
+    mythLockEl.classList.remove('unlocked');
+    mythInput.value = '';
+    sessionStorage.removeItem('myth-unlocked');
+});
+
+mythForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (mythInput.value === MYTH_PASSWORD) {
+        mythLockEl.classList.add('unlocked');
+        sessionStorage.setItem('myth-unlocked', '1');
+        setTimeout(() => {
+            mythLockEl.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            mythDismissed = true;
+            renderAt(visualPos);
+        }, 1000);
+    } else {
+        mythInput.value = '';
+        mythInput.placeholder = 'Incorrect';
+        setTimeout(() => { mythInput.placeholder = 'Password'; }, 1500);
+    }
+});
+
