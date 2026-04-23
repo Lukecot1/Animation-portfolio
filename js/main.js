@@ -410,9 +410,30 @@ let expTimers = [];
 function showExperience() {
     expTimers.forEach(clearTimeout);
     expTimers = [];
+
+    const avatarCanvas = document.getElementById('exp-avatar-canvas');
+    if (avatarCanvas && !expAvatarRive) {
+        expAvatarRive = new rive.Rive({
+            src: 'Rive/Luket.riv',
+            canvas: avatarCanvas,
+            artboard: 'Avatar',
+            stateMachines: 'State Machine 1',
+            autoplay: true,
+            layout: new rive.Layout({ fit: rive.Fit.Contain }),
+            onLoad() { expAvatarRive.resizeDrawingSurfaceToCanvas(); },
+        });
+    }
+    if (avatarCanvas) avatarCanvas.classList.remove('risen', 'exited');
+
     experienceOverlay.style.display = 'flex';
     requestAnimationFrame(() => requestAnimationFrame(() => {
         experienceOverlay.classList.add('visible');
+        expTimers.push(setTimeout(() => {
+            if (avatarCanvas) avatarCanvas.classList.add('risen');
+        }, 100));
+        expTimers.push(setTimeout(() => {
+            if (avatarCanvas) { avatarCanvas.classList.remove('risen'); avatarCanvas.classList.add('exited'); }
+        }, 1800));
     }));
 }
 
@@ -420,6 +441,8 @@ function hideExperience() {
     expTimers.forEach(clearTimeout);
     expTimers = [];
     experienceOverlay.classList.remove('visible');
+    const avatarCanvas = document.getElementById('exp-avatar-canvas');
+    if (avatarCanvas) avatarCanvas.classList.remove('risen', 'exited');
     setTimeout(() => {
         experienceOverlay.style.display = 'none';
         buildPanels();
@@ -928,116 +951,7 @@ cookiesVolBtn.addEventListener('click', () => {
     startCookiesFadeTimer();
 });
 
-// China Town Rive play/pause
-const chinatownPlayRive = new rive.Rive({
-    src: 'Rive/pause&play.riv',
-    canvas: document.getElementById('chinatown-play-canvas'),
-    artboard: 'Pause and play',
-    stateMachines: 'State Machine 1',
-    autoplay: true,
-    autoBind: true,
-    layout: new rive.Layout({ fit: rive.Fit.Contain }),
-    onLoad() {
-        chinatownPlayRive.resizeDrawingSurfaceToCanvas();
-        const vmi = chinatownPlayRive.viewModelInstance;
-        const colorProp = vmi.color('colorProperty');
-        if (colorProp) colorProp.value = 0xFFD61A33;
-        chinatownPlayBool = vmi.boolean('puase/play');
-        if (chinatownPlayBool) chinatownPlayBool.value = false;
-    },
-});
 
-const chinatownPlayCanvas = document.getElementById('chinatown-play-canvas');
-const chinatownVideoWrap  = document.querySelectorAll('.showreel-video-wrap')[5];
-let chinatownFadeTimer    = null;
-
-function startChinatownFadeTimer() {
-    clearTimeout(chinatownFadeTimer);
-    chinatownFadeTimer = setTimeout(() => {
-        chinatownPlayCanvas.classList.add('faded');
-        document.getElementById('chinatown-vol').classList.add('faded');
-    }, 2000);
-}
-
-chinatownVideoWrap.addEventListener('mouseenter', () => {
-    clearTimeout(chinatownFadeTimer);
-    chinatownPlayCanvas.classList.remove('faded');
-    document.getElementById('chinatown-vol').classList.remove('faded');
-});
-chinatownVideoWrap.addEventListener('mouseleave', () => startChinatownFadeTimer());
-startChinatownFadeTimer();
-
-chinatownPlayCanvas.addEventListener('click', () => {
-    if (!chinatownVideoEl) return;
-    if (chinatownVideoEl.paused) {
-        chinatownVideoEl.play();
-        if (chinatownPlayBool) chinatownPlayBool.value = true;
-    } else {
-        chinatownVideoEl.pause();
-        if (chinatownPlayBool) chinatownPlayBool.value = false;
-    }
-    startChinatownFadeTimer();
-});
-
-const chinatownVolBtn = document.getElementById('chinatown-vol');
-chinatownVolBtn.addEventListener('click', () => {
-    chinatownVideoEl.muted = !chinatownVideoEl.muted;
-    chinatownVolBtn.classList.toggle('unmuted', !chinatownVideoEl.muted);
-    startChinatownFadeTimer();
-});
-
-// 44 Pixels Rive play/pause
-const pixelsPlayRive = new rive.Rive({
-    src: 'Rive/pause&play.riv',
-    canvas: document.getElementById('pixels-play-canvas'),
-    artboard: 'Pause and play',
-    stateMachines: 'State Machine 1',
-    autoplay: true,
-    autoBind: true,
-    layout: new rive.Layout({ fit: rive.Fit.Contain }),
-    onLoad() {
-        pixelsPlayRive.resizeDrawingSurfaceToCanvas();
-        const vmi = pixelsPlayRive.viewModelInstance;
-        const colorProp = vmi.color('colorProperty');
-        if (colorProp) colorProp.value = 0xFF434343;
-        pixelsPlayBool = vmi.boolean('puase/play');
-        if (pixelsPlayBool) pixelsPlayBool.value = false;
-    },
-});
-
-const pixelsPlayCanvas = document.getElementById('pixels-play-canvas');
-const pixelsVideoWrap  = document.querySelectorAll('.showreel-video-wrap')[4];
-let pixelsFadeTimer    = null;
-
-function startPixelsFadeTimer() {
-    clearTimeout(pixelsFadeTimer);
-    pixelsFadeTimer = setTimeout(() => {
-        pixelsPlayCanvas.classList.add('faded');
-        document.getElementById('pixels-vol').classList.add('faded');
-    }, 2000);
-}
-
-pixelsVideoWrap.addEventListener('mouseenter', () => {
-    clearTimeout(pixelsFadeTimer);
-    pixelsPlayCanvas.classList.remove('faded');
-    document.getElementById('pixels-vol').classList.remove('faded');
-});
-pixelsVideoWrap.addEventListener('mouseleave', () => startPixelsFadeTimer());
-startPixelsFadeTimer();
-
-pixelsPlayCanvas.addEventListener('click', () => {
-    if (!pixelsVideoEl) return;
-    if (pixelsVideoEl.paused) { pixelsVideoEl.play(); if (pixelsPlayBool) pixelsPlayBool.value = true; }
-    else { pixelsVideoEl.pause(); if (pixelsPlayBool) pixelsPlayBool.value = false; }
-    startPixelsFadeTimer();
-});
-
-const pixelsVolBtn = document.getElementById('pixels-vol');
-pixelsVolBtn.addEventListener('click', () => {
-    pixelsVideoEl.muted = !pixelsVideoEl.muted;
-    pixelsVolBtn.classList.toggle('unmuted', !pixelsVideoEl.muted);
-    startPixelsFadeTimer();
-});
 
 // Diving Board Rive play/pause
 const divingboardPlayRive = new rive.Rive({

@@ -644,6 +644,27 @@ body {
     transform: translateY(0);
 }
 
+#exp-avatar-canvas {
+    width: 200px;
+    height: 200px;
+    display: block;
+    align-self: center;
+    flex-shrink: 0;
+    margin-bottom: clamp(16px, 3vh, 32px);
+    opacity: 0;
+    transform: translateY(60px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+#exp-avatar-canvas.risen {
+    opacity: 1;
+    transform: translateY(0);
+}
+#exp-avatar-canvas.exited {
+    opacity: 0;
+    transform: translateY(-60px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
 .exp-cards {
     display: flex;
     flex-direction: column;
