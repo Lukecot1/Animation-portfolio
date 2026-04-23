@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Luke Cottrell</title>
+    <link rel="icon" id="favicon" type="image/png" href="data:,">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -135,16 +136,34 @@
                     </div>
                 </div>
             </div>
-            <div class="panel" data-index="4" style="--tab-color:#434343;"></div>
+            <div class="panel" data-index="4" style="--tab-color:#434343;">
+                <div class="panel-inner pixels-inner">
+                    <div class="pixels-carousel-wrap" id="pixels-carousel-wrap">
+                        <button class="pixels-arrow pixels-prev" id="pixels-prev" aria-label="Previous">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><polyline points="15,18 9,12 15,6" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </button>
+                        <div class="pixels-carousel-track" id="pixels-carousel-track">
+                            <div class="pixels-carousel-item"><video class="pixels-vid" muted loop playsinline><source src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/ClaraOnboarding_alpha.webm" type="video/webm"></video></div>
+                            <div class="pixels-carousel-item"><video class="pixels-vid" muted loop playsinline><source src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/CuePhoneComp_alpha.webm" type="video/webm"></video></div>
+                            <div class="pixels-carousel-item"><video class="pixels-vid" muted loop playsinline><source src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/ViviOnboarding_alpha.webm" type="video/webm"></video></div>
+                            <div class="pixels-carousel-item"><video class="pixels-vid" muted loop playsinline><source src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/FlagComp_alpha.webm" type="video/webm"></video></div>
+                            <div class="pixels-carousel-item"><video class="pixels-vid" muted loop playsinline><source src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/WordcastIconsUi_alpha.webm" type="video/webm"></video></div>
+                            <div class="pixels-carousel-item"><video class="pixels-vid" muted loop playsinline><source src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/WordcastOnboarding_alpha.webm" type="video/webm"></video></div>
+                        </div>
+                        <button class="pixels-arrow pixels-next" id="pixels-next" aria-label="Next">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><polyline points="9,18 15,12 9,6" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </button>
+                    </div>
+                    <div class="showreel-meta">
+                        <span class="showreel-title">44 Pixels</span>
+                        <span class="showreel-sub">Onboarding for the portfolio of apps at 44 Pixels using a Figma–Rive workflow. Motion designer and Creative Technologist.</span>
+                    </div>
+                </div>
+            </div>
             <div class="panel" data-index="5" style="--tab-color:#D61A33;">
                 <div class="panel-inner showreel-inner side">
                     <div class="showreel-video-wrap square">
                         <video id="chinatown-video" src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/china%20town%20square.mp4" muted loop playsinline autoplay></video>
-                        <canvas id="chinatown-play-canvas" width="100" height="100"></canvas>
-                        <button class="vol-btn" id="chinatown-vol" aria-label="Toggle volume">
-                            <svg class="vol-on" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M19 5a10 10 0 0 1 0 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-                            <svg class="vol-off" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/><line x1="23" y1="9" x2="17" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="17" y1="9" x2="23" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-                        </button>
                     </div>
                     <div class="showreel-meta">
                         <span class="showreel-title">Client: Hylink/China Town.</span>
@@ -161,34 +180,22 @@
                     <div class="myth-grid">
                         <div class="myth-video-wrap">
                             <video class="myth-video" src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/OB_AV_2A_SHOT%2034%20WATCH%20TOWER%20REVEAL%20MOTION%20TEST_01_1.mp4" muted loop playsinline autoplay></video>
-                            <button class="myth-play-btn" aria-label="Play/Pause"><svg class="myth-play-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"><polygon points="6,3 20,12 6,21" fill="#fff"/></svg><svg class="myth-pause-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="4" height="18" fill="#fff"/><rect x="15" y="3" width="4" height="18" fill="#fff"/></svg></button>
-                            <button class="vol-btn myth-vol" aria-label="Toggle volume"><svg class="vol-on" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><svg class="vol-off" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/><line x1="23" y1="9" x2="17" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="17" y1="9" x2="23" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
                         </div>
                         <div class="myth-video-wrap">
-                            <video class="myth-video" src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/ZA_TOC_AV_4B_04_0030_SandTransition_v008_LC-.mp4" muted loop playsinline autoplay></video>
-                            <button class="myth-play-btn" aria-label="Play/Pause"><svg class="myth-play-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"><polygon points="6,3 20,12 6,21" fill="#fff"/></svg><svg class="myth-pause-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="4" height="18" fill="#fff"/><rect x="15" y="3" width="4" height="18" fill="#fff"/></svg></button>
-                            <button class="vol-btn myth-vol" aria-label="Toggle volume"><svg class="vol-on" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><svg class="vol-off" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/><line x1="23" y1="9" x2="17" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="17" y1="9" x2="23" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+                            <video class="myth-video" src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/web_ZA_TOC_AV_4B_04_0100_Queenstyleframe_v0010_LC_1.mp4" muted loop playsinline autoplay></video>
                         </div>
                         <div class="myth-video-wrap">
-                            <video class="myth-video" src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/ZA_TOC_AV_4B_04_0100_Queenstyleframe_v0010_LC_1.mp4" muted loop playsinline autoplay></video>
-                            <button class="myth-play-btn" aria-label="Play/Pause"><svg class="myth-play-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"><polygon points="6,3 20,12 6,21" fill="#fff"/></svg><svg class="myth-pause-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="4" height="18" fill="#fff"/><rect x="15" y="3" width="4" height="18" fill="#fff"/></svg></button>
-                            <button class="vol-btn myth-vol" aria-label="Toggle volume"><svg class="vol-on" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><svg class="vol-off" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/><line x1="23" y1="9" x2="17" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="17" y1="9" x2="23" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+                            <video class="myth-video" src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/web_ZA_TOC_AV_4B_04_0150_noble_v009_LC_1_1.mp4" muted loop playsinline autoplay></video>
                         </div>
                         <div class="myth-video-wrap">
-                            <video class="myth-video" src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/ZA_TOC_AV_4B_04_0150_noble_v009_LC_1_1.mp4" muted loop playsinline autoplay></video>
-                            <button class="myth-play-btn" aria-label="Play/Pause"><svg class="myth-play-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"><polygon points="6,3 20,12 6,21" fill="#fff"/></svg><svg class="myth-pause-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="4" height="18" fill="#fff"/><rect x="15" y="3" width="4" height="18" fill="#fff"/></svg></button>
-                            <button class="vol-btn myth-vol" aria-label="Toggle volume"><svg class="vol-on" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><svg class="vol-off" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/><line x1="23" y1="9" x2="17" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="17" y1="9" x2="23" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+                            <video class="myth-video" src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/web_ZA_TOC_AV_4B_04_0170_Animation_v007_LC.aep_1.mp4" muted loop playsinline autoplay></video>
                         </div>
                         <div class="myth-video-wrap">
-                            <video class="myth-video" src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/ZA_TOC_AV_4B_04_0170_Animation_v007_LC.aep_1.mp4" muted loop playsinline autoplay></video>
-                            <button class="myth-play-btn" aria-label="Play/Pause"><svg class="myth-play-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"><polygon points="6,3 20,12 6,21" fill="#fff"/></svg><svg class="myth-pause-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="4" height="18" fill="#fff"/><rect x="15" y="3" width="4" height="18" fill="#fff"/></svg></button>
-                            <button class="vol-btn myth-vol" aria-label="Toggle volume"><svg class="vol-on" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><svg class="vol-off" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/><line x1="23" y1="9" x2="17" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="17" y1="9" x2="23" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+                            <video class="myth-video" src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/web_ZA_TOC_AV_4B_04_0200_Animation_v008_LC_1.mp4" muted loop playsinline autoplay></video>
                         </div>
-                        <div class="myth-video-wrap">
-                            <video class="myth-video" src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/ZA_TOC_AV_4B_04_0200_Animation_v008_LC_1.mp4" muted loop playsinline autoplay></video>
-                            <button class="myth-play-btn" aria-label="Play/Pause"><svg class="myth-play-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"><polygon points="6,3 20,12 6,21" fill="#fff"/></svg><svg class="myth-pause-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="4" height="18" fill="#fff"/><rect x="15" y="3" width="4" height="18" fill="#fff"/></svg></button>
-                            <button class="vol-btn myth-vol" aria-label="Toggle volume"><svg class="vol-on" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><svg class="vol-off" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/><line x1="23" y1="9" x2="17" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="17" y1="9" x2="23" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
-                        </div>
+                    </div>
+                    <div class="myth-meta">
+                        <span class="showreel-sub">Animation for the Zeyhad National Museum in the UAE, exhibition on their ancient history.</span>
                     </div>
                 </div>
                 <div class="panel-lock" id="myth-lock">
@@ -208,6 +215,10 @@
                 </div>
             </div>
             <div class="panel" data-index="7" style="--tab-color:#00794A;">
+                <button class="expand-btn" id="rye-expand" aria-label="Expand">
+                    <svg class="expand-icon" width="24" height="24" viewBox="0 0 22 22" fill="none"><path d="M2 2l7 7M2 2h6M2 2v6" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 20l-7-7M20 20h-6M20 20v-6" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <svg class="collapse-icon" width="24" height="24" viewBox="0 0 22 22" fill="none"><path d="M9 2v6H3M9 8L2 2M13 20v-6h6M13 14l7 6" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
                 <div class="panel-inner showreel-inner side">
                     <div class="rye-videos">
                         <div class="showreel-video-wrap portrait">
@@ -233,14 +244,30 @@
                     </div>
                 </div>
             </div>
-            <div class="panel" data-index="8" style="--tab-color:#FFB0F8;"></div>
+            <div class="panel" data-index="8" style="--tab-color:#FFB0F8;">
+                <div class="panel-inner showreel-inner">
+                    <div class="showreel-video-wrap">
+                        <video id="divingboard-video" src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/maddie%20and%20triggs%20response%201.mp4" muted loop playsinline></video>
+                        <canvas id="divingboard-play-canvas" width="100" height="100"></canvas>
+                        <button class="vol-btn" id="divingboard-vol" aria-label="Toggle volume">
+                            <svg class="vol-on" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M19 5a10 10 0 0 1 0 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                            <svg class="vol-off" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/><line x1="23" y1="9" x2="17" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="17" y1="9" x2="23" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                        </button>
+                    </div>
+                    <div class="showreel-meta">
+                        <span class="showreel-title">Diving Board</span>
+                    </div>
+                </div>
+            </div>
             <div class="panel" data-index="9" style="--tab-color:#AB6ED9;">
                 <div class="panel-inner showreel-inner">
                     <div class="showreel-video-wrap vimeo-wrap">
+                        <div class="vimeo-overlay" id="vimeo-overlay"></div>
                         <iframe id="present-iframe" src="https://player.vimeo.com/video/986578228?autoplay=0&loop=1&color=AB6ED9&title=0&byline=0&portrait=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
                     </div>
                     <div class="showreel-meta">
                         <span class="showreel-title">Present Model Management</span>
+                        <span class="showreel-sub">Work made for modelling agency Present. Social media campaign video and logo animation. Visit the web: <a href="https://www.presentmodelmanagement.com" target="_blank" class="showreel-link">presentmodelmanagement.com</a></span>
                     </div>
                 </div>
             </div>
@@ -248,26 +275,23 @@
 
         <!-- Experience overlay -->
         <div id="experience-overlay">
-            <h1 class="page-title" id="exp-title"></h1>
-            <div id="exp-avatar-wrap">
-                <canvas id="exp-avatar-canvas" width="200" height="200"></canvas>
-            </div>
-            <div class="exp-content">
-                <div class="exp-row">
-                    <span class="exp-label">Current</span>
-                    <span class="exp-text">Motion design at 44pixels for UI UX.</span>
+            <h1 class="exp-heading">Experience</h1>
+            <div class="exp-cards">
+                <div class="exp-card" style="--ec:#4D9898">
+                    <span class="exp-card-label">Current</span>
+                    <span class="exp-card-text">Motion design at 44pixels for UI UX.</span>
                 </div>
-                <div class="exp-row">
-                    <span class="exp-label">Freelance</span>
-                    <span class="exp-text">2D animator and motion designer working with character, narratives, branding and effects.</span>
+                <div class="exp-card" style="--ec:#3A5FA0">
+                    <span class="exp-card-label">Freelance</span>
+                    <span class="exp-card-text">2D animator and motion designer working with characters, narratives, branding and effects.</span>
                 </div>
-                <div class="exp-row">
-                    <span class="exp-label">University</span>
-                    <span class="exp-text">BA Animation 2.1, University of West England</span>
+                <div class="exp-card" style="--ec:#8B6B9E">
+                    <span class="exp-card-label">University</span>
+                    <span class="exp-card-text">BA Animation 2.1, University of West England</span>
                 </div>
-                <div class="exp-row">
-                    <span class="exp-label">Internships</span>
-                    <span class="exp-text">Aardman, Bulletproof</span>
+                <div class="exp-card" style="--ec:#556B4A">
+                    <span class="exp-card-label">Internships</span>
+                    <span class="exp-card-text">Aardman, Bulletproof</span>
                 </div>
             </div>
         </div>

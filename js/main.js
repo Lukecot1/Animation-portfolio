@@ -32,6 +32,10 @@ let cookiesVideoEl   = null;
 let cookiesPlayBool  = null;
 let ryeVideoEl          = null;
 let ryePlayBool         = null;
+let pixelsVideoEl       = null;
+let pixelsPlayBool      = null;
+let divingboardVideoEl  = null;
+let divingboardPlayBool = null;
 let cyclingVideoEl      = null;
 let cyclingPlayBool     = null;
 let jellycatVideoEl     = null;
@@ -133,6 +137,15 @@ function renderAt(prog) {
     if (t < 0.0001) renderWidths(fromIdx, -1, 0);
     else             renderWidths(fromIdx, fromIdx + 1, t);
 
+    // Content scale + opacity driven by scroll position
+    panels.forEach((panel, i) => {
+        const inner = panel.querySelector('.panel-inner:not(.myth-content-inner)');
+        if (!inner) return;
+        const p = Math.max(0, 1 - Math.abs(clamped - i));
+        inner.style.opacity   = p;
+        inner.style.transform = `scale(${0.88 + 0.12 * p})`;
+    });
+
     if (showreelVideoEl && clamped > 0) {
         if (!showreelVideoEl.paused) showreelVideoEl.pause();
         if (!showreelVideoEl.muted) {
@@ -173,6 +186,23 @@ function renderAt(prog) {
             if (vb) vb.classList.remove('unmuted');
         }
         if (chinatownPlayBool) chinatownPlayBool.value = false;
+    }
+
+    if (Math.abs(clamped - 4) > 0) {
+        if (window.pixelsCarouselStop) window.pixelsCarouselStop();
+        document.querySelectorAll('.pixels-vid').forEach(v => { if (!v.paused) v.pause(); });
+    }
+
+    if (pixelsVideoEl && Math.abs(clamped - 4) > 0) {
+        if (!pixelsVideoEl.paused) pixelsVideoEl.pause();
+        if (!pixelsVideoEl.muted) { pixelsVideoEl.muted = true; const vb = document.getElementById('pixels-vol'); if (vb) vb.classList.remove('unmuted'); }
+        if (pixelsPlayBool) pixelsPlayBool.value = false;
+    }
+
+    if (divingboardVideoEl && Math.abs(clamped - 8) > 0) {
+        if (!divingboardVideoEl.paused) divingboardVideoEl.pause();
+        if (!divingboardVideoEl.muted) { divingboardVideoEl.muted = true; const vb = document.getElementById('divingboard-vol'); if (vb) vb.classList.remove('unmuted'); }
+        if (divingboardPlayBool) divingboardPlayBool.value = false;
     }
 
     if (cyclingVideoEl && Math.abs(clamped - 7) > 0) {
@@ -291,6 +321,20 @@ function onSettled() {
             }
         }
 
+        if (snapped === 4) {
+            if (window.pixelsCarouselStart) window.pixelsCarouselStart();
+            if (pixelsPlayBool) pixelsPlayBool.value = true;
+        } else {
+            if (window.pixelsCarouselStop) window.pixelsCarouselStop();
+            document.querySelectorAll('.pixels-vid').forEach(v => v.pause());
+            if (pixelsPlayBool) pixelsPlayBool.value = false;
+        }
+
+        if (divingboardVideoEl) {
+            if (snapped === 8) { divingboardVideoEl.play(); if (divingboardPlayBool) divingboardPlayBool.value = true; }
+            else { divingboardVideoEl.pause(); if (divingboardPlayBool) divingboardPlayBool.value = false; }
+        }
+
         if (cyclingVideoEl) {
             if (snapped === 7) { cyclingVideoEl.play(); if (cyclingPlayBool) cyclingPlayBool.value = true; }
             else { cyclingVideoEl.pause(); if (cyclingPlayBool) cyclingPlayBool.value = false; }
@@ -366,30 +410,9 @@ let expTimers = [];
 function showExperience() {
     expTimers.forEach(clearTimeout);
     expTimers = [];
-
-    expAvatarWrap.classList.remove('avatar-in', 'avatar-out');
-    expContent.classList.remove('content-in');
-
     experienceOverlay.style.display = 'flex';
-
-    if (!expAvatarRive) {
-        expAvatarRive = new rive.Rive({
-            src: 'Rive/Luket.riv',
-            canvas: document.getElementById('exp-avatar-canvas'),
-            artboard: 'Avatar',
-            stateMachines: 'State Machine 1',
-            autoplay: true,
-            layout: new rive.Layout({ fit: rive.Fit.Contain }),
-            onLoad() { expAvatarRive.resizeDrawingSurfaceToCanvas(); },
-        });
-    }
-
     requestAnimationFrame(() => requestAnimationFrame(() => {
         experienceOverlay.classList.add('visible');
-        typewriteTitle('Experience', expTitle);
-        expTimers.push(setTimeout(() => expAvatarWrap.classList.add('avatar-in'), 100));
-        expTimers.push(setTimeout(() => expContent.classList.add('content-in'), 900));
-        expTimers.push(setTimeout(() => expAvatarWrap.classList.add('avatar-out'), 1800));
     }));
 }
 
@@ -399,10 +422,8 @@ function hideExperience() {
     experienceOverlay.classList.remove('visible');
     setTimeout(() => {
         experienceOverlay.style.display = 'none';
-        expAvatarWrap.classList.remove('avatar-in', 'avatar-out');
-        expContent.classList.remove('content-in');
         buildPanels();
-    }, 300);
+    }, 400);
 }
 
 function buildPanels() {
@@ -589,6 +610,24 @@ const loaderRive = new rive.Rive({
     autoplay: true,
     onLoad() {
         loaderRive.resizeDrawingSurfaceToCanvas();
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+            try {
+                const src = document.getElementById('loader-canvas');
+                const tmp = document.createElement('canvas');
+                tmp.width  = 64;
+                tmp.height = 64;
+                const ctx  = tmp.getContext('2d');
+                const scale = 65 / 64;
+                const shift = 12;
+                ctx.drawImage(src,
+                    -(tmp.width  * (scale - 1)) / 2,
+                    -(tmp.height * (scale - 1)) / 2 + shift,
+                    tmp.width  * scale,
+                    tmp.height * scale
+                );
+                document.getElementById('favicon').href = tmp.toDataURL('image/png');
+            } catch(e) {}
+        }));
     },
 });
 
@@ -720,6 +759,54 @@ cookiesVideoEl      = document.getElementById('cookies-video');
 jellycatVideoEl     = document.getElementById('jellycat-video');
 bolt6VideoEl        = document.getElementById('bolt6-video');
 chinatownVideoEl    = document.getElementById('chinatown-video');
+pixelsVideoEl       = document.getElementById('pixels-video');
+
+// 44 Pixels carousel
+(function() {
+    const track  = document.getElementById('pixels-carousel-track');
+    const items  = Array.from(track.querySelectorAll('.pixels-carousel-item'));
+    const videos = Array.from(track.querySelectorAll('.pixels-vid'));
+    let current  = 0;
+    let timer    = null;
+
+    function goTo(index) {
+        current = ((index % items.length) + items.length) % items.length;
+        track.style.transform = `translateX(-${current * 100}%)`;
+        items.forEach((item, i) => {
+            item.classList.toggle('active', i === current);
+        });
+        videos.forEach((v, i) => {
+            if (i === current) { v.currentTime = 0; v.play(); }
+            else { v.pause(); v.currentTime = 0; }
+        });
+    }
+
+    function startCarousel() {
+        stopCarousel();
+        timer = setInterval(() => goTo(current + 1), 4000);
+    }
+
+    function stopCarousel() { clearInterval(timer); }
+
+    document.getElementById('pixels-prev').addEventListener('click', (e) => {
+        e.stopPropagation();
+        goTo(current - 1);
+    });
+    document.getElementById('pixels-next').addEventListener('click', (e) => {
+        e.stopPropagation();
+        goTo(current + 1);
+    });
+
+    videos.forEach(v => {
+        v.addEventListener('ended', () => { v.currentTime = 0; v.play(); });
+    });
+
+    window.pixelsCarouselStart = () => {};
+    window.pixelsCarouselStop  = stopCarousel;
+
+    goTo(0);
+})();
+divingboardVideoEl  = document.getElementById('divingboard-video');
 cyclingVideoEl      = document.getElementById('cycling-video');
 ryeVideoEl          = document.getElementById('rye-video');
 
@@ -861,7 +948,7 @@ const chinatownPlayRive = new rive.Rive({
 });
 
 const chinatownPlayCanvas = document.getElementById('chinatown-play-canvas');
-const chinatownVideoWrap  = document.querySelectorAll('.showreel-video-wrap')[4];
+const chinatownVideoWrap  = document.querySelectorAll('.showreel-video-wrap')[5];
 let chinatownFadeTimer    = null;
 
 function startChinatownFadeTimer() {
@@ -899,6 +986,112 @@ chinatownVolBtn.addEventListener('click', () => {
     startChinatownFadeTimer();
 });
 
+// 44 Pixels Rive play/pause
+const pixelsPlayRive = new rive.Rive({
+    src: 'Rive/pause&play.riv',
+    canvas: document.getElementById('pixels-play-canvas'),
+    artboard: 'Pause and play',
+    stateMachines: 'State Machine 1',
+    autoplay: true,
+    autoBind: true,
+    layout: new rive.Layout({ fit: rive.Fit.Contain }),
+    onLoad() {
+        pixelsPlayRive.resizeDrawingSurfaceToCanvas();
+        const vmi = pixelsPlayRive.viewModelInstance;
+        const colorProp = vmi.color('colorProperty');
+        if (colorProp) colorProp.value = 0xFF434343;
+        pixelsPlayBool = vmi.boolean('puase/play');
+        if (pixelsPlayBool) pixelsPlayBool.value = false;
+    },
+});
+
+const pixelsPlayCanvas = document.getElementById('pixels-play-canvas');
+const pixelsVideoWrap  = document.querySelectorAll('.showreel-video-wrap')[4];
+let pixelsFadeTimer    = null;
+
+function startPixelsFadeTimer() {
+    clearTimeout(pixelsFadeTimer);
+    pixelsFadeTimer = setTimeout(() => {
+        pixelsPlayCanvas.classList.add('faded');
+        document.getElementById('pixels-vol').classList.add('faded');
+    }, 2000);
+}
+
+pixelsVideoWrap.addEventListener('mouseenter', () => {
+    clearTimeout(pixelsFadeTimer);
+    pixelsPlayCanvas.classList.remove('faded');
+    document.getElementById('pixels-vol').classList.remove('faded');
+});
+pixelsVideoWrap.addEventListener('mouseleave', () => startPixelsFadeTimer());
+startPixelsFadeTimer();
+
+pixelsPlayCanvas.addEventListener('click', () => {
+    if (!pixelsVideoEl) return;
+    if (pixelsVideoEl.paused) { pixelsVideoEl.play(); if (pixelsPlayBool) pixelsPlayBool.value = true; }
+    else { pixelsVideoEl.pause(); if (pixelsPlayBool) pixelsPlayBool.value = false; }
+    startPixelsFadeTimer();
+});
+
+const pixelsVolBtn = document.getElementById('pixels-vol');
+pixelsVolBtn.addEventListener('click', () => {
+    pixelsVideoEl.muted = !pixelsVideoEl.muted;
+    pixelsVolBtn.classList.toggle('unmuted', !pixelsVideoEl.muted);
+    startPixelsFadeTimer();
+});
+
+// Diving Board Rive play/pause
+const divingboardPlayRive = new rive.Rive({
+    src: 'Rive/pause&play.riv',
+    canvas: document.getElementById('divingboard-play-canvas'),
+    artboard: 'Pause and play',
+    stateMachines: 'State Machine 1',
+    autoplay: true,
+    autoBind: true,
+    layout: new rive.Layout({ fit: rive.Fit.Contain }),
+    onLoad() {
+        divingboardPlayRive.resizeDrawingSurfaceToCanvas();
+        const vmi = divingboardPlayRive.viewModelInstance;
+        const colorProp = vmi.color('colorProperty');
+        if (colorProp) colorProp.value = 0xFFFFB0F8;
+        divingboardPlayBool = vmi.boolean('puase/play');
+        if (divingboardPlayBool) divingboardPlayBool.value = false;
+    },
+});
+
+const divingboardPlayCanvas = document.getElementById('divingboard-play-canvas');
+const divingboardVideoWrap  = document.querySelectorAll('.showreel-video-wrap')[8];
+let divingboardFadeTimer    = null;
+
+function startDivingboardFadeTimer() {
+    clearTimeout(divingboardFadeTimer);
+    divingboardFadeTimer = setTimeout(() => {
+        divingboardPlayCanvas.classList.add('faded');
+        document.getElementById('divingboard-vol').classList.add('faded');
+    }, 2000);
+}
+
+divingboardVideoWrap.addEventListener('mouseenter', () => {
+    clearTimeout(divingboardFadeTimer);
+    divingboardPlayCanvas.classList.remove('faded');
+    document.getElementById('divingboard-vol').classList.remove('faded');
+});
+divingboardVideoWrap.addEventListener('mouseleave', () => startDivingboardFadeTimer());
+startDivingboardFadeTimer();
+
+divingboardPlayCanvas.addEventListener('click', () => {
+    if (!divingboardVideoEl) return;
+    if (divingboardVideoEl.paused) { divingboardVideoEl.play(); if (divingboardPlayBool) divingboardPlayBool.value = true; }
+    else { divingboardVideoEl.pause(); if (divingboardPlayBool) divingboardPlayBool.value = false; }
+    startDivingboardFadeTimer();
+});
+
+const divingboardVolBtn = document.getElementById('divingboard-vol');
+divingboardVolBtn.addEventListener('click', () => {
+    divingboardVideoEl.muted = !divingboardVideoEl.muted;
+    divingboardVolBtn.classList.toggle('unmuted', !divingboardVideoEl.muted);
+    startDivingboardFadeTimer();
+});
+
 // Cycling Rive play/pause
 const cyclingPlayRive = new rive.Rive({
     src: 'Rive/pause&play.riv',
@@ -919,7 +1112,7 @@ const cyclingPlayRive = new rive.Rive({
 });
 
 const cyclingPlayCanvas = document.getElementById('cycling-play-canvas');
-const cyclingVideoWrap  = document.querySelectorAll('.showreel-video-wrap')[6];
+const cyclingVideoWrap  = document.querySelectorAll('.showreel-video-wrap')[7];
 let cyclingFadeTimer    = null;
 
 function startCyclingFadeTimer() {
@@ -972,7 +1165,7 @@ const ryePlayRive = new rive.Rive({
 });
 
 const ryePlayCanvas  = document.getElementById('rye-play-canvas');
-const ryeVideoWrap   = document.querySelectorAll('.showreel-video-wrap')[5];
+const ryeVideoWrap   = document.querySelectorAll('.showreel-video-wrap')[6];
 let ryeFadeTimer     = null;
 
 function startRyeFadeTimer() {
@@ -1008,6 +1201,23 @@ ryeVolBtn.addEventListener('click', () => {
     ryeVideoEl.muted = !ryeVideoEl.muted;
     ryeVolBtn.classList.toggle('unmuted', !ryeVideoEl.muted);
     startRyeFadeTimer();
+});
+
+// Vimeo overlay — intercepts scroll, lets click through to player
+const vimeoOverlay = document.getElementById('vimeo-overlay');
+const vimeoWrap    = document.querySelector('.vimeo-wrap');
+
+vimeoOverlay.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    onWheel(e);
+}, { passive: false });
+
+vimeoOverlay.addEventListener('click', () => {
+    vimeoOverlay.style.display = 'none';
+});
+
+vimeoWrap.addEventListener('mouseleave', () => {
+    vimeoOverlay.style.display = '';
 });
 
 // Video timelines
@@ -1046,31 +1256,10 @@ setupTimeline(
 // Myth Studio videos
 mythVideos = Array.from(document.querySelectorAll('.myth-video'));
 
-mythVideos.forEach(video => {
-    const wrap    = video.closest('.myth-video-wrap');
-    const playBtn = wrap.querySelector('.myth-play-btn');
-    const volBtn  = wrap.querySelector('.myth-vol');
-
-    playBtn.addEventListener('click', () => {
-        if (video.paused) { video.play(); playBtn.classList.add('playing'); }
-        else { video.pause(); playBtn.classList.remove('playing'); }
-    });
-
-    volBtn.addEventListener('click', () => {
-        video.muted = !video.muted;
-        volBtn.classList.toggle('unmuted', !video.muted);
-    });
-});
-
 function stopAllMythVideos() {
     mythVideos.forEach(video => {
         video.pause();
         video.muted = true;
-        const wrap    = video.closest('.myth-video-wrap');
-        const playBtn = wrap.querySelector('.myth-play-btn');
-        const volBtn  = wrap.querySelector('.myth-vol');
-        if (playBtn) playBtn.classList.remove('playing');
-        if (volBtn)  volBtn.classList.remove('unmuted');
     });
 }
 
@@ -1112,6 +1301,24 @@ function collapsePanel() {
     }, 450);
 }
 
+// Rye Lane expand/collapse
+document.getElementById('rye-expand').addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isExpanded = panels[7].classList.contains('expanded');
+    panels[7].classList.toggle('expanded');
+    if (!isExpanded) {
+        panels.forEach(p => p.classList.remove('active'));
+        panels[7].classList.add('active');
+        targetPos = 7;
+        visualPos = 7;
+        lastSnappedPanel = 7;
+        typewriteTitle(panelTitles[7]);
+        expandPanel(7);
+    } else {
+        collapsePanel();
+    }
+});
+
 // Myth Studio expand/collapse
 const mythGrid = document.querySelector('.myth-grid');
 const mythVideoWraps = document.querySelectorAll('.myth-video-wrap');
@@ -1128,7 +1335,28 @@ document.getElementById('myth-expand').addEventListener('click', (e) => {
         lastSnappedPanel = 6;
         typewriteTitle(panelTitles[6]);
         expandPanel(6);
+        const n = mythVideos.length;
+        const portrait = window.innerWidth <= 768 || window.innerHeight > window.innerWidth;
+        const mythContent = document.getElementById('myth-content');
+        mythVideoWraps.forEach(w => { w.style.display = 'block'; });
+        if (portrait) {
+            mythGrid.style.gridTemplateColumns = 'repeat(2, 1fr)';
+            mythGrid.style.gridTemplateRows    = '';
+            mythGrid.style.height              = '';
+            mythContent.style.overflow         = 'auto';
+        } else {
+            mythGrid.style.gridTemplateColumns = `repeat(${n}, 1fr)`;
+            mythGrid.style.gridTemplateRows    = '1fr';
+            mythGrid.style.height              = 'calc(100vh - 280px)';
+            mythContent.style.overflow         = 'hidden';
+            mythVideoWraps.forEach(w => { w.style.aspectRatio = 'unset'; w.style.height = '100%'; });
+        }
     } else {
+        mythGrid.style.gridTemplateColumns = '';
+        mythGrid.style.gridTemplateRows    = '';
+        mythGrid.style.height              = '';
+        document.getElementById('myth-content').style.overflow = '';
+        mythVideoWraps.forEach(w => { w.style.display = ''; w.style.aspectRatio = ''; w.style.height = ''; });
         collapsePanel();
     }
 });
@@ -1213,6 +1441,7 @@ document.getElementById('cookies-expand').addEventListener('click', (e) => {
 // Myth Studio password lock
 const MYTH_PASSWORD = 'luke2001';
 mythLockEl = document.getElementById('myth-lock');
+mythLockEl.style.opacity = '0';
 const mythForm  = document.getElementById('myth-form');
 const mythInput = document.getElementById('myth-input');
 
@@ -1234,10 +1463,7 @@ mythForm.addEventListener('submit', (e) => {
             mythDismissed = true;
             document.getElementById('myth-content').classList.add('revealed');
             mythVideos = Array.from(document.querySelectorAll('.myth-video'));
-            mythVideos.forEach(v => {
-                v.play();
-                v.closest('.myth-video-wrap').querySelector('.myth-play-btn').classList.add('playing');
-            });
+            mythVideos.forEach(v => v.play());
             renderAt(visualPos);
         }, 1000);
     } else {
