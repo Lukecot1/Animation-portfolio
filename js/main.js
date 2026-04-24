@@ -407,7 +407,12 @@ window.addEventListener('touchend', () => {
     if (expandedPanelIndex >= 0) return;
     if (experienceOverlay.style.display === 'flex') return;
     clearTimeout(snapTimer);
-    moveTo(Math.round(targetPos));
+    const snapped = Math.round(targetPos);
+    moveTo(snapped);
+    if (snapped === 7) {
+        if (ryeVideoEl) ryeVideoEl.play().catch(() => {});
+        if (cyclingVideoEl) cyclingVideoEl.play().catch(() => {});
+    }
 });
 
 // --- Click & Nav ---
