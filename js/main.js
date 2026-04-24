@@ -384,6 +384,32 @@ function onWheel(e) {
     snapTimer = setTimeout(() => moveTo(Math.round(targetPos)), SNAP_DELAY);
 }
 
+// --- Touch scroll (iOS / iPad) ---
+let touchStartY = 0;
+let touchStartTarget = 0;
+
+window.addEventListener('touchstart', (e) => {
+    touchStartY = e.touches[0].clientY;
+    touchStartTarget = targetPos;
+}, { passive: true });
+
+window.addEventListener('touchmove', (e) => {
+    if (expandedPanelIndex >= 0) return;
+    if (experienceOverlay.style.display === 'flex') return;
+    e.preventDefault();
+    const deltaY = touchStartY - e.touches[0].clientY;
+    targetPos = Math.max(0, Math.min(panels.length - 1,
+        touchStartTarget + deltaY / (window.innerHeight * 0.3)));
+    startAnim();
+}, { passive: false });
+
+window.addEventListener('touchend', () => {
+    if (expandedPanelIndex >= 0) return;
+    if (experienceOverlay.style.display === 'flex') return;
+    clearTimeout(snapTimer);
+    moveTo(Math.round(targetPos));
+});
+
 // --- Click & Nav ---
 
 function goTo(next) {
