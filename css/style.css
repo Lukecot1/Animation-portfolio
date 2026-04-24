@@ -629,6 +629,24 @@ body {
     font-size: 14px;
     font-weight: 300;
     -webkit-font-smoothing: antialiased;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.showreel-meta .showreel-sub ~ .showreel-sub {
+    display: none;
+}
+
+.panel.expanded .showreel-meta .showreel-sub {
+    display: block;
+    -webkit-line-clamp: unset;
+    overflow: visible;
+}
+
+.panel.expanded .showreel-meta .showreel-sub ~ .showreel-sub {
+    display: block;
 }
 
 .showreel-link {

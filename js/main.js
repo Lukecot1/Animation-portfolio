@@ -1013,6 +1013,60 @@ document.getElementById('cookies-expand').addEventListener('click', (e) => {
     }
 });
 
+// China Town expand/collapse
+document.getElementById('chinatown-expand').addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isExpanded = panels[5].classList.contains('expanded');
+    panels[5].classList.toggle('expanded');
+    if (!isExpanded) {
+        panels.forEach(p => p.classList.remove('active'));
+        panels[5].classList.add('active');
+        targetPos = 5;
+        visualPos = 5;
+        lastSnappedPanel = 5;
+        typewriteTitle(panelTitles[5]);
+        expandPanel(5);
+    } else {
+        collapsePanel();
+    }
+});
+
+// Diving Board expand/collapse
+document.getElementById('divingboard-expand').addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isExpanded = panels[8].classList.contains('expanded');
+    panels[8].classList.toggle('expanded');
+    if (!isExpanded) {
+        panels.forEach(p => p.classList.remove('active'));
+        panels[8].classList.add('active');
+        targetPos = 8;
+        visualPos = 8;
+        lastSnappedPanel = 8;
+        typewriteTitle(panelTitles[8]);
+        expandPanel(8);
+    } else {
+        collapsePanel();
+    }
+});
+
+// Present expand/collapse
+document.getElementById('present-expand').addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isExpanded = panels[9].classList.contains('expanded');
+    panels[9].classList.toggle('expanded');
+    if (!isExpanded) {
+        panels.forEach(p => p.classList.remove('active'));
+        panels[9].classList.add('active');
+        targetPos = 9;
+        visualPos = 9;
+        lastSnappedPanel = 9;
+        typewriteTitle(panelTitles[9]);
+        expandPanel(9);
+    } else {
+        collapsePanel();
+    }
+});
+
 // Myth Studio password lock
 const MYTH_PASSWORD = 'luke2001';
 mythLockEl = document.getElementById('myth-lock');
