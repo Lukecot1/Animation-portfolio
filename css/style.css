@@ -1168,7 +1168,13 @@ video::-webkit-media-controls-start-playback-button {
     .showreel-sub   { font-size: 12px; }
     .panel.expanded .showreel-inner > .showreel-meta { overflow: visible; flex-shrink: 0; }
 
-    /* 44 Pixels — carousel fills space, meta below with overflow hidden in normal state */
+    /* 44 Pixels — fixed 16:9 carousel on mobile so height is definite */
+    .pixels-carousel-wrap {
+        flex: none;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        min-height: 0;
+    }
     .pixels-inner .showreel-meta { flex-shrink: 1; overflow: hidden; margin-top: 8px; }
     .panel.expanded .pixels-inner .showreel-meta { overflow: visible; flex-shrink: 0; }
 
