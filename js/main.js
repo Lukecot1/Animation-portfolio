@@ -153,7 +153,6 @@ function renderAt(prog) {
             const vb = document.getElementById('showreel-vol');
             if (vb) vb.classList.remove('unmuted');
         }
-        if (showreelPlayBool) showreelPlayBool.value = false;
     }
 
     if (cookiesVideoEl && Math.abs(clamped - 1) > 0) {
@@ -163,19 +162,16 @@ function renderAt(prog) {
             const vb = document.getElementById('cookies-vol');
             if (vb) vb.classList.remove('unmuted');
         }
-        if (cookiesPlayBool) cookiesPlayBool.value = false;
     }
 
     if (jellycatVideoEl && Math.abs(clamped - 2) > 0) {
         if (!jellycatVideoEl.paused) jellycatVideoEl.pause();
         if (!jellycatVideoEl.muted) { jellycatVideoEl.muted = true; const vb = document.getElementById('jellycat-vol'); if (vb) vb.classList.remove('unmuted'); }
-        if (jellycatPlayBool) jellycatPlayBool.value = false;
     }
 
     if (bolt6VideoEl && Math.abs(clamped - 3) > 0) {
         if (!bolt6VideoEl.paused) bolt6VideoEl.pause();
         if (!bolt6VideoEl.muted) { bolt6VideoEl.muted = true; const vb = document.getElementById('bolt6-vol'); if (vb) vb.classList.remove('unmuted'); }
-        if (bolt6PlayBool) bolt6PlayBool.value = false;
     }
 
     if (chinatownVideoEl && Math.abs(clamped - 5) > 0) {
@@ -185,7 +181,6 @@ function renderAt(prog) {
             const vb = document.getElementById('chinatown-vol');
             if (vb) vb.classList.remove('unmuted');
         }
-        if (chinatownPlayBool) chinatownPlayBool.value = false;
     }
 
     if (Math.abs(clamped - 4) > 0) {
@@ -196,19 +191,16 @@ function renderAt(prog) {
     if (pixelsVideoEl && Math.abs(clamped - 4) > 0) {
         if (!pixelsVideoEl.paused) pixelsVideoEl.pause();
         if (!pixelsVideoEl.muted) { pixelsVideoEl.muted = true; const vb = document.getElementById('pixels-vol'); if (vb) vb.classList.remove('unmuted'); }
-        if (pixelsPlayBool) pixelsPlayBool.value = false;
     }
 
     if (divingboardVideoEl && Math.abs(clamped - 8) > 0) {
         if (!divingboardVideoEl.paused) divingboardVideoEl.pause();
         if (!divingboardVideoEl.muted) { divingboardVideoEl.muted = true; const vb = document.getElementById('divingboard-vol'); if (vb) vb.classList.remove('unmuted'); }
-        if (divingboardPlayBool) divingboardPlayBool.value = false;
     }
 
     if (cyclingVideoEl && Math.abs(clamped - 7) > 0) {
         if (!cyclingVideoEl.paused) cyclingVideoEl.pause();
         if (!cyclingVideoEl.muted) { cyclingVideoEl.muted = true; const vb = document.getElementById('cycling-vol'); if (vb) vb.classList.remove('unmuted'); }
-        if (cyclingPlayBool) cyclingPlayBool.value = false;
     }
 
     if (ryeVideoEl && Math.abs(clamped - 7) > 0) {
@@ -218,7 +210,6 @@ function renderAt(prog) {
             const vb = document.getElementById('rye-vol');
             if (vb) vb.classList.remove('unmuted');
         }
-        if (ryePlayBool) ryePlayBool.value = false;
     }
 
     if (Math.abs(clamped - 6) > 0 && mythVideos.length > 0 && mythVideos.some(v => !v.paused)) {
@@ -284,69 +275,51 @@ function onSettled() {
         if (showreelVideoEl) {
             if (snapped === 0) {
                 showreelVideoEl.play();
-                if (showreelPlayBool) showreelPlayBool.value = true;
             } else {
                 showreelVideoEl.pause();
-                if (showreelPlayBool) showreelPlayBool.value = false;
             }
         }
 
         if (cookiesVideoEl) {
             if (snapped === 1) {
                 cookiesVideoEl.play();
-                if (cookiesPlayBool) cookiesPlayBool.value = true;
             } else {
                 cookiesVideoEl.pause();
-                if (cookiesPlayBool) cookiesPlayBool.value = false;
             }
         }
 
         if (jellycatVideoEl) {
-            if (snapped === 2) { jellycatVideoEl.play(); if (jellycatPlayBool) jellycatPlayBool.value = true; }
-            else { jellycatVideoEl.pause(); if (jellycatPlayBool) jellycatPlayBool.value = false; }
         }
 
         if (bolt6VideoEl) {
-            if (snapped === 3) { bolt6VideoEl.play(); if (bolt6PlayBool) bolt6PlayBool.value = true; }
-            else { bolt6VideoEl.pause(); if (bolt6PlayBool) bolt6PlayBool.value = false; }
         }
 
         if (chinatownVideoEl) {
             if (snapped === 5) {
                 chinatownVideoEl.play();
-                if (chinatownPlayBool) chinatownPlayBool.value = true;
             } else {
                 chinatownVideoEl.pause();
-                if (chinatownPlayBool) chinatownPlayBool.value = false;
             }
         }
 
         if (snapped === 4) {
             if (window.pixelsCarouselStart) window.pixelsCarouselStart();
-            if (pixelsPlayBool) pixelsPlayBool.value = true;
         } else {
             if (window.pixelsCarouselStop) window.pixelsCarouselStop();
             document.querySelectorAll('.pixels-vid').forEach(v => v.pause());
-            if (pixelsPlayBool) pixelsPlayBool.value = false;
         }
 
         if (divingboardVideoEl) {
-            if (snapped === 8) { divingboardVideoEl.play(); if (divingboardPlayBool) divingboardPlayBool.value = true; }
-            else { divingboardVideoEl.pause(); if (divingboardPlayBool) divingboardPlayBool.value = false; }
         }
 
         if (cyclingVideoEl) {
-            if (snapped === 7) { cyclingVideoEl.play(); if (cyclingPlayBool) cyclingPlayBool.value = true; }
-            else { cyclingVideoEl.pause(); if (cyclingPlayBool) cyclingPlayBool.value = false; }
         }
 
         if (ryeVideoEl) {
             if (snapped === 7) {
                 ryeVideoEl.play();
-                if (ryePlayBool) ryePlayBool.value = true;
             } else {
                 ryeVideoEl.pause();
-                if (ryePlayBool) ryePlayBool.value = false;
             }
         }
 
@@ -699,116 +672,49 @@ Promise.all([pageLoaded, minDelay]).then(() => {
         loaderRive.cleanup();
         if (showreelVideoEl) {
             showreelVideoEl.play();
-            if (showreelPlayBool) showreelPlayBool.value = true;
         }
     }, { once: true });
 });
 
-// JellyCat Rive play/pause
-const jellycatPlayRive = new rive.Rive({
-    src: 'Rive/pause&play.riv',
-    canvas: document.getElementById('jellycat-play-canvas'),
-    artboard: 'Pause and play',
-    stateMachines: 'State Machine 1',
-    autoplay: true,
-    autoBind: true,
-    layout: new rive.Layout({ fit: rive.Fit.Contain }),
-    onLoad() {
-        jellycatPlayRive.resizeDrawingSurfaceToCanvas();
-        const vmi = jellycatPlayRive.viewModelInstance;
-        const colorProp = vmi.color('colorProperty');
-        if (colorProp) colorProp.value = 0xFFFFAE00;
-        jellycatPlayBool = vmi.boolean('puase/play');
-        if (jellycatPlayBool) jellycatPlayBool.value = false;
-    },
-});
+// --- Play/pause buttons ---
+function setupPlayBtn(videoEl, btnEl, wrapEl) {
+    if (!videoEl || !btnEl) return;
+    let fadeTimer = null;
 
-const jellycatPlayCanvas = document.getElementById('jellycat-play-canvas');
-const jellycatVideoWrap  = document.querySelectorAll('.showreel-video-wrap')[2];
-let jellycatFadeTimer    = null;
+    function showBtn() {
+        clearTimeout(fadeTimer);
+        btnEl.classList.remove('faded');
+        const vol = wrapEl ? wrapEl.querySelector('.vol-btn') : null;
+        if (vol) vol.classList.remove('faded');
+    }
+    function scheduleHide() {
+        clearTimeout(fadeTimer);
+        fadeTimer = setTimeout(() => {
+            btnEl.classList.add('faded');
+            const vol = wrapEl ? wrapEl.querySelector('.vol-btn') : null;
+            if (vol) vol.classList.add('faded');
+        }, 2000);
+    }
+    function updateState() {
+        if (videoEl.paused) { showBtn(); btnEl.classList.remove('playing'); }
+        else { btnEl.classList.add('playing'); scheduleHide(); }
+    }
 
-function startJellycatFadeTimer() {
-    clearTimeout(jellycatFadeTimer);
-    jellycatFadeTimer = setTimeout(() => {
-        jellycatPlayCanvas.classList.add('faded');
-        document.getElementById('jellycat-vol').classList.add('faded');
-    }, 2000);
+    btnEl.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (videoEl.paused) videoEl.play().catch(() => {});
+        else videoEl.pause();
+    });
+    videoEl.addEventListener('play', updateState);
+    videoEl.addEventListener('pause', updateState);
+
+    if (wrapEl && !window.matchMedia('(pointer: coarse)').matches) {
+        wrapEl.addEventListener('mouseenter', showBtn);
+        wrapEl.addEventListener('mouseleave', () => { if (!videoEl.paused) scheduleHide(); });
+    }
+    scheduleHide();
 }
 
-jellycatVideoWrap.addEventListener('mouseenter', () => {
-    clearTimeout(jellycatFadeTimer);
-    jellycatPlayCanvas.classList.remove('faded');
-    document.getElementById('jellycat-vol').classList.remove('faded');
-});
-jellycatVideoWrap.addEventListener('mouseleave', () => startJellycatFadeTimer());
-startJellycatFadeTimer();
-
-jellycatPlayCanvas.addEventListener('click', () => {
-    if (!jellycatVideoEl) return;
-    if (jellycatVideoEl.paused) { jellycatVideoEl.play(); if (jellycatPlayBool) jellycatPlayBool.value = true; }
-    else { jellycatVideoEl.pause(); if (jellycatPlayBool) jellycatPlayBool.value = false; }
-    startJellycatFadeTimer();
-});
-
-const jellycatVolBtn = document.getElementById('jellycat-vol');
-jellycatVolBtn.addEventListener('click', () => {
-    jellycatVideoEl.muted = !jellycatVideoEl.muted;
-    jellycatVolBtn.classList.toggle('unmuted', !jellycatVideoEl.muted);
-    startJellycatFadeTimer();
-});
-
-// Bolt6 Rive play/pause
-const bolt6PlayRive = new rive.Rive({
-    src: 'Rive/pause&play.riv',
-    canvas: document.getElementById('bolt6-play-canvas'),
-    artboard: 'Pause and play',
-    stateMachines: 'State Machine 1',
-    autoplay: true,
-    autoBind: true,
-    layout: new rive.Layout({ fit: rive.Fit.Contain }),
-    onLoad() {
-        bolt6PlayRive.resizeDrawingSurfaceToCanvas();
-        const vmi = bolt6PlayRive.viewModelInstance;
-        const colorProp = vmi.color('colorProperty');
-        if (colorProp) colorProp.value = 0xFF00346B;
-        bolt6PlayBool = vmi.boolean('puase/play');
-        if (bolt6PlayBool) bolt6PlayBool.value = false;
-    },
-});
-
-const bolt6PlayCanvas = document.getElementById('bolt6-play-canvas');
-const bolt6VideoWrap  = document.querySelectorAll('.showreel-video-wrap')[3];
-let bolt6FadeTimer    = null;
-
-function startBolt6FadeTimer() {
-    clearTimeout(bolt6FadeTimer);
-    bolt6FadeTimer = setTimeout(() => {
-        bolt6PlayCanvas.classList.add('faded');
-        document.getElementById('bolt6-vol').classList.add('faded');
-    }, 2000);
-}
-
-bolt6VideoWrap.addEventListener('mouseenter', () => {
-    clearTimeout(bolt6FadeTimer);
-    bolt6PlayCanvas.classList.remove('faded');
-    document.getElementById('bolt6-vol').classList.remove('faded');
-});
-bolt6VideoWrap.addEventListener('mouseleave', () => startBolt6FadeTimer());
-startBolt6FadeTimer();
-
-bolt6PlayCanvas.addEventListener('click', () => {
-    if (!bolt6VideoEl) return;
-    if (bolt6VideoEl.paused) { bolt6VideoEl.play(); if (bolt6PlayBool) bolt6PlayBool.value = true; }
-    else { bolt6VideoEl.pause(); if (bolt6PlayBool) bolt6PlayBool.value = false; }
-    startBolt6FadeTimer();
-});
-
-const bolt6VolBtn = document.getElementById('bolt6-vol');
-bolt6VolBtn.addEventListener('click', () => {
-    bolt6VideoEl.muted = !bolt6VideoEl.muted;
-    bolt6VolBtn.classList.toggle('unmuted', !bolt6VideoEl.muted);
-    startBolt6FadeTimer();
-});
 
 showreelVideoEl = document.getElementById('showreel-video');
 cookiesVideoEl      = document.getElementById('cookies-video');
@@ -866,288 +772,35 @@ divingboardVideoEl  = document.getElementById('divingboard-video');
 cyclingVideoEl      = document.getElementById('cycling-video');
 ryeVideoEl          = document.getElementById('rye-video');
 
-// Showreel Rive play/pause button
-const showreelPlayRive = new rive.Rive({
-    src: 'Rive/pause&play.riv',
-    canvas: document.getElementById('showreel-play-canvas'),
-    artboard: 'Pause and play',
-    stateMachines: 'State Machine 1',
-    autoplay: true,
-    autoBind: true,
-    layout: new rive.Layout({ fit: rive.Fit.Contain }),
-    onLoad() {
-        showreelPlayRive.resizeDrawingSurfaceToCanvas();
-        const vmi = showreelPlayRive.viewModelInstance;
-        const colorProp = vmi.color('colorProperty');
-        if (colorProp) colorProp.value = 0xFFBEBEBE;
-        showreelPlayBool = vmi.boolean('puase/play');
-        if (showreelPlayBool) showreelPlayBool.value = false;
-    },
-});
+// Wire up all play/pause buttons
+const videoWraps = Array.from(document.querySelectorAll('.showreel-video-wrap'));
+setupPlayBtn(showreelVideoEl,    document.getElementById('showreel-play-btn'),   videoWraps[0]);
+setupPlayBtn(cookiesVideoEl,     document.getElementById('cookies-play-btn'),    videoWraps[1]);
+setupPlayBtn(jellycatVideoEl,    document.getElementById('jellycat-play-btn'),   videoWraps[2]);
+setupPlayBtn(bolt6VideoEl,       document.getElementById('bolt6-play-btn'),      videoWraps[3]);
+setupPlayBtn(divingboardVideoEl, document.getElementById('divingboard-play-btn'),videoWraps[8]);
+setupPlayBtn(cyclingVideoEl,     document.getElementById('cycling-play-btn'),    videoWraps[7]);
+setupPlayBtn(ryeVideoEl,         document.getElementById('rye-play-btn'),        videoWraps[6]);
 
-const showreelPlayCanvas = document.getElementById('showreel-play-canvas');
-const showreelVideoWrap = document.querySelector('.showreel-video-wrap');
-let showreelFadeTimer = null;
-
-function startFadeTimer() {
-    clearTimeout(showreelFadeTimer);
-    showreelFadeTimer = setTimeout(() => {
-        showreelPlayCanvas.classList.add('faded');
-        document.getElementById('showreel-vol').classList.add('faded');
-    }, 2000);
-}
-
-showreelVideoWrap.addEventListener('mouseenter', () => {
-    clearTimeout(showreelFadeTimer);
-    showreelPlayCanvas.classList.remove('faded');
-    document.getElementById('showreel-vol').classList.remove('faded');
-});
-
-showreelVideoWrap.addEventListener('mouseleave', () => startFadeTimer());
-
-startFadeTimer();
-
-showreelPlayCanvas.addEventListener('click', () => {
-    if (!showreelVideoEl) return;
-    if (showreelVideoEl.paused) {
-        showreelVideoEl.play();
-        if (showreelPlayBool) showreelPlayBool.value = true;
-    } else {
-        showreelVideoEl.pause();
-        if (showreelPlayBool) showreelPlayBool.value = false;
-    }
-    startFadeTimer();
-});
-
-const showreelVolBtn = document.getElementById('showreel-vol');
-showreelVolBtn.addEventListener('click', () => {
-    showreelVideoEl.muted = !showreelVideoEl.muted;
-    showreelVolBtn.classList.toggle('unmuted', !showreelVideoEl.muted);
-    startFadeTimer();
-});
-
-// Do you accept cookies? Rive play/pause
-const cookiesPlayRive = new rive.Rive({
-    src: 'Rive/pause&play.riv',
-    canvas: document.getElementById('cookies-play-canvas'),
-    artboard: 'Pause and play',
-    stateMachines: 'State Machine 1',
-    autoplay: true,
-    autoBind: true,
-    layout: new rive.Layout({ fit: rive.Fit.Contain }),
-    onLoad() {
-        cookiesPlayRive.resizeDrawingSurfaceToCanvas();
-        const vmi = cookiesPlayRive.viewModelInstance;
-        const colorProp = vmi.color('colorProperty');
-        if (colorProp) colorProp.value = 0xFF5470FF;
-        cookiesPlayBool = vmi.boolean('puase/play');
-        if (cookiesPlayBool) cookiesPlayBool.value = false;
-    },
-});
-
-const cookiesPlayCanvas = document.getElementById('cookies-play-canvas');
-const cookiesVideoWrap = document.querySelectorAll('.showreel-video-wrap')[1];
-let cookiesFadeTimer = null;
-
-function startCookiesFadeTimer() {
-    clearTimeout(cookiesFadeTimer);
-    cookiesFadeTimer = setTimeout(() => {
-        cookiesPlayCanvas.classList.add('faded');
-        document.getElementById('cookies-vol').classList.add('faded');
-    }, 2000);
-}
-
-cookiesVideoWrap.addEventListener('mouseenter', () => {
-    clearTimeout(cookiesFadeTimer);
-    cookiesPlayCanvas.classList.remove('faded');
-    document.getElementById('cookies-vol').classList.remove('faded');
-});
-cookiesVideoWrap.addEventListener('mouseleave', () => startCookiesFadeTimer());
-startCookiesFadeTimer();
-
-cookiesPlayCanvas.addEventListener('click', () => {
-    if (!cookiesVideoEl) return;
-    if (cookiesVideoEl.paused) {
-        cookiesVideoEl.play();
-        if (cookiesPlayBool) cookiesPlayBool.value = true;
-    } else {
-        cookiesVideoEl.pause();
-        if (cookiesPlayBool) cookiesPlayBool.value = false;
-    }
-    startCookiesFadeTimer();
-});
-
-const cookiesVolBtn = document.getElementById('cookies-vol');
-cookiesVolBtn.addEventListener('click', () => {
-    cookiesVideoEl.muted = !cookiesVideoEl.muted;
-    cookiesVolBtn.classList.toggle('unmuted', !cookiesVideoEl.muted);
-    startCookiesFadeTimer();
-});
-
-
-
-// Diving Board Rive play/pause
-const divingboardPlayRive = new rive.Rive({
-    src: 'Rive/pause&play.riv',
-    canvas: document.getElementById('divingboard-play-canvas'),
-    artboard: 'Pause and play',
-    stateMachines: 'State Machine 1',
-    autoplay: true,
-    autoBind: true,
-    layout: new rive.Layout({ fit: rive.Fit.Contain }),
-    onLoad() {
-        divingboardPlayRive.resizeDrawingSurfaceToCanvas();
-        const vmi = divingboardPlayRive.viewModelInstance;
-        const colorProp = vmi.color('colorProperty');
-        if (colorProp) colorProp.value = 0xFFFFB0F8;
-        divingboardPlayBool = vmi.boolean('puase/play');
-        if (divingboardPlayBool) divingboardPlayBool.value = false;
-    },
-});
-
-const divingboardPlayCanvas = document.getElementById('divingboard-play-canvas');
-const divingboardVideoWrap  = document.querySelectorAll('.showreel-video-wrap')[8];
-let divingboardFadeTimer    = null;
-
-function startDivingboardFadeTimer() {
-    clearTimeout(divingboardFadeTimer);
-    divingboardFadeTimer = setTimeout(() => {
-        divingboardPlayCanvas.classList.add('faded');
-        document.getElementById('divingboard-vol').classList.add('faded');
-    }, 2000);
-}
-
-divingboardVideoWrap.addEventListener('mouseenter', () => {
-    clearTimeout(divingboardFadeTimer);
-    divingboardPlayCanvas.classList.remove('faded');
-    document.getElementById('divingboard-vol').classList.remove('faded');
-});
-divingboardVideoWrap.addEventListener('mouseleave', () => startDivingboardFadeTimer());
-startDivingboardFadeTimer();
-
-divingboardPlayCanvas.addEventListener('click', () => {
-    if (!divingboardVideoEl) return;
-    if (divingboardVideoEl.paused) { divingboardVideoEl.play(); if (divingboardPlayBool) divingboardPlayBool.value = true; }
-    else { divingboardVideoEl.pause(); if (divingboardPlayBool) divingboardPlayBool.value = false; }
-    startDivingboardFadeTimer();
-});
-
+const showreelVolBtn    = document.getElementById('showreel-vol');
+const cookiesVolBtn     = document.getElementById('cookies-vol');
+const jellycatVolBtn    = document.getElementById('jellycat-vol');
+const bolt6VolBtn       = document.getElementById('bolt6-vol');
 const divingboardVolBtn = document.getElementById('divingboard-vol');
-divingboardVolBtn.addEventListener('click', () => {
-    divingboardVideoEl.muted = !divingboardVideoEl.muted;
-    divingboardVolBtn.classList.toggle('unmuted', !divingboardVideoEl.muted);
-    startDivingboardFadeTimer();
-});
+const cyclingVolBtn     = document.getElementById('cycling-vol');
+const ryeVolBtn         = document.getElementById('rye-vol');
 
-// Cycling Rive play/pause
-const cyclingPlayRive = new rive.Rive({
-    src: 'Rive/pause&play.riv',
-    canvas: document.getElementById('cycling-play-canvas'),
-    artboard: 'Pause and play',
-    stateMachines: 'State Machine 1',
-    autoplay: true,
-    autoBind: true,
-    layout: new rive.Layout({ fit: rive.Fit.Contain }),
-    onLoad() {
-        cyclingPlayRive.resizeDrawingSurfaceToCanvas();
-        const vmi = cyclingPlayRive.viewModelInstance;
-        const colorProp = vmi.color('colorProperty');
-        if (colorProp) colorProp.value = 0xFF00794A;
-        cyclingPlayBool = vmi.boolean('puase/play');
-        if (cyclingPlayBool) cyclingPlayBool.value = false;
-    },
-});
-
-const cyclingPlayCanvas = document.getElementById('cycling-play-canvas');
-const cyclingVideoWrap  = document.querySelectorAll('.showreel-video-wrap')[7];
-let cyclingFadeTimer    = null;
-
-function startCyclingFadeTimer() {
-    clearTimeout(cyclingFadeTimer);
-    cyclingFadeTimer = setTimeout(() => {
-        cyclingPlayCanvas.classList.add('faded');
-        document.getElementById('cycling-vol').classList.add('faded');
-    }, 2000);
-}
-
-cyclingVideoWrap.addEventListener('mouseenter', () => {
-    clearTimeout(cyclingFadeTimer);
-    cyclingPlayCanvas.classList.remove('faded');
-    document.getElementById('cycling-vol').classList.remove('faded');
-});
-cyclingVideoWrap.addEventListener('mouseleave', () => startCyclingFadeTimer());
-startCyclingFadeTimer();
-
-cyclingPlayCanvas.addEventListener('click', () => {
-    if (!cyclingVideoEl) return;
-    if (cyclingVideoEl.paused) { cyclingVideoEl.play(); if (cyclingPlayBool) cyclingPlayBool.value = true; }
-    else { cyclingVideoEl.pause(); if (cyclingPlayBool) cyclingPlayBool.value = false; }
-    startCyclingFadeTimer();
-});
-
-const cyclingVolBtn = document.getElementById('cycling-vol');
-cyclingVolBtn.addEventListener('click', () => {
-    cyclingVideoEl.muted = !cyclingVideoEl.muted;
-    cyclingVolBtn.classList.toggle('unmuted', !cyclingVideoEl.muted);
-    startCyclingFadeTimer();
-});
-
-// Rye Lane Bagels Rive play/pause
-const ryePlayRive = new rive.Rive({
-    src: 'Rive/pause&play.riv',
-    canvas: document.getElementById('rye-play-canvas'),
-    artboard: 'Pause and play',
-    stateMachines: 'State Machine 1',
-    autoplay: true,
-    autoBind: true,
-    layout: new rive.Layout({ fit: rive.Fit.Contain }),
-    onLoad() {
-        ryePlayRive.resizeDrawingSurfaceToCanvas();
-        const vmi = ryePlayRive.viewModelInstance;
-        const colorProp = vmi.color('colorProperty');
-        if (colorProp) colorProp.value = 0xFF00794A;
-        ryePlayBool = vmi.boolean('puase/play');
-        if (ryePlayBool) ryePlayBool.value = false;
-    },
-});
-
-const ryePlayCanvas  = document.getElementById('rye-play-canvas');
-const ryeVideoWrap   = document.querySelectorAll('.showreel-video-wrap')[6];
-let ryeFadeTimer     = null;
-
-function startRyeFadeTimer() {
-    clearTimeout(ryeFadeTimer);
-    ryeFadeTimer = setTimeout(() => {
-        ryePlayCanvas.classList.add('faded');
-        document.getElementById('rye-vol').classList.add('faded');
-    }, 2000);
-}
-
-ryeVideoWrap.addEventListener('mouseenter', () => {
-    clearTimeout(ryeFadeTimer);
-    ryePlayCanvas.classList.remove('faded');
-    document.getElementById('rye-vol').classList.remove('faded');
-});
-ryeVideoWrap.addEventListener('mouseleave', () => startRyeFadeTimer());
-startRyeFadeTimer();
-
-ryePlayCanvas.addEventListener('click', () => {
-    if (!ryeVideoEl) return;
-    if (ryeVideoEl.paused) {
-        ryeVideoEl.play();
-        if (ryePlayBool) ryePlayBool.value = true;
-    } else {
-        ryeVideoEl.pause();
-        if (ryePlayBool) ryePlayBool.value = false;
-    }
-    startRyeFadeTimer();
-});
-
-const ryeVolBtn = document.getElementById('rye-vol');
-ryeVolBtn.addEventListener('click', () => {
-    ryeVideoEl.muted = !ryeVideoEl.muted;
-    ryeVolBtn.classList.toggle('unmuted', !ryeVideoEl.muted);
-    startRyeFadeTimer();
+[[showreelVolBtn, () => showreelVideoEl], [cookiesVolBtn, () => cookiesVideoEl],
+ [jellycatVolBtn, () => jellycatVideoEl], [bolt6VolBtn, () => bolt6VideoEl],
+ [divingboardVolBtn, () => divingboardVideoEl], [cyclingVolBtn, () => cyclingVideoEl],
+ [ryeVolBtn, () => ryeVideoEl]].forEach(([btn, getVid]) => {
+    if (!btn) return;
+    btn.addEventListener('click', () => {
+        const v = getVid();
+        if (!v) return;
+        v.muted = !v.muted;
+        btn.classList.toggle('unmuted', !v.muted);
+    });
 });
 
 // Vimeo overlay — intercepts scroll, lets click through to player

@@ -416,19 +416,30 @@ body {
 }
 
 /* All play/pause Rive canvases — single unified rule */
-[id$="-play-canvas"] {
+.play-btn {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 100px;
-    height: 100px;
+    width: 52px;
+    height: 52px;
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     pointer-events: auto;
     opacity: 1;
     transition: opacity 0.4s ease;
     z-index: 3;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
 }
-[id$="-play-canvas"].faded { opacity: 0; }
+.play-btn.faded { opacity: 0; pointer-events: none; }
+.play-btn .pause-icon { display: none; }
+.play-btn.playing .play-icon  { display: none; }
+.play-btn.playing .pause-icon { display: block; }
 
 #showreel-video,
 #cookies-video,
@@ -1121,7 +1132,7 @@ body {
         justify-content: flex-start;
         align-items: stretch;
     }
-    .showreel-inner > .showreel-video-wrap {
+    .showreel-inner:not(.side) > .showreel-video-wrap {
         flex: none;
         width: 100%;
         aspect-ratio: 16 / 9;
