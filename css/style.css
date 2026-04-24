@@ -18,6 +18,13 @@
     left: 0;
 }
 
+@media (pointer: coarse) {
+    *, *::before, *::after, body, a, button, input, [role="button"] {
+        cursor: auto !important;
+    }
+    #cursor { display: none; }
+}
+
 /* LOADER */
 
 #loader {
