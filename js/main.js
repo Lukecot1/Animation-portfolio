@@ -354,14 +354,15 @@ window.addEventListener('touchend', (e) => {
     clearTimeout(snapTimer);
     const snapped = Math.round(targetPos);
     moveTo(snapped);
-    if (snapped === 7 && !e.target.closest('button, a')) {
+    if (!e.target.closest('button, a')) {
         const safePlay = v => {
             if (!v) return;
-            if (v.error) { v.load(); v.addEventListener('canplay', () => v.play().catch(() => {}), { once: true }); }
-            else v.play().catch(() => {});
+            if (v.error) { v.load(); }
+            v.play().catch(() => {});
         };
-        safePlay(ryeVideoEl);
-        safePlay(cyclingVideoEl);
+        if (snapped === 7) { safePlay(ryeVideoEl); safePlay(cyclingVideoEl); }
+        if (snapped === 8) { safePlay(divingboardVideoEl); }
+        if (snapped === 4) { if (window.pixelsCarouselStart) window.pixelsCarouselStart(); }
     }
 });
 
@@ -722,7 +723,7 @@ pixelsVideoEl       = document.getElementById('pixels-video');
             item.classList.toggle('active', i === current);
         });
         videos.forEach((v, i) => {
-            if (i === current) { v.currentTime = 0; v.play(); }
+            if (i === current) { v.currentTime = 0; v.play().catch(() => {}); }
             else { v.pause(); v.currentTime = 0; }
         });
     }
@@ -747,7 +748,7 @@ pixelsVideoEl       = document.getElementById('pixels-video');
         v.addEventListener('ended', () => { v.currentTime = 0; v.play(); });
     });
 
-    window.pixelsCarouselStart = () => {};
+    window.pixelsCarouselStart = () => { goTo(current); startCarousel(); };
     window.pixelsCarouselStop  = stopCarousel;
 
     goTo(0);
