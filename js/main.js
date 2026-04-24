@@ -673,7 +673,7 @@ function setupPlayBtn(videoEl, btnEl, wrapEl) {
     }
     function scheduleHide() {
         clearTimeout(fadeTimer);
-        fadeTimer = setTimeout(hideBtn, isTouch ? 2500 : 800);
+        fadeTimer = setTimeout(hideBtn, isTouch ? 1500 : 800);
     }
 
     // Only update the icon — never show/hide from programmatic play/pause
