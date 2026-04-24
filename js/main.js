@@ -272,8 +272,12 @@ function onSettled() {
             sessionStorage.removeItem('myth-unlocked');
         }
 
-        const tryPlay = v => v && v.play().catch(() => {});
         const tryPause = v => { if (v && !v.paused) v.pause(); };
+        const tryPlay = v => {
+            if (!v) return;
+            if (v.error) { v.load(); v.addEventListener('canplay', () => v.play().catch(() => {}), { once: true }); }
+            else v.play().catch(() => {});
+        };
 
         if (snapped === 0) tryPlay(showreelVideoEl); else tryPause(showreelVideoEl);
         if (snapped === 1) tryPlay(cookiesVideoEl);  else tryPause(cookiesVideoEl);
@@ -344,15 +348,20 @@ window.addEventListener('touchmove', (e) => {
     startAnim();
 }, { passive: false });
 
-window.addEventListener('touchend', () => {
+window.addEventListener('touchend', (e) => {
     if (expandedPanelIndex >= 0) return;
     if (experienceOverlay.style.display === 'flex') return;
     clearTimeout(snapTimer);
     const snapped = Math.round(targetPos);
     moveTo(snapped);
-    if (snapped === 7) {
-        if (ryeVideoEl) ryeVideoEl.play().catch(() => {});
-        if (cyclingVideoEl) cyclingVideoEl.play().catch(() => {});
+    if (snapped === 7 && !e.target.closest('button, a')) {
+        const safePlay = v => {
+            if (!v) return;
+            if (v.error) { v.load(); v.addEventListener('canplay', () => v.play().catch(() => {}), { once: true }); }
+            else v.play().catch(() => {});
+        };
+        safePlay(ryeVideoEl);
+        safePlay(cyclingVideoEl);
     }
 });
 
@@ -753,9 +762,9 @@ setupPlayBtn(showreelVideoEl,    document.getElementById('showreel-play-btn'),  
 setupPlayBtn(cookiesVideoEl,     document.getElementById('cookies-play-btn'),    videoWraps[1]);
 setupPlayBtn(jellycatVideoEl,    document.getElementById('jellycat-play-btn'),   videoWraps[2]);
 setupPlayBtn(bolt6VideoEl,       document.getElementById('bolt6-play-btn'),      videoWraps[3]);
-setupPlayBtn(divingboardVideoEl, document.getElementById('divingboard-play-btn'),videoWraps[8]);
-setupPlayBtn(cyclingVideoEl,     document.getElementById('cycling-play-btn'),    videoWraps[7]);
-setupPlayBtn(ryeVideoEl,         document.getElementById('rye-play-btn'),        videoWraps[6]);
+setupPlayBtn(ryeVideoEl,         document.getElementById('rye-play-btn'),        videoWraps[5]);
+setupPlayBtn(cyclingVideoEl,     document.getElementById('cycling-play-btn'),    videoWraps[6]);
+setupPlayBtn(divingboardVideoEl, document.getElementById('divingboard-play-btn'),videoWraps[7]);
 
 const showreelVolBtn    = document.getElementById('showreel-vol');
 const cookiesVolBtn     = document.getElementById('cookies-vol');

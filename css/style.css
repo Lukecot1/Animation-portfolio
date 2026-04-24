@@ -433,8 +433,6 @@ body {
     opacity: 1;
     transition: opacity 0.4s ease;
     z-index: 3;
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
 }
 .play-btn.faded { opacity: 0; pointer-events: none; }
 .play-btn .pause-icon { display: none; }
@@ -1156,6 +1154,11 @@ body {
         aspect-ratio: 16 / 9;
         min-height: unset;
         border-radius: 10px;
+    }
+    #divingboard-wrap {
+        flex: 1 !important;
+        aspect-ratio: unset !important;
+        min-height: 0 !important;
     }
     .showreel-inner > .showreel-meta { margin-top: auto; flex-shrink: 0; }
     .showreel-title { font-size: 15px; }
