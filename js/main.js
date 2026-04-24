@@ -708,9 +708,16 @@ function setupPlayBtn(videoEl, btnEl, wrapEl) {
     videoEl.addEventListener('play', updateState);
     videoEl.addEventListener('pause', updateState);
 
-    if (wrapEl && !window.matchMedia('(pointer: coarse)').matches) {
-        wrapEl.addEventListener('mouseenter', showBtn);
-        wrapEl.addEventListener('mouseleave', () => { if (!videoEl.paused) scheduleHide(); });
+    if (wrapEl) {
+        if (!window.matchMedia('(pointer: coarse)').matches) {
+            wrapEl.addEventListener('mouseenter', showBtn);
+            wrapEl.addEventListener('mouseleave', () => { if (!videoEl.paused) scheduleHide(); });
+        } else {
+            wrapEl.addEventListener('touchstart', () => {
+                showBtn();
+                if (!videoEl.paused) scheduleHide();
+            }, { passive: true });
+        }
     }
     scheduleHide();
 }
