@@ -472,7 +472,7 @@ document.getElementById('mob-experience').addEventListener('click', (e) => {
 document.getElementById('mob-instagram').addEventListener('click', (e) => {
     e.preventDefault();
     closeMobileMenu();
-    window.open('https://www.instagram.com/luke.cottrell_animation', '_blank');
+    window.open('https://www.instagram.com/lukecottrell_animation/', '_blank');
 });
 document.getElementById('mob-email').addEventListener('click', (e) => {
     e.preventDefault();
@@ -600,7 +600,7 @@ contactRive.on(rive.EventType.Load, () => {
     const vmi = contactRive.viewModelInstance;
     contactFontSizeProp = vmi.number('fontsize');
     contactFontSizeProp.value = getRiveFontSize();
-    vmi.trigger('insta').on(() => window.open('https://www.instagram.com/luke.cottrell_animation', '_blank'));
+    vmi.trigger('insta').on(() => window.open('https://www.instagram.com/lukecottrell_animation/', '_blank'));
     vmi.trigger('mail').on(() => window.open('mailto:lukefgc@icloud.com', '_blank'));
     requestAnimationFrame(() => contactRive.resizeDrawingSurfaceToCanvas());
 });
