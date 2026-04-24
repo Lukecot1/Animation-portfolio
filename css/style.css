@@ -1134,7 +1134,7 @@ body {
 
     /* Side layouts → stack to column, meta pinned to bottom */
     .showreel-inner.side            { flex-direction: column; gap: 10px; align-items: stretch; }
-    .showreel-inner.side .showreel-video-wrap { width: 100% !important; flex: none; aspect-ratio: 16 / 9; min-height: unset; align-self: auto; }
+    .showreel-inner.side .showreel-video-wrap { width: 100% !important; flex: 1; min-height: 0; align-self: auto; }
     .showreel-inner.side .showreel-meta       { flex-shrink: 0; width: 100%; margin-top: auto; }
     .showreel-video-wrap.square,
     .showreel-video-wrap.portrait   { width: 100% !important; aspect-ratio: unset; align-self: auto; }
