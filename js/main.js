@@ -11,7 +11,7 @@ const pageTitle = document.getElementById('page-title');
 const CLOSED_W    = 20;
 const CLOSED_H    = 20;
 const CLOSED_H_PHONE = 10;
-const SCROLL_SCALE = 200;
+const SCROLL_SCALE = 400;
 const LERP_FACTOR  = 14;
 const SNAP_DELAY   = 240;
 
