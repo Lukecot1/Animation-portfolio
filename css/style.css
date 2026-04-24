@@ -439,6 +439,14 @@ body {
 .play-btn.playing .play-icon  { display: none; }
 .play-btn.playing .pause-icon { display: block; }
 
+video::-webkit-media-controls,
+video::-webkit-media-controls-panel,
+video::-webkit-media-controls-play-button,
+video::-webkit-media-controls-start-playback-button {
+    display: none !important;
+    opacity: 0 !important;
+}
+
 #showreel-video,
 #cookies-video,
 #jellycat-video,
