@@ -1019,6 +1019,24 @@ document.getElementById('cookies-expand').addEventListener('click', (e) => {
     }
 });
 
+// 44 Pixels expand/collapse
+document.getElementById('pixels-expand').addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isExpanded = panels[4].classList.contains('expanded');
+    panels[4].classList.toggle('expanded');
+    if (!isExpanded) {
+        panels.forEach(p => p.classList.remove('active'));
+        panels[4].classList.add('active');
+        targetPos = 4;
+        visualPos = 4;
+        lastSnappedPanel = 4;
+        typewriteTitle(panelTitles[4]);
+        expandPanel(4);
+    } else {
+        collapsePanel();
+    }
+});
+
 // China Town expand/collapse
 document.getElementById('chinatown-expand').addEventListener('click', (e) => {
     e.stopPropagation();
