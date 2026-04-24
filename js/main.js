@@ -723,17 +723,12 @@ pixelsVideoEl       = document.getElementById('pixels-video');
             item.classList.toggle('active', i === current);
         });
         videos.forEach((v, i) => {
-            if (i === current) { v.currentTime = 0; v.play().catch(() => {}); }
-            else { v.pause(); v.currentTime = 0; }
+            if (i === current) { v.play().catch(() => {}); }
+            else { v.pause(); }
         });
     }
 
-    function startCarousel() {
-        stopCarousel();
-        timer = setInterval(() => goTo(current + 1), 4000);
-    }
-
-    function stopCarousel() { clearInterval(timer); }
+    function stopCarousel() {}
 
     document.getElementById('pixels-prev').addEventListener('click', (e) => {
         e.stopPropagation();
@@ -744,11 +739,7 @@ pixelsVideoEl       = document.getElementById('pixels-video');
         goTo(current + 1);
     });
 
-    videos.forEach(v => {
-        v.addEventListener('ended', () => { v.currentTime = 0; v.play(); });
-    });
-
-    window.pixelsCarouselStart = () => { goTo(current); startCarousel(); };
+    window.pixelsCarouselStart = () => { goTo(current); };
     window.pixelsCarouselStop  = stopCarousel;
 
     goTo(0);
