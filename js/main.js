@@ -571,20 +571,22 @@ function startSpring() {
     }
 }
 
-panels.forEach((panel, i) => {
-    panel.addEventListener('mouseenter', () => {
-        clearTimeout(leaveTimers[i]);
-        if (panel.classList.contains('active')) return;
-        panelSprings[i].target = -10;
-        startSpring();
-    });
-    panel.addEventListener('mouseleave', () => {
-        leaveTimers[i] = setTimeout(() => {
-            panelSprings[i].target = 0;
+if (!window.matchMedia('(pointer: coarse)').matches) {
+    panels.forEach((panel, i) => {
+        panel.addEventListener('mouseenter', () => {
+            clearTimeout(leaveTimers[i]);
+            if (panel.classList.contains('active')) return;
+            panelSprings[i].target = -10;
             startSpring();
-        }, 80);
+        });
+        panel.addEventListener('mouseleave', () => {
+            leaveTimers[i] = setTimeout(() => {
+                panelSprings[i].target = 0;
+                startSpring();
+            }, 80);
+        });
     });
-});
+}
 
 // Init
 renderAt(visualPos);
