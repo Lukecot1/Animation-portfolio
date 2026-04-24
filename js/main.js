@@ -671,7 +671,7 @@ function setupPlayBtn(videoEl, btnEl, wrapEl) {
             btnEl.classList.add('faded');
             const vol = wrapEl ? wrapEl.querySelector('.vol-btn') : null;
             if (vol) vol.classList.add('faded');
-        }, 800);
+        }, window.matchMedia('(pointer: coarse)').matches ? 2500 : 800);
     }
     function updateState() {
         if (videoEl.paused) { showBtn(); btnEl.classList.remove('playing'); }

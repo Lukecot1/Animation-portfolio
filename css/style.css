@@ -384,6 +384,7 @@ body {
     min-height: 0;
     border-radius: 12px;
     overflow: hidden;
+    cursor: pointer;
 }
 
 .vimeo-overlay {
@@ -550,11 +551,6 @@ video::-webkit-media-controls-start-playback-button {
         background: #000;
         border-radius: 12px;
         overflow: hidden;
-    }
-    .play-btn,
-    .vol-btn {
-        opacity: 1 !important;
-        pointer-events: auto !important;
     }
 }
 
