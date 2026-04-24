@@ -1147,14 +1147,14 @@ body {
         aspect-ratio: unset !important;
         min-height: 0 !important;
     }
-    .showreel-inner > .showreel-meta { margin-top: auto; flex-shrink: 0; }
+    .showreel-inner > .showreel-meta { margin-top: 12px; flex-shrink: 1; }
     .showreel-title { font-size: 15px; }
     .showreel-sub   { font-size: 12px; }
 
     /* Side layouts → stack to column, meta pinned to bottom */
     .showreel-inner.side            { flex-direction: column; gap: 10px; align-items: stretch; }
     .showreel-inner.side .showreel-video-wrap { width: 100% !important; flex: 1; min-height: 0; align-self: auto; }
-    .showreel-inner.side .showreel-meta       { flex-shrink: 0; width: 100%; margin-top: auto; }
+    .showreel-inner.side .showreel-meta       { flex-shrink: 1; width: 100%; margin-top: 12px; }
     .showreel-video-wrap.square,
     .showreel-video-wrap.portrait   { width: 100% !important; aspect-ratio: unset; align-self: auto; }
 
