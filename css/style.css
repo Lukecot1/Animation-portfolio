@@ -1105,7 +1105,7 @@ body {
     .tab-row { flex: 1; flex-direction: column; height: auto; max-height: none; align-items: stretch; }
     .panel   { min-width: unset; min-height: 20px; width: 100% !important; flex-basis: 20px; }
 
-    /* All video tabs — video at natural ratio, meta below */
+    /* All video tabs — video at natural ratio, meta pinned to bottom */
     .showreel-inner {
         display: flex !important;
         flex-direction: column;
@@ -1120,14 +1120,14 @@ body {
         min-height: unset;
         border-radius: 10px;
     }
-    .showreel-inner > .showreel-meta { margin-top: 0; flex-shrink: 0; }
+    .showreel-inner > .showreel-meta { margin-top: auto; flex-shrink: 0; }
     .showreel-title { font-size: 15px; }
     .showreel-sub   { font-size: 12px; }
 
-    /* Side layouts → stack to column */
+    /* Side layouts → stack to column, meta pinned to bottom */
     .showreel-inner.side            { flex-direction: column; gap: 10px; align-items: stretch; }
-    .showreel-inner.side .showreel-video-wrap { width: 100% !important; flex: 1; min-height: 0; align-self: auto; }
-    .showreel-inner.side .showreel-meta       { flex-shrink: 0; width: 100%; }
+    .showreel-inner.side .showreel-video-wrap { width: 100% !important; flex: none; aspect-ratio: 16 / 9; min-height: unset; align-self: auto; }
+    .showreel-inner.side .showreel-meta       { flex-shrink: 0; width: 100%; margin-top: auto; }
     .showreel-video-wrap.square,
     .showreel-video-wrap.portrait   { width: 100% !important; aspect-ratio: unset; align-self: auto; }
 
