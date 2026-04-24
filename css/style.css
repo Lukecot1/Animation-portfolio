@@ -1151,10 +1151,23 @@ body {
     .showreel-title { font-size: 15px; }
     .showreel-sub   { font-size: 12px; }
 
-    /* Side layouts → stack to column, meta pinned to bottom */
+    /* Side layouts → stack to column, meta pinned to bottom, text truncated */
     .showreel-inner.side            { flex-direction: column; gap: 10px; align-items: stretch; }
     .showreel-inner.side .showreel-video-wrap { width: 100% !important; flex: 1; min-height: 0; align-self: auto; }
-    .showreel-inner.side .showreel-meta       { flex-shrink: 1; width: 100%; margin-top: 12px; }
+    .showreel-inner.side .showreel-meta       { flex-shrink: 0; width: 100%; margin-top: auto; }
+    .showreel-inner.side .showreel-meta .showreel-sub {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    .showreel-inner.side .showreel-meta .showreel-sub ~ .showreel-sub { display: none; }
+    .panel.expanded .showreel-inner.side .showreel-meta .showreel-sub {
+        display: block;
+        overflow: visible;
+        -webkit-line-clamp: unset;
+    }
+    .panel.expanded .showreel-inner.side .showreel-meta .showreel-sub ~ .showreel-sub { display: block; }
     .showreel-video-wrap.square,
     .showreel-video-wrap.portrait   { width: 100% !important; aspect-ratio: unset; align-self: auto; }
 
