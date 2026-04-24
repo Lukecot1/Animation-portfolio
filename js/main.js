@@ -272,55 +272,23 @@ function onSettled() {
             sessionStorage.removeItem('myth-unlocked');
         }
 
-        if (showreelVideoEl) {
-            if (snapped === 0) {
-                showreelVideoEl.play();
-            } else {
-                showreelVideoEl.pause();
-            }
-        }
+        const tryPlay = v => v && v.play().catch(() => {});
+        const tryPause = v => { if (v && !v.paused) v.pause(); };
 
-        if (cookiesVideoEl) {
-            if (snapped === 1) {
-                cookiesVideoEl.play();
-            } else {
-                cookiesVideoEl.pause();
-            }
-        }
-
-        if (jellycatVideoEl) {
-        }
-
-        if (bolt6VideoEl) {
-        }
-
-        if (chinatownVideoEl) {
-            if (snapped === 5) {
-                chinatownVideoEl.play();
-            } else {
-                chinatownVideoEl.pause();
-            }
-        }
+        if (snapped === 0) tryPlay(showreelVideoEl); else tryPause(showreelVideoEl);
+        if (snapped === 1) tryPlay(cookiesVideoEl);  else tryPause(cookiesVideoEl);
+        if (snapped === 2) tryPlay(jellycatVideoEl); else tryPause(jellycatVideoEl);
+        if (snapped === 3) tryPlay(bolt6VideoEl);    else tryPause(bolt6VideoEl);
+        if (snapped === 5) tryPlay(chinatownVideoEl);else tryPause(chinatownVideoEl);
+        if (snapped === 7) { tryPlay(ryeVideoEl); tryPlay(cyclingVideoEl); }
+        else { tryPause(ryeVideoEl); tryPause(cyclingVideoEl); }
+        if (snapped === 8) tryPlay(divingboardVideoEl); else tryPause(divingboardVideoEl);
 
         if (snapped === 4) {
             if (window.pixelsCarouselStart) window.pixelsCarouselStart();
         } else {
             if (window.pixelsCarouselStop) window.pixelsCarouselStop();
             document.querySelectorAll('.pixels-vid').forEach(v => v.pause());
-        }
-
-        if (divingboardVideoEl) {
-        }
-
-        if (cyclingVideoEl) {
-        }
-
-        if (ryeVideoEl) {
-            if (snapped === 7) {
-                ryeVideoEl.play();
-            } else {
-                ryeVideoEl.pause();
-            }
         }
 
         lastSnappedPanel = snapped;
