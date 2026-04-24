@@ -1105,15 +1105,22 @@ body {
     .tab-row { flex: 1; flex-direction: column; height: auto; max-height: none; align-items: stretch; }
     .panel   { min-width: unset; min-height: 20px; width: 100% !important; flex-basis: 20px; }
 
-    /* All video tabs — grid fills space, meta pinned to bottom */
+    /* All video tabs — video at natural ratio, meta below */
     .showreel-inner {
-        display: grid !important;
-        grid-template-rows: 1fr auto;
+        display: flex !important;
+        flex-direction: column;
         gap: 10px;
-        justify-content: unset;
+        justify-content: flex-start;
+        align-items: stretch;
     }
-    .showreel-inner > .showreel-video-wrap { grid-row: 1; min-height: 0; border-radius: 10px; }
-    .showreel-inner > .showreel-meta       { grid-row: 2; margin-top: 0; }
+    .showreel-inner > .showreel-video-wrap {
+        flex: none;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        min-height: unset;
+        border-radius: 10px;
+    }
+    .showreel-inner > .showreel-meta { margin-top: 0; flex-shrink: 0; }
     .showreel-title { font-size: 15px; }
     .showreel-sub   { font-size: 12px; }
 
