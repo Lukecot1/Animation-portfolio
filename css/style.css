@@ -843,6 +843,13 @@ video::-webkit-media-controls-start-playback-button {
     scrollbar-width: none;
 }
 
+.panel.expanded .pixels-carousel-wrap {
+    flex: none;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    min-height: 0;
+}
+
 .panel.expanded .panel-inner::-webkit-scrollbar { display: none; }
 
 .panel.expanded #cookies-inner .style-frames img {
