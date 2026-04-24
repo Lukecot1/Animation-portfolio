@@ -695,10 +695,10 @@ function setupPlayBtn(videoEl, btnEl, wrapEl) {
             wrapEl.addEventListener('mouseenter', showBtn);
             wrapEl.addEventListener('mouseleave', scheduleHide);
         } else {
-            wrapEl.addEventListener('touchstart', () => {
+            wrapEl.addEventListener('click', () => {
                 showBtn();
                 if (!videoEl.paused) scheduleHide();
-            }, { passive: true });
+            });
         }
     }
     // Start hidden — shows on hover (desktop) or tap (touch)
