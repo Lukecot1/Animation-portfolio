@@ -658,6 +658,7 @@ Promise.all([pageLoaded, minDelay]).then(() => {
 function setupPlayBtn(videoEl, btnEl, wrapEl) {
     if (!videoEl || !btnEl) return;
     let fadeTimer = null;
+    const isTouch = window.matchMedia('(pointer: coarse)').matches;
 
     function showBtn() {
         clearTimeout(fadeTimer);
@@ -665,31 +666,34 @@ function setupPlayBtn(videoEl, btnEl, wrapEl) {
         const vol = wrapEl ? wrapEl.querySelector('.vol-btn') : null;
         if (vol) vol.classList.remove('faded');
     }
+    function hideBtn() {
+        btnEl.classList.add('faded');
+        const vol = wrapEl ? wrapEl.querySelector('.vol-btn') : null;
+        if (vol) vol.classList.add('faded');
+    }
     function scheduleHide() {
         clearTimeout(fadeTimer);
-        fadeTimer = setTimeout(() => {
-            btnEl.classList.add('faded');
-            const vol = wrapEl ? wrapEl.querySelector('.vol-btn') : null;
-            if (vol) vol.classList.add('faded');
-        }, window.matchMedia('(pointer: coarse)').matches ? 2500 : 800);
+        fadeTimer = setTimeout(hideBtn, isTouch ? 2500 : 800);
     }
-    function updateState() {
-        if (videoEl.paused) { showBtn(); btnEl.classList.remove('playing'); }
-        else { btnEl.classList.add('playing'); scheduleHide(); }
-    }
+
+    // Only update the icon — never show/hide from programmatic play/pause
+    videoEl.addEventListener('play',  () => { btnEl.classList.add('playing');    scheduleHide(); });
+    videoEl.addEventListener('pause', () => { btnEl.classList.remove('playing'); });
 
     btnEl.addEventListener('click', (e) => {
         e.stopPropagation();
-        if (videoEl.paused) videoEl.play().catch(() => {});
-        else videoEl.pause();
+        if (videoEl.paused) {
+            videoEl.play().catch(() => {});
+        } else {
+            videoEl.pause();
+            showBtn(); // user paused — show play icon so they can resume
+        }
     });
-    videoEl.addEventListener('play', updateState);
-    videoEl.addEventListener('pause', updateState);
 
     if (wrapEl) {
-        if (!window.matchMedia('(pointer: coarse)').matches) {
+        if (!isTouch) {
             wrapEl.addEventListener('mouseenter', showBtn);
-            wrapEl.addEventListener('mouseleave', () => { if (!videoEl.paused) scheduleHide(); });
+            wrapEl.addEventListener('mouseleave', scheduleHide);
         } else {
             wrapEl.addEventListener('touchstart', () => {
                 showBtn();
@@ -697,7 +701,8 @@ function setupPlayBtn(videoEl, btnEl, wrapEl) {
             }, { passive: true });
         }
     }
-    scheduleHide();
+    // Start hidden — shows on hover (desktop) or tap (touch)
+    hideBtn();
 }
 
 
