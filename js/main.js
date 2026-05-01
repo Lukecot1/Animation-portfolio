@@ -317,6 +317,7 @@ function moveTo(target) {
 window.addEventListener('wheel', onWheel, { passive: false, capture: true });
 
 function onWheel(e) {
+    if (!isPhone() || window.innerHeight <= window.innerWidth) return;
     e.preventDefault();
     e.stopImmediatePropagation();
     if (expandedPanelIndex >= 0) return;
@@ -530,6 +531,7 @@ function startSpring() {
 if (!window.matchMedia('(pointer: coarse)').matches) {
     panels.forEach((panel, i) => {
         panel.addEventListener('mouseenter', () => {
+            if (isPortrait()) return;
             clearTimeout(leaveTimers[i]);
             if (panel.classList.contains('active')) return;
             panelSprings[i].target = -10;
