@@ -1,11 +1,71 @@
-const cursorEl = document.getElementById('cursor');
+// ── Morphing cursor ──────────────────────────────────────────────────────────
+const cursorEl    = document.getElementById('cursor');
+const cursorShape = document.getElementById('cursor-shape');
+
+// 12-point shapes — same index order (clockwise from top) so lerp looks clean
+const CURSOR_CIRCLE = [
+    [0,-11],[5.5,-9.53],[9.53,-5.5],[11,0],
+    [9.53,5.5],[5.5,9.53],[0,11],[-5.5,9.53],
+    [-9.53,5.5],[-11,0],[-9.53,-5.5],[-5.5,-9.53]
+];
+// Triangle: 4 pts bunched at each of 3 vertices
+const CURSOR_TRI = [
+    [0,-11],[0,-11],[0,-11],[0,-11],
+    [9.53,5.5],[9.53,5.5],[9.53,5.5],[9.53,5.5],
+    [-9.53,5.5],[-9.53,5.5],[-9.53,5.5],[-9.53,5.5]
+];
+// Square: 3 pts bunched at each of 4 corners
+const CURSOR_SQ = [
+    [10,-10],[10,-10],[10,-10],
+    [10,10],[10,10],[10,10],
+    [-10,10],[-10,10],[-10,10],
+    [-10,-10],[-10,-10],[-10,-10]
+];
+
+let cursorPts     = CURSOR_CIRCLE.map(p => [...p]);
+let cursorMorphT  = 0;
+let cursorHover   = false;
+let cursorLastT   = null;
+
+function cursorEase(t) { return t < 0.5 ? 2*t*t : -1+(4-2*t)*t; }
+function cursorLerpPt(a, b, t) { return [a[0]+(b[0]-a[0])*t, a[1]+(b[1]-a[1])*t]; }
+
 window.addEventListener('mousemove', e => {
     cursorEl.style.left = e.clientX + 'px';
     cursorEl.style.top  = e.clientY + 'px';
 });
 document.addEventListener('mouseover', e => {
-    cursorEl.classList.toggle('cursor--hover', !!e.target.closest('a, button, .panel'));
+    cursorHover = !!e.target.closest('a, button, .panel');
+    cursorEl.classList.toggle('cursor--hover', cursorHover);
 });
+
+function cursorTick(now) {
+    const dt = cursorLastT ? Math.min((now - cursorLastT) / 1000, 0.05) : 0.016;
+    cursorLastT = now;
+
+    let target;
+    if (cursorHover) {
+        cursorMorphT = (cursorMorphT + dt * 0.65) % 2; // ~3s full cycle
+        const ping = cursorMorphT < 1 ? cursorMorphT : 2 - cursorMorphT;
+        const e = cursorEase(ping);
+        target = CURSOR_TRI.map((tp, i) => cursorLerpPt(tp, CURSOR_SQ[i], e));
+    } else {
+        cursorMorphT = 0;
+        target = CURSOR_CIRCLE;
+    }
+
+    const speed = 1 - Math.exp(-10 * dt);
+    cursorPts = cursorPts.map((cp, i) => cursorLerpPt(cp, target[i], speed));
+
+    if (cursorShape) {
+        cursorShape.setAttribute('points',
+            cursorPts.map(([x, y]) => `${x.toFixed(2)},${y.toFixed(2)}`).join(' ')
+        );
+    }
+    requestAnimationFrame(cursorTick);
+}
+requestAnimationFrame(cursorTick);
+// ─────────────────────────────────────────────────────────────────────────────
 
 const panels = Array.from(document.querySelectorAll('.panel'));
 const pageTitle = document.getElementById('page-title');

@@ -6,22 +6,19 @@
 
 #cursor {
     position: fixed;
-    width: 8px;
-    height: 8px;
-    background: #FFFF00;
-    border-radius: 50%;
+    width: 30px;
+    height: 30px;
     pointer-events: none;
     mix-blend-mode: difference;
     z-index: 9999;
     transform: translate(-50%, -50%);
     top: 0;
     left: 0;
-    transition: width 0.12s ease, height 0.12s ease;
+    overflow: visible;
 }
 
-#cursor.cursor--hover {
-    width: 10px;
-    height: 10px;
+#cursor-shape {
+    fill: #FFFF00;
 }
 
 @media (pointer: coarse) {
