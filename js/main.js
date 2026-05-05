@@ -34,7 +34,7 @@ window.addEventListener('mousemove', e => {
 });
 
 document.addEventListener('mouseover', e => {
-    const hit = !!e.target.closest('a, button, .panel');
+    const hit = !!e.target.closest('a, button, .panel:not(.expanded)');
     if (hit && !cursorHover) {
         // Snap immediately to triangle or square, then toggle for next time
         const snapPts = nextShape === 'tri' ? CURSOR_TRI : CURSOR_SQ;
