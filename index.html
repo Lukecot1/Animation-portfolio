@@ -6,6 +6,7 @@
     <title>Luke Cottrell</title>
     <link rel="icon" id="favicon" type="image/png" href="data:,">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="preload" href="assets/Aeonik-Regular.ttf" as="font" type="font/truetype" crossorigin>
 </head>
 <body>
 
@@ -17,7 +18,6 @@
 
     <nav class="nav">
         <canvas id="nav-name-canvas" class="nav-name" width="147" height="40"></canvas>
-        <a class="nav-link" href="#" data-page="experience">Experience</a>
         <div class="nav-contact-wrap">
             <canvas id="nav-contact-canvas" class="nav-contact"></canvas>
         </div>
@@ -28,7 +28,6 @@
 
     <div id="mobile-menu">
         <button id="mobile-menu-close" aria-label="Close"></button>
-        <a class="mobile-menu-item" id="mob-experience">Experience</a>
         <a class="mobile-menu-item" id="mob-instagram">Instagram</a>
         <a class="mobile-menu-item" id="mob-email">Email</a>
     </div>
@@ -45,13 +44,14 @@
                     <div class="showreel-video-wrap">
                         <video id="showreel-video" src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/Luke%20Cottrell%20showreel%202025.mp4" muted loop playsinline autoplay></video>
                         <button class="play-btn" id="showreel-play-btn" aria-label="Play/Pause"><svg class="play-icon" width="20" height="20" viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21" fill="white"/></svg><svg class="pause-icon" width="20" height="20" viewBox="0 0 24 24"><rect x="5" y="3" width="4" height="18" rx="1" fill="white"/><rect x="15" y="3" width="4" height="18" rx="1" fill="white"/></svg></button>
-                        <div class="video-timeline" id="showreel-timeline"><div class="timeline-progress" id="showreel-progress" style="background:#BEBEBE"></div></div>
+                        <div class="video-timeline" id="showreel-timeline"><div class="timeline-progress" id="showreel-progress" style="background:#ffffff"></div></div>
                         <button class="vol-btn" id="showreel-vol" aria-label="Toggle volume">
                             <svg class="vol-on" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M19 5a10 10 0 0 1 0 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
                             <svg class="vol-off" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/><line x1="23" y1="9" x2="17" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="17" y1="9" x2="23" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
                         </button>
                     </div>
                     <div class="showreel-meta">
+                        <span class="tab-type">Personal / Client</span>
                         <span class="showreel-title">Showreel</span>
                         <span class="showreel-sub">Motion designer specialising in expressive, character-driven animation and crisp, engaging motion graphics. I work across tools like Rive and After Effects to create interactive and linear animations that feel playful, purposeful, and polished.</span>
                         <span class="showreel-sub">My work blends personality-led character animation with clean, snappy motion design—bringing ideas to life through timing, rhythm, and attention to detail. Whether it's micro-interactions, explainer visuals, or brand-led animation, I focus on making motion that not only looks good, but communicates clearly and feels great to experience.</span>
@@ -73,17 +73,20 @@
                             <svg class="vol-off" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/><line x1="23" y1="9" x2="17" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="17" y1="9" x2="23" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
                         </button>
                     </div>
-                    <div class="showreel-meta">
-                        <span class="showreel-sub">I am currently in the final stages of producing an original animated short film, set for completion by the end of 2025, with plans to submit it to film festivals throughout 2026. Created entirely in Adobe After Effects, the film explores a unique narrative in which the main character experiences a physical cyber attack and is pulled into his phone.</span>
-                        <span class="showreel-sub">Working independently on this project has been both challenging and rewarding. It has allowed me to manage my own timeline, develop a strong creative vision, and build something I'm proud to share.</span>
-                    </div>
-                    <div class="style-frames" id="cookies-frames">
-                        <img src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/StyleFrame1.jpg" alt="">
-                        <img src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/StyleFrame2.jpg" alt="">
-                        <img src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/StyleFrame3.jpg" alt="">
-                        <img src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/StyleFrame4.jpg" alt="">
-                        <img src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/StyleFrame5.jpg" alt="">
-                        <img src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/StyleFrame6.jpg" alt="">
+                    <div class="cookies-right">
+                        <div class="showreel-meta">
+                            <span class="tab-type">Personal</span>
+                            <span class="showreel-sub">I am currently in the final stages of producing an original animated short film, set for completion by the end of 2025, with plans to submit it to film festivals throughout 2026. Created entirely in Adobe After Effects, the film explores a unique narrative in which the main character experiences a physical cyber attack and is pulled into his phone.</span>
+                            <span class="showreel-sub">Working independently on this project has been both challenging and rewarding. It has allowed me to manage my own timeline, develop a strong creative vision, and build something I'm proud to share.</span>
+                        </div>
+                        <div class="style-frames" id="cookies-frames">
+                            <img src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/StyleFrame1.jpg" alt="" loading="lazy">
+                            <img src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/StyleFrame2.jpg" alt="" loading="lazy">
+                            <img src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/StyleFrame3.jpg" alt="" loading="lazy">
+                            <img src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/StyleFrame4.jpg" alt="" loading="lazy">
+                            <img src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/StyleFrame5.jpg" alt="" loading="lazy">
+                            <img src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/StyleFrame6.jpg" alt="" loading="lazy">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -103,14 +106,15 @@
                     </div>
                     <div class="jellycat-right">
                         <div class="showreel-meta">
+                            <span class="tab-type">Client</span>
                             <span class="showreel-title">JellyCat</span>
                             <span class="showreel-sub">Employed through Hylink UK, I worked on a Jellycat campaign that toured across China with exclusive pop-up shops. Collaborating closely with photographer and director Stephen Gunn, we captured precise 360-degree imagery of the products. I then translated these into realistic motion animations using After Effects, bringing the products to life for the campaign.</span>
                         </div>
                         <div class="style-frames" id="jellycat-frames">
-                            <img src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/R1.png" alt="">
-                            <img src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/R2.png" alt="">
-                            <img src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/R3.png" alt="">
-                            <img src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/T5.png" alt="">
+                            <img src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/R1.png" alt="" loading="lazy">
+                            <img src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/R2.png" alt="" loading="lazy">
+                            <img src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/R3.png" alt="" loading="lazy">
+                            <img src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/T5.png" alt="" loading="lazy">
                         </div>
                     </div>
                 </div>
@@ -129,36 +133,31 @@
                             <svg class="vol-off" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/><line x1="23" y1="9" x2="17" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="17" y1="9" x2="23" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
                         </button>
                     </div>
-                    <div class="showreel-meta">
-                        <span class="showreel-title">Bolt 6</span>
-                        <span class="showreel-sub">For this project, I added interactive motion design to Bolt6's website to make the introduction of its six founding members more engaging. I illustrated each founder in my own style and turned the portraits into animated, interactive "mugshots" that appeared throughout the site, bringing a playful edge to a typically serious brand.</span>
-                        <span class="showreel-sub">A key success was how naturally the illustrations fit the existing design while adding personality and humour. The main challenge was balancing creativity with professionalism, ensuring the animations felt expressive yet on-brand. The final result made the site more memorable, human, and visually engaging — achieving exactly what Bolt6 wanted. <a href="https://www.bolt6.ai/about-us" target="_blank" class="showreel-link">bolt6.ai/about-us</a></span>
-                    </div>
-                    <div class="bolt6-rive-wrap" id="bolt6-rives">
-                        <canvas class="bolt6-rive-canvas" id="bolt6-rive-1" width="800" height="800"></canvas>
+                    <div class="bolt6-right">
+                        <div class="showreel-meta">
+                            <span class="tab-type">Client</span>
+                            <span class="showreel-title">Bolt 6</span>
+                            <span class="showreel-sub">For this project, I added interactive motion design to Bolt6's website to make the introduction of its six founding members more engaging. I illustrated each founder in my own style and turned the portraits into animated, interactive "mugshots" that appeared throughout the site, bringing a playful edge to a typically serious brand.</span>
+                            <span class="showreel-sub">A key success was how naturally the illustrations fit the existing design while adding personality and humour. The main challenge was balancing creativity with professionalism, ensuring the animations felt expressive yet on-brand. The final result made the site more memorable, human, and visually engaging — achieving exactly what Bolt6 wanted. <a href="https://www.bolt6.ai/about-us" target="_blank" class="showreel-link">bolt6.ai/about-us</a></span>
+                        </div>
+                        <div class="bolt6-rive-wrap" id="bolt6-rives">
+                            <canvas class="bolt6-rive-canvas" id="bolt6-rive-1" width="800" height="800"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="panel" data-index="4" style="--tab-color:#434343;">
                 <button class="expand-btn" id="pixels-expand" aria-label="Expand"><svg class="expand-icon" width="24" height="24" viewBox="0 0 22 22" fill="none"><path d="M2 2l7 7M2 2h6M2 2v6" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 20l-7-7M20 20h-6M20 20v-6" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><svg class="collapse-icon" width="24" height="24" viewBox="0 0 22 22" fill="none"><path d="M9 2v6H3M9 8L2 2M13 20v-6h6M13 14l7 6" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-                <div class="panel-inner pixels-inner">
-                    <div class="pixels-carousel-wrap" id="pixels-carousel-wrap">
-                        <button class="pixels-arrow pixels-prev" id="pixels-prev" aria-label="Previous">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><polyline points="15,18 9,12 15,6" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        </button>
-                        <div class="pixels-carousel-track" id="pixels-carousel-track">
-                            <div class="pixels-carousel-item"><video class="pixels-vid" muted loop playsinline autoplay><source src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/ClaraOnboarding_alpha.webm" type="video/webm"></video></div>
-                            <div class="pixels-carousel-item"><video class="pixels-vid" muted loop playsinline autoplay><source src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/CuePhoneComp_alpha.webm" type="video/webm"></video></div>
-                            <div class="pixels-carousel-item"><video class="pixels-vid" muted loop playsinline autoplay><source src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/ViviOnboarding_alpha.webm" type="video/webm"></video></div>
-                            <div class="pixels-carousel-item"><video class="pixels-vid" muted loop playsinline autoplay><source src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/FlagComp_alpha.webm" type="video/webm"></video></div>
-                            <div class="pixels-carousel-item"><video class="pixels-vid" muted loop playsinline autoplay><source src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/WordcastIconsUi_alpha.webm" type="video/webm"></video></div>
-                            <div class="pixels-carousel-item"><video class="pixels-vid" muted loop playsinline autoplay><source src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/WordcastOnboarding_alpha.webm" type="video/webm"></video></div>
-                        </div>
-                        <button class="pixels-arrow pixels-next" id="pixels-next" aria-label="Next">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><polyline points="9,18 15,12 9,6" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <div class="panel-inner showreel-inner pixels-inner">
+                    <div class="showreel-video-wrap">
+                        <video id="pixels-video" class="pixels-vid" src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/Showreel_May_2026mp4.mp4" muted loop playsinline autoplay></video>
+                        <button class="vol-btn" id="pixels-vol" aria-label="Toggle volume">
+                            <svg class="vol-on" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M19 5a10 10 0 0 1 0 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                            <svg class="vol-off" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/><line x1="23" y1="9" x2="17" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="17" y1="9" x2="23" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
                         </button>
                     </div>
                     <div class="showreel-meta">
+                        <span class="tab-type">Client</span>
                         <span class="showreel-title">44 Pixels</span>
                         <span class="showreel-sub">At 44 Pixels, I worked as a Motion Designer and Creative Technologist, helping shape the user experience across a suite of AI-driven products including Clara (an AI receptionist for craftsmen), VIVI (a tool that turns long-form video into viral clips), Cue (an AI meeting note taker), and WordCast (a text-to-speech platform).</span>
                         <span class="showreel-sub">My focus was on designing and developing interactive onboarding experiences using Rive and other real-time motion tools. I combined motion design with logic-driven systems such as data binding and event-based triggers to create adaptive, multilingual onboarding flows that could respond dynamically to user input and behaviour.</span>
@@ -174,6 +173,7 @@
                         <video id="chinatown-video" src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/china%20town%20square.mp4" muted loop playsinline autoplay></video>
                     </div>
                     <div class="showreel-meta">
+                        <span class="tab-type">Client</span>
                         <span class="showreel-title">Client: Hylink/China Town.</span>
                         <span class="showreel-sub">Working with Chinatown at the end of 2024 was a major milestone for me. As a brand and location that had resonated with me since childhood, it was a deeply meaningful project.</span>
                         <span class="showreel-sub">In celebration of Chinese New Year — the Year of the Snake — I was tasked with designing a commemorative logo and producing a promotional video aimed at encouraging international students to visit Chinatown.</span>
@@ -204,7 +204,8 @@
                         </div>
                     </div>
                     <div class="myth-meta">
-                        <span class="showreel-sub">Animation for the Zeyhad National Museum in the UAE, exhibition on their ancient history.</span>
+                        <span class="tab-type">Client</span>
+                        <span class="showreel-sub">Subtle animations made in After Effects using plugins like Limber 2 and puppet pins, for an exhibition on the UAE's ancient history at the Zeyhad National Museum. It was important for the client to maintain the watercolour style of the images despite the movement. This required precision when cutting out figures — I used the texture in their ancient clothes to my advantage, using creases as natural cut lines.</span>
                     </div>
                 </div>
                 <div class="panel-lock" id="myth-lock">
@@ -248,6 +249,7 @@
                         </div>
                     </div>
                     <div class="showreel-meta">
+                        <span class="tab-type">Client</span>
                         <span class="showreel-title">Rye Lane Bagels</span>
                         <span class="showreel-sub">I was commissioned by a local bagel shop to create a series of fun, interactive animations for both their social media platforms and website. Using Adobe After Effects and the Limber rigging system, I brought their brand to life with playful, eye-catching motion design that helped boost their online presence and audience engagement.</span>
                         <span class="showreel-sub">In addition to the content creation, I animated their pre-existing logo, adding dynamic movement that gave the brand a fresh, modern feel while staying true to its identity. This project was a great opportunity to blend creative storytelling with practical marketing goals—and, of course, it was a lot of fun bringing a bit of personality to their bagel-loving brand.</span>
@@ -266,6 +268,7 @@
                         </button>
                     </div>
                     <div class="showreel-meta">
+                        <span class="tab-type">Personal</span>
                         <span class="showreel-title">Diving Board</span>
                         <span class="showreel-sub">Working to develop my animation techniques and inspired by the popular children's show Maddie and Triggs, I created this short walk cycle in After Effects using Limber 2 and Joysticks 'n Sliders. This project helped me improve my effectiveness in creating both 3D and 2D character rigs.</span>
                     </div>
@@ -279,34 +282,11 @@
                         <iframe id="present-iframe" src="https://player.vimeo.com/video/986578228?autoplay=0&loop=1&color=AB6ED9&title=0&byline=0&portrait=0" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
                     </div>
                     <div class="showreel-meta">
+                        <span class="tab-type">Client</span>
                         <span class="showreel-title">Present Model Management</span>
                         <span class="showreel-sub">With an already impressive visual identity, I was commissioned to create a retro, sci-fi-inspired animated trailer to expand the brand's digital presence.</span>
                         <span class="showreel-sub">The final piece was showcased at London Fashion Week 2024 and featured across Present's website and Instagram, helping to strengthen the brand's online impact and visual storytelling. <a href="https://www.presentmodelmanagement.com" target="_blank" class="showreel-link">presentmodelmanagement.com</a></span>
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Experience overlay -->
-        <div id="experience-overlay">
-            <h1 class="exp-heading">Experience</h1>
-            <canvas id="exp-avatar-canvas" width="200" height="200"></canvas>
-            <div class="exp-cards">
-                <div class="exp-card" style="--ec:#4D9898">
-                    <span class="exp-card-label">Current</span>
-                    <span class="exp-card-text">Motion design at 44pixels for UI UX.</span>
-                </div>
-                <div class="exp-card" style="--ec:#3A5FA0">
-                    <span class="exp-card-label">Freelance</span>
-                    <span class="exp-card-text">2D animator and motion designer working with characters, narratives, branding and effects.</span>
-                </div>
-                <div class="exp-card" style="--ec:#8B6B9E">
-                    <span class="exp-card-label">University</span>
-                    <span class="exp-card-text">BA Animation 2.1, University of West England</span>
-                </div>
-                <div class="exp-card" style="--ec:#556B4A">
-                    <span class="exp-card-label">Internships</span>
-                    <span class="exp-card-text">Aardman, Bulletproof</span>
                 </div>
             </div>
         </div>

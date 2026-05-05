@@ -3,10 +3,14 @@ window.addEventListener('mousemove', e => {
     cursorEl.style.left = e.clientX + 'px';
     cursorEl.style.top  = e.clientY + 'px';
 });
+document.addEventListener('mouseover', e => {
+    cursorEl.classList.toggle('cursor--hover', !!e.target.closest('a, button, .panel'));
+});
 
 const panels = Array.from(document.querySelectorAll('.panel'));
-const navLinks = document.querySelectorAll('.nav-link');
 const pageTitle = document.getElementById('page-title');
+
+let hoveredPanelIndex = -1;
 
 const CLOSED_W    = 20;
 const CLOSED_H    = 20;
@@ -113,7 +117,7 @@ function renderWidths(fromIdx, toIdx, progress) {
             radius = 20 + (24 - 20) * progress;
         } else {
             grow   = 0;
-            basis  = closed;
+            basis  = closed + (i === hoveredPanelIndex ? 24 : 0);
             radius = 20;
         }
 
@@ -341,7 +345,6 @@ window.addEventListener('touchstart', (e) => {
 
 window.addEventListener('touchmove', (e) => {
     if (expandedPanelIndex >= 0) return;
-    if (experienceOverlay.style.display === 'flex') return;
     e.preventDefault();
     const deltaY = touchStartY - e.touches[0].clientY;
     targetPos = Math.max(0, Math.min(panels.length - 1,
@@ -351,7 +354,6 @@ window.addEventListener('touchmove', (e) => {
 
 window.addEventListener('touchend', (e) => {
     if (expandedPanelIndex >= 0) return;
-    if (experienceOverlay.style.display === 'flex') return;
     clearTimeout(snapTimer);
     const snapped = Math.round(targetPos);
     moveTo(snapped);
@@ -383,76 +385,10 @@ panels.forEach((panel, i) => {
     });
 });
 
-const experienceOverlay = document.getElementById('experience-overlay');
-const expTitle = document.getElementById('exp-title');
-const expAvatarWrap = document.getElementById('exp-avatar-wrap');
-const expContent = document.querySelector('.exp-content');
-let expAvatarRive = null;
-let expTimers = [];
-
-function showExperience() {
-    expTimers.forEach(clearTimeout);
-    expTimers = [];
-
-    const avatarCanvas = document.getElementById('exp-avatar-canvas');
-    if (avatarCanvas && !expAvatarRive) {
-        expAvatarRive = new rive.Rive({
-            src: 'Rive/Luket.riv',
-            canvas: avatarCanvas,
-            artboard: 'Avatar',
-            stateMachines: 'State Machine 1',
-            autoplay: true,
-            layout: new rive.Layout({ fit: rive.Fit.Contain }),
-            onLoad() { expAvatarRive.resizeDrawingSurfaceToCanvas(); },
-        });
-    }
-    if (avatarCanvas) avatarCanvas.classList.remove('risen', 'exited');
-
-    experienceOverlay.style.display = 'flex';
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-        experienceOverlay.classList.add('visible');
-        expTimers.push(setTimeout(() => {
-            if (avatarCanvas) avatarCanvas.classList.add('risen');
-        }, 100));
-        expTimers.push(setTimeout(() => {
-            if (avatarCanvas) { avatarCanvas.classList.remove('risen'); avatarCanvas.classList.add('exited'); }
-        }, 1800));
-    }));
-}
-
-function hideExperience() {
-    expTimers.forEach(clearTimeout);
-    expTimers = [];
-    experienceOverlay.classList.remove('visible');
-    const avatarCanvas = document.getElementById('exp-avatar-canvas');
-    if (avatarCanvas) avatarCanvas.classList.remove('risen', 'exited');
-    setTimeout(() => {
-        experienceOverlay.style.display = 'none';
-        buildPanels();
-    }, 400);
-}
-
-function buildPanels() {
-    panels.forEach((panel, i) => {
-        panel.classList.remove('reveal');
-        panel.style.setProperty('--reveal-delay', (i * 50) + 'ms');
-    });
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-        panels.forEach(panel => panel.classList.add('reveal'));
-    }));
-}
-
 const navNameEl = document.querySelector('.nav-name');
-function goHome() { hideExperience(); moveTo(0); }
+function goHome() { moveTo(0); }
 navNameEl.addEventListener('click', goHome);
 navNameEl.addEventListener('touchend', (e) => { e.preventDefault(); goHome(); });
-
-navLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
-        e.preventDefault();
-        if (link.dataset.page === 'experience') showExperience();
-    });
-});
 
 // Burger menu
 const burgerBtn    = document.getElementById('burger-btn');
@@ -465,11 +401,6 @@ function closeMobileMenu() { mobileMenu.classList.remove('open'); }
 burgerBtn.addEventListener('click', openMobileMenu);
 mobileClose.addEventListener('click', closeMobileMenu);
 
-document.getElementById('mob-experience').addEventListener('click', (e) => {
-    e.preventDefault();
-    closeMobileMenu();
-    showExperience();
-});
 document.getElementById('mob-instagram').addEventListener('click', (e) => {
     e.preventDefault();
     closeMobileMenu();
@@ -533,12 +464,18 @@ if (!window.matchMedia('(pointer: coarse)').matches) {
         panel.addEventListener('mouseenter', () => {
             if (isPortrait()) return;
             clearTimeout(leaveTimers[i]);
+            hoveredPanelIndex = i;
+            renderAt(visualPos);
             if (panel.classList.contains('active')) return;
             panelSprings[i].target = -10;
             startSpring();
         });
         panel.addEventListener('mouseleave', () => {
             leaveTimers[i] = setTimeout(() => {
+                if (hoveredPanelIndex === i) {
+                    hoveredPanelIndex = -1;
+                    renderAt(visualPos);
+                }
                 panelSprings[i].target = 0;
                 startSpring();
             }, 80);
@@ -653,6 +590,11 @@ Promise.all([pageLoaded, minDelay]).then(() => {
         if (showreelVideoEl) {
             showreelVideoEl.play();
         }
+        // Stagger-reveal panels left→right (desktop) / top→bottom (portrait)
+        panels.forEach((panel, i) => {
+            panel.style.setProperty('--reveal-delay', (i * 75) + 'ms');
+            panel.classList.add('reveal');
+        });
     }, { once: true });
 });
 
@@ -715,42 +657,9 @@ bolt6VideoEl        = document.getElementById('bolt6-video');
 chinatownVideoEl    = document.getElementById('chinatown-video');
 pixelsVideoEl       = document.getElementById('pixels-video');
 
-// 44 Pixels carousel
-(function() {
-    const track  = document.getElementById('pixels-carousel-track');
-    const items  = Array.from(track.querySelectorAll('.pixels-carousel-item'));
-    const videos = Array.from(track.querySelectorAll('.pixels-vid'));
-    let current  = 0;
-    let timer    = null;
-
-    function goTo(index) {
-        current = ((index % items.length) + items.length) % items.length;
-        track.style.transform = `translateX(-${current * 100}%)`;
-        items.forEach((item, i) => {
-            item.classList.toggle('active', i === current);
-        });
-        videos.forEach((v, i) => {
-            if (i === current) { v.play().catch(() => {}); }
-            else { v.pause(); }
-        });
-    }
-
-    function stopCarousel() {}
-
-    document.getElementById('pixels-prev').addEventListener('click', (e) => {
-        e.stopPropagation();
-        goTo(current - 1);
-    });
-    document.getElementById('pixels-next').addEventListener('click', (e) => {
-        e.stopPropagation();
-        goTo(current + 1);
-    });
-
-    window.pixelsCarouselStart = () => { goTo(current); };
-    window.pixelsCarouselStop  = stopCarousel;
-
-    goTo(0);
-})();
+// 44 Pixels — play all grid videos when panel is active
+window.pixelsCarouselStart = () => document.querySelectorAll('.pixels-vid').forEach(v => v.play().catch(() => {}));
+window.pixelsCarouselStop  = () => {};
 divingboardVideoEl  = document.getElementById('divingboard-video');
 cyclingVideoEl      = document.getElementById('cycling-video');
 ryeVideoEl          = document.getElementById('rye-video');
@@ -769,12 +678,14 @@ const showreelVolBtn    = document.getElementById('showreel-vol');
 const cookiesVolBtn     = document.getElementById('cookies-vol');
 const jellycatVolBtn    = document.getElementById('jellycat-vol');
 const bolt6VolBtn       = document.getElementById('bolt6-vol');
+const pixelsVolBtn      = document.getElementById('pixels-vol');
 const divingboardVolBtn = document.getElementById('divingboard-vol');
 const cyclingVolBtn     = document.getElementById('cycling-vol');
 const ryeVolBtn         = document.getElementById('rye-vol');
 
 [[showreelVolBtn, () => showreelVideoEl], [cookiesVolBtn, () => cookiesVideoEl],
  [jellycatVolBtn, () => jellycatVideoEl], [bolt6VolBtn, () => bolt6VideoEl],
+ [pixelsVolBtn, () => pixelsVideoEl],
  [divingboardVolBtn, () => divingboardVideoEl], [cyclingVolBtn, () => cyclingVideoEl],
  [ryeVolBtn, () => ryeVideoEl]].forEach(([btn, getVid]) => {
     if (!btn) return;
@@ -918,28 +829,7 @@ document.getElementById('myth-expand').addEventListener('click', (e) => {
         lastSnappedPanel = 6;
         typewriteTitle(panelTitles[6]);
         expandPanel(6);
-        const n = mythVideos.length;
-        const portrait = window.innerWidth <= 768 || window.innerHeight > window.innerWidth;
-        const mythContent = document.getElementById('myth-content');
-        mythVideoWraps.forEach(w => { w.style.display = 'block'; });
-        if (portrait) {
-            mythGrid.style.gridTemplateColumns = 'repeat(2, 1fr)';
-            mythGrid.style.gridTemplateRows    = '';
-            mythGrid.style.height              = '';
-            mythContent.style.overflow         = 'auto';
-        } else {
-            mythGrid.style.gridTemplateColumns = `repeat(${n}, 1fr)`;
-            mythGrid.style.gridTemplateRows    = '1fr';
-            mythGrid.style.height              = 'calc(100vh - 280px)';
-            mythContent.style.overflow         = 'hidden';
-            mythVideoWraps.forEach(w => { w.style.aspectRatio = 'unset'; w.style.height = '100%'; });
-        }
     } else {
-        mythGrid.style.gridTemplateColumns = '';
-        mythGrid.style.gridTemplateRows    = '';
-        mythGrid.style.height              = '';
-        document.getElementById('myth-content').style.overflow = '';
-        mythVideoWraps.forEach(w => { w.style.display = ''; w.style.aspectRatio = ''; w.style.height = ''; });
         collapsePanel();
     }
 });
