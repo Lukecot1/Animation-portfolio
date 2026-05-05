@@ -279,7 +279,8 @@ function onSettled() {
         const tryPause = v => { if (v && !v.paused) v.pause(); };
         const tryPlay = v => {
             if (!v) return;
-            if (v.error) { v.load(); v.addEventListener('canplay', () => v.play().catch(() => {}), { once: true }); }
+            if (v.dataset.src) { v.src = v.dataset.src; delete v.dataset.src; }
+            if (v.error || (!v.src && !v.currentSrc)) { v.load(); v.addEventListener('canplay', () => v.play().catch(() => {}), { once: true }); }
             else v.play().catch(() => {});
         };
 
@@ -287,16 +288,16 @@ function onSettled() {
         if (snapped === 1) tryPlay(cookiesVideoEl);  else tryPause(cookiesVideoEl);
         if (snapped === 2) tryPlay(jellycatVideoEl); else tryPause(jellycatVideoEl);
         if (snapped === 3) tryPlay(bolt6VideoEl);    else tryPause(bolt6VideoEl);
+        if (snapped === 4) tryPlay(pixelsVideoEl);   else tryPause(pixelsVideoEl);
         if (snapped === 5) tryPlay(chinatownVideoEl);else tryPause(chinatownVideoEl);
         if (snapped === 7) { tryPlay(ryeVideoEl); tryPlay(cyclingVideoEl); }
         else { tryPause(ryeVideoEl); tryPause(cyclingVideoEl); }
         if (snapped === 8) tryPlay(divingboardVideoEl); else tryPause(divingboardVideoEl);
 
-        if (snapped === 4) {
-            if (window.pixelsCarouselStart) window.pixelsCarouselStart();
-        } else {
-            if (window.pixelsCarouselStop) window.pixelsCarouselStop();
-            document.querySelectorAll('.pixels-vid').forEach(v => v.pause());
+        const presentIframe = document.getElementById('present-iframe');
+        if (snapped === 9 && presentIframe && presentIframe.dataset.src) {
+            presentIframe.src = presentIframe.dataset.src;
+            delete presentIframe.dataset.src;
         }
 
         lastSnappedPanel = snapped;
@@ -657,9 +658,6 @@ bolt6VideoEl        = document.getElementById('bolt6-video');
 chinatownVideoEl    = document.getElementById('chinatown-video');
 pixelsVideoEl       = document.getElementById('pixels-video');
 
-// 44 Pixels — play all grid videos when panel is active
-window.pixelsCarouselStart = () => document.querySelectorAll('.pixels-vid').forEach(v => v.play().catch(() => {}));
-window.pixelsCarouselStop  = () => {};
 divingboardVideoEl  = document.getElementById('divingboard-video');
 cyclingVideoEl      = document.getElementById('cycling-video');
 ryeVideoEl          = document.getElementById('rye-video');
@@ -794,6 +792,24 @@ function collapsePanel() {
         renderAt(visualPos);
     }, 450);
 }
+
+// Showreel expand/collapse
+document.getElementById('showreel-expand').addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isExpanded = panels[0].classList.contains('expanded');
+    panels[0].classList.toggle('expanded');
+    if (!isExpanded) {
+        panels.forEach(p => p.classList.remove('active'));
+        panels[0].classList.add('active');
+        targetPos = 0;
+        visualPos = 0;
+        lastSnappedPanel = 0;
+        typewriteTitle(panelTitles[0]);
+        expandPanel(0);
+    } else {
+        collapsePanel();
+    }
+});
 
 // Rye Lane expand/collapse
 document.getElementById('rye-expand').addEventListener('click', (e) => {
@@ -1008,7 +1024,10 @@ mythForm.addEventListener('submit', (e) => {
             mythDismissed = true;
             document.getElementById('myth-content').classList.add('revealed');
             mythVideos = Array.from(document.querySelectorAll('.myth-video'));
-            mythVideos.forEach(v => v.play());
+            mythVideos.forEach(v => {
+                if (v.dataset.src) { v.src = v.dataset.src; delete v.dataset.src; }
+                v.play().catch(() => {});
+            });
             renderAt(visualPos);
         }, 1000);
     } else {

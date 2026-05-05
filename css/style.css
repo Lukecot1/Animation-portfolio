@@ -367,6 +367,7 @@ body {
 .panel[data-index="5"].active:not(.expanded) .showreel-inner.side .showreel-meta,
 .panel[data-index="7"].active:not(.expanded) .showreel-inner.side .showreel-meta {
     width: 100%;
+    flex: none;
 }
 
 .panel[data-index="5"].active:not(.expanded) .showreel-video-wrap.square {
@@ -589,8 +590,10 @@ video::-webkit-media-controls-start-playback-button {
     font-size: 20px;
     font-weight: 400;
     -webkit-font-smoothing: antialiased;
-    overflow-wrap: break-word;
     min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .showreel-sub {
@@ -621,6 +624,9 @@ video::-webkit-media-controls-start-playback-button {
     letter-spacing: 0.08em;
     text-transform: uppercase;
     -webkit-font-smoothing: antialiased;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .panel.active:not(.expanded) .tab-type {
@@ -630,6 +636,11 @@ video::-webkit-media-controls-start-playback-button {
 .panel.active:not(.expanded) .showreel-title {
     display: none;
 }
+
+/* Showreel panel — dark text on grey background */
+.panel[data-index="0"] .tab-type      { color: rgba(0, 0, 0, 0.45); }
+.panel[data-index="0"] .showreel-title { color: #000; }
+.panel[data-index="0"] .showreel-sub   { color: rgba(0, 0, 0, 0.55); }
 
 /* TEAM GRID */
 
@@ -1182,7 +1193,7 @@ video::-webkit-media-controls-start-playback-button {
         aspect-ratio: unset !important;
         min-height: 0 !important;
     }
-    .showreel-inner > .showreel-meta { margin-top: 12px; flex-shrink: 1; overflow: hidden; }
+    .showreel-inner > .showreel-meta { margin-top: 12px; flex: 1; overflow: hidden; }
     .showreel-title { font-size: 15px; }
     .showreel-sub   { font-size: 12px; }
     .panel.expanded .showreel-inner > .showreel-meta { overflow: visible; flex-shrink: 0; }
@@ -1195,7 +1206,25 @@ video::-webkit-media-controls-start-playback-button {
         height: clamp(60px, 18vh, 150px);
     }
     .pixels-inner .showreel-meta { flex-shrink: 1; overflow: hidden; margin-top: 8px; }
-    .panel.expanded .pixels-inner .showreel-meta { overflow: visible; flex-shrink: 0; }
+
+    /* 44 Pixels expanded — stack column in portrait */
+    .panel[data-index="4"].expanded .pixels-inner {
+        flex-direction: column !important;
+        align-items: stretch;
+    }
+    .panel[data-index="4"].expanded .pixels-inner .showreel-video-wrap {
+        flex: 0 0 auto !important;
+        width: 100% !important;
+        aspect-ratio: 16 / 9;
+        min-height: unset;
+        align-self: auto;
+    }
+    .panel[data-index="4"].expanded .pixels-inner .showreel-meta {
+        flex: 1;
+        min-width: 0;
+        overflow: hidden;
+        justify-content: flex-start;
+    }
 
     /* Side layouts → stack to column, video natural ratio, text fills remaining space */
     .showreel-inner.side            { flex-direction: column; gap: 10px; align-items: stretch; }
@@ -1204,8 +1233,20 @@ video::-webkit-media-controls-start-playback-button {
     .showreel-inner.side .showreel-meta .showreel-sub { font-size: 12px; }
     .panel.expanded .showreel-inner.side .showreel-meta { overflow: visible; }
 
-    /* 44 Pixels — show description text in portrait */
-    .panel[data-index="4"].active:not(.expanded) .showreel-sub { display: block; }
+    /* Show description text in portrait for panels with empty space below video */
+    .panel[data-index="0"].active:not(.expanded) .showreel-sub,
+    .panel[data-index="1"].active:not(.expanded) .showreel-sub,
+    .panel[data-index="3"].active:not(.expanded) .showreel-sub,
+    .panel[data-index="4"].active:not(.expanded) .showreel-sub,
+    .panel[data-index="9"].active:not(.expanded) .showreel-sub { display: block; }
+
+    /* Cookies + Bolt 6 unexpanded — wrapper fills remaining space, clips overflow */
+    .panel[data-index="1"].active:not(.expanded) .cookies-right,
+    .panel[data-index="3"].active:not(.expanded) .bolt6-right {
+        flex: 1;
+        min-height: 0;
+        overflow: hidden;
+    }
 
     /* Cookies expanded — stack video above content in portrait */
     .panel[data-index="1"].expanded #cookies-inner {
@@ -1214,7 +1255,7 @@ video::-webkit-media-controls-start-playback-button {
     .panel[data-index="1"].expanded #cookies-inner .showreel-video-wrap {
         flex: 0 0 auto !important;
         width: 100% !important;
-        aspect-ratio: 9 / 16;
+        aspect-ratio: 16 / 9;
         min-height: unset;
     }
     .panel[data-index="1"].expanded .cookies-right {
@@ -1223,6 +1264,25 @@ video::-webkit-media-controls-start-playback-button {
     }
     .showreel-video-wrap.square,
     .showreel-video-wrap.portrait   { width: 100% !important; aspect-ratio: unset; align-self: auto; }
+
+    /* Bolt 6 expanded — stack column in portrait */
+    .panel[data-index="3"].expanded .showreel-inner {
+        flex-direction: column !important;
+        align-items: stretch;
+    }
+    .panel[data-index="3"].expanded .showreel-video-wrap {
+        flex: 0 0 auto !important;
+        width: 100% !important;
+        aspect-ratio: 16 / 9;
+        min-height: unset;
+        align-self: auto;
+    }
+    .panel[data-index="3"].expanded .bolt6-right {
+        flex: 1 !important;
+        min-height: 0;
+        overflow-y: auto;
+        justify-content: flex-start;
+    }
 
     /* Rye Lane portrait — videos stay side by side */
     .rye-videos {
