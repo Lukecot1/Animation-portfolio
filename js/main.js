@@ -231,7 +231,7 @@ function renderAt(prog) {
         if (!jellycatVideoEl.muted) { jellycatVideoEl.muted = true; const vb = document.getElementById('jellycat-vol'); if (vb) vb.classList.remove('unmuted'); }
     }
 
-    if (bolt6VideoEl && Math.abs(clamped - 3) > 0) {
+    if (bolt6VideoEl && Math.abs(clamped - 4) > 0) {
         if (!bolt6VideoEl.paused) bolt6VideoEl.pause();
         if (!bolt6VideoEl.muted) { bolt6VideoEl.muted = true; const vb = document.getElementById('bolt6-vol'); if (vb) vb.classList.remove('unmuted'); }
     }
@@ -245,12 +245,7 @@ function renderAt(prog) {
         }
     }
 
-    if (Math.abs(clamped - 4) > 0) {
-        if (window.pixelsCarouselStop) window.pixelsCarouselStop();
-        document.querySelectorAll('.pixels-vid').forEach(v => { if (!v.paused) v.pause(); });
-    }
-
-    if (pixelsVideoEl && Math.abs(clamped - 4) > 0) {
+    if (pixelsVideoEl && Math.abs(clamped - 3) > 0) {
         if (!pixelsVideoEl.paused) pixelsVideoEl.pause();
         if (!pixelsVideoEl.muted) { pixelsVideoEl.muted = true; const vb = document.getElementById('pixels-vol'); if (vb) vb.classList.remove('unmuted'); }
     }
@@ -424,7 +419,6 @@ window.addEventListener('touchend', (e) => {
         };
         if (snapped === 7) { safePlay(ryeVideoEl); safePlay(cyclingVideoEl); }
         if (snapped === 8) { safePlay(divingboardVideoEl); }
-        if (snapped === 4) { if (window.pixelsCarouselStart) window.pixelsCarouselStart(); }
     }
 });
 
