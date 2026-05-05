@@ -881,19 +881,19 @@ video::-webkit-media-controls-start-playback-button {
 
 /* BOLT 6 EXPANDED — side-by-side */
 
-.panel[data-index="3"].expanded .showreel-inner {
+.panel[data-index="__TMP__"].expanded .showreel-inner {
     flex-direction: row;
     align-items: stretch;
     gap: clamp(16px, 2.5vw, 40px);
 }
 
-.panel[data-index="3"].expanded .showreel-video-wrap {
+.panel[data-index="__TMP__"].expanded .showreel-video-wrap {
     flex: 0 0 min(44%, 460px);
     align-self: stretch;
     min-height: 0;
 }
 
-.panel[data-index="3"].expanded .bolt6-right {
+.panel[data-index="__TMP__"].expanded .bolt6-right {
     flex: 1;
     min-width: 0;
     overflow-y: auto;
@@ -901,7 +901,7 @@ video::-webkit-media-controls-start-playback-button {
     justify-content: center;
 }
 
-.panel[data-index="3"].expanded .bolt6-right::-webkit-scrollbar { display: none; }
+.panel[data-index="__TMP__"].expanded .bolt6-right::-webkit-scrollbar { display: none; }
 
 /* 44 PIXELS EXPANDED — video left, meta right */
 
@@ -1233,13 +1233,13 @@ video::-webkit-media-controls-start-playback-button {
     /* Show description text in portrait for panels with empty space below video */
     .panel[data-index="0"].active:not(.expanded) .showreel-sub,
     .panel[data-index="1"].active:not(.expanded) .showreel-sub,
-    .panel[data-index="3"].active:not(.expanded) .showreel-sub,
+    .panel[data-index="__TMP__"].active:not(.expanded) .showreel-sub,
     .panel[data-index="4"].active:not(.expanded) .showreel-sub,
     .panel[data-index="9"].active:not(.expanded) .showreel-sub { display: block; }
 
     /* Cookies + Bolt 6 unexpanded — wrapper fills remaining space, clips overflow */
     .panel[data-index="1"].active:not(.expanded) .cookies-right,
-    .panel[data-index="3"].active:not(.expanded) .bolt6-right {
+    .panel[data-index="__TMP__"].active:not(.expanded) .bolt6-right {
         flex: 1;
         min-height: 0;
         overflow: hidden;
@@ -1263,18 +1263,18 @@ video::-webkit-media-controls-start-playback-button {
     .showreel-video-wrap.portrait   { width: 100% !important; aspect-ratio: unset; align-self: auto; }
 
     /* Bolt 6 expanded — stack column in portrait */
-    .panel[data-index="3"].expanded .showreel-inner {
+    .panel[data-index="__TMP__"].expanded .showreel-inner {
         flex-direction: column !important;
         align-items: stretch;
     }
-    .panel[data-index="3"].expanded .showreel-video-wrap {
+    .panel[data-index="__TMP__"].expanded .showreel-video-wrap {
         flex: 0 0 auto !important;
         width: 100% !important;
         aspect-ratio: 16 / 9;
         min-height: unset;
         align-self: auto;
     }
-    .panel[data-index="3"].expanded .bolt6-right {
+    .panel[data-index="__TMP__"].expanded .bolt6-right {
         flex: 1 !important;
         min-height: 0;
         overflow-y: auto;

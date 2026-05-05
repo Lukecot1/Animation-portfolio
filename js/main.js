@@ -111,8 +111,8 @@ const panelTitles = [
     'Showreel',                  // 0
     'Do you accept cookies?',    // 1
     'JellyCat',                  // 2
-    'Bolt 6',                    // 3
-    '44 Pixels',                 // 4
+    '44 Pixels',                 // 3
+    'Bolt 6',                    // 4
     'China Town',                // 5
     'Myth Studio',               // 6
     'Rye Lane Bagels',           // 7
@@ -345,8 +345,8 @@ function onSettled() {
         if (snapped === 0) tryPlay(showreelVideoEl); else tryPause(showreelVideoEl);
         if (snapped === 1) tryPlay(cookiesVideoEl);  else tryPause(cookiesVideoEl);
         if (snapped === 2) tryPlay(jellycatVideoEl); else tryPause(jellycatVideoEl);
-        if (snapped === 3) tryPlay(bolt6VideoEl);    else tryPause(bolt6VideoEl);
-        if (snapped === 4) tryPlay(pixelsVideoEl);   else tryPause(pixelsVideoEl);
+        if (snapped === 3) tryPlay(pixelsVideoEl);   else tryPause(pixelsVideoEl);
+        if (snapped === 4) tryPlay(bolt6VideoEl);    else tryPause(bolt6VideoEl);
         if (snapped === 5) tryPlay(chinatownVideoEl);else tryPause(chinatownVideoEl);
         if (snapped === 7) { tryPlay(ryeVideoEl); tryPlay(cyclingVideoEl); }
         else { tryPause(ryeVideoEl); tryPause(cyclingVideoEl); }
@@ -725,7 +725,7 @@ const videoWraps = Array.from(document.querySelectorAll('.showreel-video-wrap'))
 setupPlayBtn(showreelVideoEl,    document.getElementById('showreel-play-btn'),   videoWraps[0]);
 setupPlayBtn(cookiesVideoEl,     document.getElementById('cookies-play-btn'),    videoWraps[1]);
 setupPlayBtn(jellycatVideoEl,    document.getElementById('jellycat-play-btn'),   videoWraps[2]);
-setupPlayBtn(bolt6VideoEl,       document.getElementById('bolt6-play-btn'),      videoWraps[3]);
+setupPlayBtn(bolt6VideoEl,       document.getElementById('bolt6-play-btn'),      videoWraps[4]);
 setupPlayBtn(ryeVideoEl,         document.getElementById('rye-play-btn'),        videoWraps[5]);
 setupPlayBtn(cyclingVideoEl,     document.getElementById('cycling-play-btn'),    videoWraps[6]);
 setupPlayBtn(divingboardVideoEl, document.getElementById('divingboard-play-btn'),videoWraps[7]);
@@ -933,16 +933,16 @@ function loadBolt6Rives() {
 
 document.getElementById('bolt6-expand').addEventListener('click', (e) => {
     e.stopPropagation();
-    const isExpanded = panels[3].classList.contains('expanded');
-    panels[3].classList.toggle('expanded');
+    const isExpanded = panels[4].classList.contains('expanded');
+    panels[4].classList.toggle('expanded');
     if (!isExpanded) {
         panels.forEach(p => p.classList.remove('active'));
-        panels[3].classList.add('active');
-        targetPos = 3;
-        visualPos = 3;
-        lastSnappedPanel = 3;
-        typewriteTitle(panelTitles[3]);
-        expandPanel(3);
+        panels[4].classList.add('active');
+        targetPos = 4;
+        visualPos = 4;
+        lastSnappedPanel = 4;
+        typewriteTitle(panelTitles[4]);
+        expandPanel(4);
         loadBolt6Rives();
     } else {
         collapsePanel();
@@ -988,16 +988,16 @@ document.getElementById('cookies-expand').addEventListener('click', (e) => {
 // 44 Pixels expand/collapse
 document.getElementById('pixels-expand').addEventListener('click', (e) => {
     e.stopPropagation();
-    const isExpanded = panels[4].classList.contains('expanded');
-    panels[4].classList.toggle('expanded');
+    const isExpanded = panels[3].classList.contains('expanded');
+    panels[3].classList.toggle('expanded');
     if (!isExpanded) {
         panels.forEach(p => p.classList.remove('active'));
-        panels[4].classList.add('active');
-        targetPos = 4;
-        visualPos = 4;
-        lastSnappedPanel = 4;
-        typewriteTitle(panelTitles[4]);
-        expandPanel(4);
+        panels[3].classList.add('active');
+        targetPos = 3;
+        visualPos = 3;
+        lastSnappedPanel = 3;
+        typewriteTitle(panelTitles[3]);
+        expandPanel(3);
     } else {
         collapsePanel();
     }
