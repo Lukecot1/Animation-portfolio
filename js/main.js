@@ -2,60 +2,58 @@
 const cursorEl    = document.getElementById('cursor');
 const cursorShape = document.getElementById('cursor-shape');
 
-// 12-point shapes — same index order (clockwise from top) so lerp looks clean
+// 12-point shapes in viewBox -4..4 (clockwise from top)
 const CURSOR_CIRCLE = [
-    [0,-11],[5.5,-9.53],[9.53,-5.5],[11,0],
-    [9.53,5.5],[5.5,9.53],[0,11],[-5.5,9.53],
-    [-9.53,5.5],[-11,0],[-9.53,-5.5],[-5.5,-9.53]
+    [0,-3.5],[1.75,-3.03],[3.03,-1.75],[3.5,0],
+    [3.03,1.75],[1.75,3.03],[0,3.5],[-1.75,3.03],
+    [-3.03,1.75],[-3.5,0],[-3.03,-1.75],[-1.75,-3.03]
 ];
-// Triangle: 4 pts bunched at each of 3 vertices
-const CURSOR_TRI = [
-    [0,-11],[0,-11],[0,-11],[0,-11],
-    [9.53,5.5],[9.53,5.5],[9.53,5.5],[9.53,5.5],
-    [-9.53,5.5],[-9.53,5.5],[-9.53,5.5],[-9.53,5.5]
+const CURSOR_TRI = [   // 4 pts per vertex
+    [0,-4],[0,-4],[0,-4],[0,-4],
+    [3.46,2],[3.46,2],[3.46,2],[3.46,2],
+    [-3.46,2],[-3.46,2],[-3.46,2],[-3.46,2]
 ];
-// Square: 3 pts bunched at each of 4 corners
-const CURSOR_SQ = [
-    [10,-10],[10,-10],[10,-10],
-    [10,10],[10,10],[10,10],
-    [-10,10],[-10,10],[-10,10],
-    [-10,-10],[-10,-10],[-10,-10]
+const CURSOR_SQ = [    // 3 pts per corner
+    [3,-3],[3,-3],[3,-3],
+    [3,3],[3,3],[3,3],
+    [-3,3],[-3,3],[-3,3],
+    [-3,-3],[-3,-3],[-3,-3]
 ];
 
-let cursorPts     = CURSOR_CIRCLE.map(p => [...p]);
-let cursorMorphT  = 0;
-let cursorHover   = false;
-let cursorLastT   = null;
+let cursorPts    = CURSOR_CIRCLE.map(p => [...p]);
+let cursorTarget = CURSOR_CIRCLE;
+let cursorHover  = false;
+let nextShape    = 'tri'; // cycles tri → sq → tri on each new hover
+let cursorLastT  = null;
 
-function cursorEase(t) { return t < 0.5 ? 2*t*t : -1+(4-2*t)*t; }
 function cursorLerpPt(a, b, t) { return [a[0]+(b[0]-a[0])*t, a[1]+(b[1]-a[1])*t]; }
 
 window.addEventListener('mousemove', e => {
     cursorEl.style.left = e.clientX + 'px';
     cursorEl.style.top  = e.clientY + 'px';
 });
+
 document.addEventListener('mouseover', e => {
-    cursorHover = !!e.target.closest('a, button, .panel');
-    cursorEl.classList.toggle('cursor--hover', cursorHover);
+    const hit = !!e.target.closest('a, button, .panel');
+    if (hit && !cursorHover) {
+        // Snap immediately to triangle or square, then toggle for next time
+        const snapPts = nextShape === 'tri' ? CURSOR_TRI : CURSOR_SQ;
+        cursorPts    = snapPts.map(p => [...p]);
+        cursorTarget = snapPts;
+        nextShape    = nextShape === 'tri' ? 'sq' : 'tri';
+    } else if (!hit && cursorHover) {
+        cursorTarget = CURSOR_CIRCLE;
+    }
+    cursorHover = hit;
+    cursorEl.classList.toggle('cursor--hover', hit);
 });
 
 function cursorTick(now) {
     const dt = cursorLastT ? Math.min((now - cursorLastT) / 1000, 0.05) : 0.016;
     cursorLastT = now;
 
-    let target;
-    if (cursorHover) {
-        cursorMorphT = (cursorMorphT + dt * 0.65) % 2; // ~3s full cycle
-        const ping = cursorMorphT < 1 ? cursorMorphT : 2 - cursorMorphT;
-        const e = cursorEase(ping);
-        target = CURSOR_TRI.map((tp, i) => cursorLerpPt(tp, CURSOR_SQ[i], e));
-    } else {
-        cursorMorphT = 0;
-        target = CURSOR_CIRCLE;
-    }
-
-    const speed = 1 - Math.exp(-10 * dt);
-    cursorPts = cursorPts.map((cp, i) => cursorLerpPt(cp, target[i], speed));
+    const speed = 1 - Math.exp(-10 * dt); // smooth return to circle
+    cursorPts = cursorPts.map((cp, i) => cursorLerpPt(cp, cursorTarget[i], speed));
 
     if (cursorShape) {
         cursorShape.setAttribute('points',
