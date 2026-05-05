@@ -110,15 +110,15 @@ function renderWidths(fromIdx, toIdx, progress) {
         if (i === fromIdx) {
             grow   = 1 - progress;
             basis  = progress >= 1 ? closed : 0;
-            radius = 24 + (20 - 24) * progress;
+            radius = 24 + (99 - 24) * progress;
         } else if (toIdx >= 0 && i === toIdx) {
             grow   = progress;
             basis  = 0;
-            radius = 20 + (24 - 20) * progress;
+            radius = 99 + (24 - 99) * progress;
         } else {
             grow   = 0;
             basis  = closed + (i === hoveredPanelIndex ? 24 : 0);
-            radius = 20;
+            radius = 99;
         }
 
         panel.style.flexGrow     = grow;

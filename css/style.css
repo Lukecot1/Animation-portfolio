@@ -352,7 +352,12 @@ body {
     gap: clamp(16px, 2.5vw, 40px);
 }
 
-.panel[data-index="5"].active:not(.expanded) .showreel-inner.side,
+.panel[data-index="5"].active:not(.expanded) .showreel-inner.side {
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
 .panel[data-index="7"].active:not(.expanded) .showreel-inner.side {
     flex-direction: column;
     align-items: center;
@@ -368,6 +373,7 @@ body {
     flex: none;
     max-height: 48vh;
     width: auto;
+    align-self: center;
 }
 
 .showreel-inner.side .showreel-video-wrap {
@@ -407,7 +413,7 @@ body {
     width: 100%;
     flex: 1;
     min-height: 0;
-    border-radius: 99px;
+    border-radius: 12px;
     overflow: hidden;
     cursor: pointer;
 }
@@ -417,7 +423,7 @@ body {
     inset: 0;
     z-index: 2;
     cursor: pointer;
-    border-radius: 99px;
+    border-radius: 12px;
 }
 
 .vimeo-wrap #present-iframe {
@@ -426,7 +432,7 @@ body {
     width: 100%;
     height: 100%;
     border: none;
-    border-radius: 99px;
+    border-radius: 12px;
 }
 
 .showreel-video-wrap.portrait {
@@ -952,7 +958,7 @@ video::-webkit-media-controls-start-playback-button {
 
 .myth-video-wrap {
     position: relative;
-    border-radius: 99px;
+    border-radius: 8px;
     overflow: hidden;
     min-height: 0;
 }
@@ -1169,7 +1175,7 @@ video::-webkit-media-controls-start-playback-button {
         width: 100%;
         aspect-ratio: 16 / 9;
         min-height: unset;
-        border-radius: 99px;
+        border-radius: 10px;
     }
     #divingboard-wrap {
         flex: 1 !important;
