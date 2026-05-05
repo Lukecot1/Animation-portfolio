@@ -288,6 +288,23 @@ function renderAt(prog) {
     }
 }
 
+function preloadPanel(idx) {
+    if (idx < 0 || idx >= panels.length || idx === 6) return;
+    const videoMap = {
+        1: ['cookies-video'], 2: ['jellycat-video'], 3: ['pixels-video'],
+        4: ['bolt6-video'],   5: ['chinatown-video'], 7: ['rye-video', 'cycling-video'],
+        8: ['divingboard-video'],
+    };
+    (videoMap[idx] || []).forEach(id => {
+        const v = document.getElementById(id);
+        if (v && v.dataset.src) { v.src = v.dataset.src; delete v.dataset.src; }
+    });
+    if (idx === 9) {
+        const iframe = document.getElementById('present-iframe');
+        if (iframe && iframe.dataset.src) { iframe.src = iframe.dataset.src; delete iframe.dataset.src; }
+    }
+}
+
 // --- Lerp animation loop ---
 
 function animTick(now) {
@@ -355,6 +372,9 @@ function onSettled() {
 
         lastSnappedPanel = snapped;
         position = snapped;
+
+        preloadPanel(snapped - 1);
+        preloadPanel(snapped + 1);
     }
 }
 
@@ -631,7 +651,7 @@ const loaderRive = new rive.Rive({
 });
 
 const pageLoaded = new Promise(res => window.addEventListener('load', res));
-const minDelay   = new Promise(res => setTimeout(res, 3000));
+const minDelay   = new Promise(res => setTimeout(res, 1500));
 
 const loaderCanvas = document.getElementById('loader-canvas');
 

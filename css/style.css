@@ -611,6 +611,12 @@ video::-webkit-media-controls-start-playback-button {
     text-underline-offset: 3px;
 }
 
+/* PORTRAIT TAB LABELS */
+
+.panel-label {
+    display: none;
+}
+
 /* TAB TYPE LABELS */
 
 .tab-type {
@@ -1322,6 +1328,26 @@ video::-webkit-media-controls-start-playback-button {
 
     /* Vimeo */
     .vimeo-wrap { flex: 0 0 auto; }
+
+    /* Portrait tab labels — shown on inactive collapsed strips */
+    .panel:not(.active) .panel-label {
+        display: block;
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 20px;
+        line-height: 20px;
+        padding: 0 10px;
+        font-size: 10px;
+        font-weight: 400;
+        color: rgba(255, 255, 255, 0.8);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        pointer-events: none;
+        z-index: 3;
+        -webkit-font-smoothing: antialiased;
+    }
+    .panel[data-index="0"]:not(.active) .panel-label { color: rgba(0, 0, 0, 0.6); }
 }
 
 /* ─── PHONE (≤430px) ─── */
@@ -1335,4 +1361,5 @@ video::-webkit-media-controls-start-playback-button {
     .panel.expanded .style-frames { grid-template-columns: 1fr 1fr; }
     .bolt6-rive-canvas { width: 140px; height: 140px; }
     #jellycat-frames   { grid-template-columns: repeat(2, 1fr); }
+    .panel:not(.active) .panel-label { height: 10px; line-height: 10px; font-size: 8px; }
 }
