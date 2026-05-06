@@ -351,9 +351,21 @@ function onSettled() {
         const tryPause = v => { if (v && !v.paused) v.pause(); };
         const tryPlay = v => {
             if (!v) return;
-            if (v.dataset.src) { v.src = v.dataset.src; delete v.dataset.src; }
-            if (v.error || (!v.src && !v.currentSrc)) { v.load(); v.addEventListener('canplay', () => v.play().catch(() => {}), { once: true }); }
-            else v.play().catch(() => {});
+            if (v.dataset.src) {
+                v.src = v.dataset.src;
+                delete v.dataset.src;
+                v.load();
+                v.addEventListener('canplay', () => v.play().catch(() => {}), { once: true });
+                return;
+            }
+            if (v.error || (!v.src && !v.currentSrc)) {
+                v.load();
+                v.addEventListener('canplay', () => v.play().catch(() => {}), { once: true });
+            } else if (v.readyState < 3) {
+                v.addEventListener('canplay', () => v.play().catch(() => {}), { once: true });
+            } else {
+                v.play().catch(() => {});
+            }
         };
 
         if (snapped === 0) tryPlay(showreelVideoEl); else tryPause(showreelVideoEl);
@@ -433,13 +445,33 @@ window.addEventListener('touchend', (e) => {
     const snapped = Math.round(targetPos);
     moveTo(snapped);
     if (!e.target.closest('button, a')) {
+        // Call play() directly here while we still have user-activation context
         const safePlay = v => {
             if (!v) return;
-            if (v.error) { v.load(); }
-            v.play().catch(() => {});
+            if (v.dataset.src) {
+                v.src = v.dataset.src;
+                delete v.dataset.src;
+                v.load();
+                v.addEventListener('canplay', () => v.play().catch(() => {}), { once: true });
+                return;
+            }
+            if (v.readyState < 3) {
+                v.addEventListener('canplay', () => v.play().catch(() => {}), { once: true });
+            } else {
+                v.play().catch(() => {});
+            }
         };
-        if (snapped === 7) { safePlay(ryeVideoEl); safePlay(cyclingVideoEl); }
-        if (snapped === 8) { safePlay(divingboardVideoEl); }
+        const videosByPanel = {
+            0: [showreelVideoEl],
+            1: [cookiesVideoEl],
+            2: [jellycatVideoEl],
+            3: [pixelsVideoEl],
+            4: [bolt6VideoEl],
+            5: [chinatownVideoEl],
+            7: [ryeVideoEl, cyclingVideoEl],
+            8: [divingboardVideoEl],
+        };
+        (videosByPanel[snapped] || []).forEach(safePlay);
     }
 });
 
@@ -455,6 +487,7 @@ panels.forEach((panel, i) => {
         if (panel.classList.contains('active')) return;
         panelSprings[i].target = 0;
         startSpring();
+        preloadPanel(i);
         goTo(i);
     });
 });
