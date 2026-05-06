@@ -1191,6 +1191,7 @@ video::-webkit-media-controls-start-playback-button {
         min-height: 0 !important;
     }
     .showreel-inner > .showreel-meta { margin-top: 12px; flex: 1; overflow: hidden; }
+    .showreel-inner > .showreel-meta .tab-type { flex-shrink: 0; position: relative; }
     .showreel-title { font-size: 15px; }
     .showreel-sub   { font-size: 12px; }
     .panel.expanded .showreel-inner > .showreel-meta { overflow: visible; flex-shrink: 0; }

@@ -199,13 +199,14 @@ function renderAt(prog) {
     if (t < 0.0001) renderWidths(fromIdx, -1, 0);
     else             renderWidths(fromIdx, fromIdx + 1, t);
 
-    // Content scale + opacity driven by scroll position
+    // Content opacity (+ scale on landscape only) driven by scroll position
+    const portrait = isPortrait();
     panels.forEach((panel, i) => {
         const inner = panel.querySelector('.panel-inner:not(.myth-content-inner)');
         if (!inner) return;
         const p = Math.max(0, 1 - Math.abs(clamped - i));
         inner.style.opacity   = p;
-        inner.style.transform = `scale(${0.88 + 0.12 * p})`;
+        inner.style.transform = portrait ? '' : `scale(${0.88 + 0.12 * p})`;
     });
 
     if (showreelVideoEl && clamped > 0) {
