@@ -93,7 +93,7 @@ body {
 
 .nav {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     flex-shrink: 0;
     padding-bottom: 16px;
     position: relative;
@@ -181,7 +181,6 @@ body {
     width: 147px;
     height: 40px;
     flex-shrink: 0;
-    align-self: center;
     margin: 0;
     padding: 0;
     touch-action: manipulation;
