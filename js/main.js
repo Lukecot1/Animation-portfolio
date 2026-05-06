@@ -478,7 +478,7 @@ mobileClose.addEventListener('click', closeMobileMenu);
 document.getElementById('mob-linkedin').addEventListener('click', (e) => {
     e.preventDefault();
     closeMobileMenu();
-    window.open('#', '_blank');
+    window.open('https://www.linkedin.com/in/luke-cottrell-/', '_blank');
 });
 document.getElementById('mob-instagram').addEventListener('click', (e) => {
     e.preventDefault();
