@@ -70,6 +70,7 @@ const pageTitle = document.getElementById('page-title');
 
 let hoveredPanelIndex = -1;
 
+
 const CLOSED_W    = 20;
 const CLOSED_H    = 20;
 const CLOSED_H_PHONE = 10;
@@ -396,11 +397,10 @@ function moveTo(target) {
 window.addEventListener('wheel', onWheel, { passive: false, capture: true });
 
 function onWheel(e) {
-    if (!isPhone() || window.innerHeight <= window.innerWidth) return;
-    e.preventDefault();
-    e.stopImmediatePropagation();
     if (expandedPanelIndex >= 0) return;
     if (Math.abs(e.deltaY) < 2) return;
+    e.preventDefault();
+    e.stopImmediatePropagation();
 
     targetPos = Math.max(0, Math.min(panels.length - 1, targetPos + e.deltaY / SCROLL_SCALE));
     startAnim();
@@ -493,11 +493,10 @@ document.getElementById('mob-email').addEventListener('click', (e) => {
 
 // Panel hover spring
 const panelSprings = panels.map(() => ({ y: 0, vy: 0, target: 0 }));
-const SPRING_K = 300;
-const SPRING_D = 28;
+const SPRING_K = 180;
+const SPRING_D = 34;
 let hoverRafId = null;
 let hoverLastTime = null;
-const leaveTimers = panels.map(() => null);
 
 function springTick(now) {
     const dt = hoverLastTime !== null ? Math.min((now - hoverLastTime) / 1000, 0.05) : 1 / 60;
@@ -506,9 +505,7 @@ function springTick(now) {
     let anyActive = false;
     panels.forEach((panel, i) => {
         const s = panelSprings[i];
-        if (panel.classList.contains('active')) {
-            s.target = 0;
-        }
+        if (panel.classList.contains('active')) s.target = 0;
         const diff = s.target - s.y;
         if (Math.abs(diff) < 0.05 && Math.abs(s.vy) < 0.05) {
             s.y = s.target;
@@ -539,10 +536,13 @@ function startSpring() {
 }
 
 if (!window.matchMedia('(pointer: coarse)').matches) {
+    const tabRow = document.querySelector('.tab-row');
+    let tabRowLeaveTimer = null;
+
     panels.forEach((panel, i) => {
         panel.addEventListener('mouseenter', () => {
             if (isPortrait()) return;
-            clearTimeout(leaveTimers[i]);
+            clearTimeout(tabRowLeaveTimer);
             hoveredPanelIndex = i;
             renderAt(visualPos);
             if (panel.classList.contains('active')) return;
@@ -550,15 +550,16 @@ if (!window.matchMedia('(pointer: coarse)').matches) {
             startSpring();
         });
         panel.addEventListener('mouseleave', () => {
-            leaveTimers[i] = setTimeout(() => {
-                if (hoveredPanelIndex === i) {
-                    hoveredPanelIndex = -1;
-                    renderAt(visualPos);
-                }
-                panelSprings[i].target = 0;
-                startSpring();
-            }, 80);
+            panelSprings[i].target = 0;
+            startSpring();
         });
+    });
+
+    tabRow.addEventListener('mouseleave', () => {
+        tabRowLeaveTimer = setTimeout(() => {
+            hoveredPanelIndex = -1;
+            renderAt(visualPos);
+        }, 80);
     });
 }
 

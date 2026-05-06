@@ -286,7 +286,7 @@ body {
     border-radius: 24px;
     overflow: hidden;
     cursor: pointer;
-    transition: flex-basis 0.18s ease;
+    transition: none;
     position: relative;
     opacity: 0;
 }
@@ -359,13 +359,28 @@ body {
 .panel[data-index="7"].active:not(.expanded) .showreel-inner.side {
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
 }
 
 .panel[data-index="5"].active:not(.expanded) .showreel-inner.side .showreel-meta,
 .panel[data-index="7"].active:not(.expanded) .showreel-inner.side .showreel-meta {
     width: 100%;
     flex: none;
+}
+
+/* RYE LANE — fill available height, size videos from height not width */
+.panel[data-index="7"].active:not(.expanded) .rye-videos {
+    flex: 1;
+    min-height: 0;
+    align-self: stretch;
+    justify-content: center;
+}
+
+.panel[data-index="7"].active:not(.expanded) .rye-videos .showreel-video-wrap.portrait {
+    flex: 0 0 auto;
+    height: 100%;
+    width: auto;
+    max-height: none;
 }
 
 .panel[data-index="5"].active:not(.expanded) .showreel-video-wrap.square {
@@ -516,8 +531,7 @@ video::-webkit-media-controls-start-playback-button {
     width: 100%;
     height: 100%;
     display: block;
-    object-fit: contain;
-    background: #000;
+    object-fit: cover;
 }
 
 
@@ -880,44 +894,78 @@ video::-webkit-media-controls-start-playback-button {
     width: 100%;
 }
 
-/* BOLT 6 EXPANDED — side-by-side */
+/* BOLT 6 EXPANDED — text left, video + rive right */
 
-.panel[data-index="__TMP__"].expanded .showreel-inner {
+.panel[data-index="4"].expanded .showreel-inner {
     flex-direction: row;
-    align-items: stretch;
+    align-items: flex-start;
     gap: clamp(16px, 2.5vw, 40px);
 }
 
-.panel[data-index="__TMP__"].expanded .showreel-video-wrap {
-    flex: 0 0 min(44%, 460px);
+.panel[data-index="4"].expanded .showreel-inner > .showreel-meta {
+    flex: 1;
+    min-width: 0;
     align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+.panel[data-index="4"].expanded .showreel-inner > .showreel-meta::-webkit-scrollbar { display: none; }
+
+.panel[data-index="4"].expanded .bolt6-right {
+    flex: 1;
+    min-width: 0;
+    flex-direction: column;
+    gap: 16px;
+    align-self: flex-start;
+}
+
+.panel[data-index="4"].expanded .bolt6-right > .showreel-video-wrap {
+    flex: 0 0 auto;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+}
+
+/* BOLT 6 UNEXPANDED — video on top, meta below */
+
+.panel[data-index="4"]:not(.expanded) .bolt6-right {
+    order: 1;
+    flex: 1;
     min-height: 0;
 }
 
-.panel[data-index="__TMP__"].expanded .bolt6-right {
-    flex: 1;
-    min-width: 0;
-    overflow-y: auto;
-    scrollbar-width: none;
-    justify-content: center;
+.panel[data-index="4"]:not(.expanded) .showreel-inner > .showreel-meta {
+    order: 2;
+    flex: 0 0 auto;
 }
 
-.panel[data-index="__TMP__"].expanded .bolt6-right::-webkit-scrollbar { display: none; }
+.panel[data-index="4"]:not(.expanded) .bolt6-right > .showreel-video-wrap {
+    flex: 1;
+    min-height: 0;
+    width: auto;
+    max-width: 100%;
+    aspect-ratio: 16 / 9;
+    align-self: center;
+}
 
 /* 44 PIXELS EXPANDED — video left, meta right */
 
-.panel[data-index="4"].expanded .pixels-inner {
+.panel[data-index="3"].expanded .pixels-inner {
     flex-direction: row;
-    align-items: stretch;
+    align-items: center;
     gap: clamp(16px, 2.5vw, 40px);
 }
 
-.panel[data-index="4"].expanded .pixels-inner .showreel-video-wrap {
+.panel[data-index="3"].expanded .pixels-inner .showreel-video-wrap {
     flex: 0 0 min(58%, 780px);
-    align-self: stretch;
+    aspect-ratio: 16 / 9;
+    align-self: center;
 }
 
-.panel[data-index="4"].expanded .pixels-inner .showreel-meta {
+.panel[data-index="3"].expanded .pixels-inner .showreel-meta {
     flex: 1;
     min-width: 0;
     overflow-y: auto;
@@ -925,7 +973,27 @@ video::-webkit-media-controls-start-playback-button {
     justify-content: center;
 }
 
-.panel[data-index="4"].expanded .pixels-inner .showreel-meta::-webkit-scrollbar { display: none; }
+.panel[data-index="3"].expanded .pixels-inner .showreel-meta::-webkit-scrollbar { display: none; }
+
+/* 44 PIXELS UNEXPANDED — cap height on wide views so video doesn't balloon */
+.panel[data-index="3"]:not(.expanded) .pixels-inner > .showreel-video-wrap {
+    flex: 1;
+    min-height: 0;
+    width: auto;
+    max-width: 100%;
+    aspect-ratio: 16 / 9;
+    align-self: center;
+}
+
+/* SHOWREEL — keep video wrap proportional, no cropping on wide views */
+.panel[data-index="0"] .showreel-inner > .showreel-video-wrap {
+    flex: 1;
+    min-height: 0;
+    width: auto;
+    max-width: 100%;
+    aspect-ratio: 16 / 9;
+    align-self: center;
+}
 
 /* MYTH STUDIO VIDEOS */
 
@@ -1207,18 +1275,18 @@ video::-webkit-media-controls-start-playback-button {
     .pixels-inner .showreel-meta { flex-shrink: 1; overflow: hidden; margin-top: 8px; }
 
     /* 44 Pixels expanded — stack column in portrait */
-    .panel[data-index="4"].expanded .pixels-inner {
+    .panel[data-index="3"].expanded .pixels-inner {
         flex-direction: column !important;
         align-items: stretch;
     }
-    .panel[data-index="4"].expanded .pixels-inner .showreel-video-wrap {
+    .panel[data-index="3"].expanded .pixels-inner .showreel-video-wrap {
         flex: 0 0 auto !important;
         width: 100% !important;
         aspect-ratio: 16 / 9;
         min-height: unset;
         align-self: auto;
     }
-    .panel[data-index="4"].expanded .pixels-inner .showreel-meta {
+    .panel[data-index="3"].expanded .pixels-inner .showreel-meta {
         flex: 1;
         min-width: 0;
         overflow: hidden;
@@ -1235,13 +1303,11 @@ video::-webkit-media-controls-start-playback-button {
     /* Show description text in portrait for panels with empty space below video */
     .panel[data-index="0"].active:not(.expanded) .showreel-sub,
     .panel[data-index="1"].active:not(.expanded) .showreel-sub,
-    .panel[data-index="__TMP__"].active:not(.expanded) .showreel-sub,
     .panel[data-index="4"].active:not(.expanded) .showreel-sub,
     .panel[data-index="9"].active:not(.expanded) .showreel-sub { display: block; }
 
     /* Cookies + Bolt 6 unexpanded — wrapper fills remaining space, clips overflow */
-    .panel[data-index="1"].active:not(.expanded) .cookies-right,
-    .panel[data-index="__TMP__"].active:not(.expanded) .bolt6-right {
+    .panel[data-index="1"].active:not(.expanded) .cookies-right {
         flex: 1;
         min-height: 0;
         overflow: hidden;
@@ -1264,23 +1330,15 @@ video::-webkit-media-controls-start-playback-button {
     .showreel-video-wrap.square,
     .showreel-video-wrap.portrait   { width: 100% !important; aspect-ratio: unset; align-self: auto; }
 
-    /* Bolt 6 expanded — stack column in portrait */
-    .panel[data-index="__TMP__"].expanded .showreel-inner {
+    /* Bolt 6 expanded — stack to column in portrait */
+    .panel[data-index="4"].expanded .showreel-inner {
         flex-direction: column !important;
         align-items: stretch;
     }
-    .panel[data-index="__TMP__"].expanded .showreel-video-wrap {
-        flex: 0 0 auto !important;
-        width: 100% !important;
-        aspect-ratio: 16 / 9;
-        min-height: unset;
+    .panel[data-index="4"].expanded .showreel-inner > .showreel-meta {
+        overflow-y: visible;
+        max-height: none;
         align-self: auto;
-    }
-    .panel[data-index="__TMP__"].expanded .bolt6-right {
-        flex: 1 !important;
-        min-height: 0;
-        overflow-y: auto;
-        justify-content: flex-start;
     }
 
     /* Rye Lane portrait — videos stay side by side */
