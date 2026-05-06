@@ -1097,3 +1097,55 @@ mythForm.addEventListener('submit', (e) => {
     }
 });
 
+// ── Nav social wave animation ─────────────────────────────────────────────────
+(function () {
+    const AMPLITUDE = 5;   // px up/down
+    const SPEED     = 3.5; // radians per second
+    const PHASE     = 0.5; // radians between adjacent letters
+    const LERP      = 0.12; // per-frame lerp (smooth chase + smooth return)
+
+    document.querySelectorAll('.nav-social').forEach(link => {
+        // Wrap each character in an inline-block span
+        const chars = link.textContent.split('');
+        link.textContent = '';
+        const spans = chars.map(ch => {
+            const s = document.createElement('span');
+            s.style.display = 'inline-block';
+            s.textContent = ch === ' ' ? ' ' : ch;
+            link.appendChild(s);
+            return s;
+        });
+
+        const ys = new Float32Array(spans.length);
+        let rafId  = null;
+        let waving = false;
+
+        function tick(now) {
+            const t = now / 1000;
+            let allSettled = true;
+
+            spans.forEach((span, i) => {
+                const target = waving
+                    ? Math.sin(t * SPEED + i * PHASE) * AMPLITUDE
+                    : 0;
+                ys[i] += (target - ys[i]) * LERP;
+                span.style.transform = `translateY(${ys[i].toFixed(2)}px)`;
+                if (waving || Math.abs(ys[i]) > 0.05) allSettled = false;
+            });
+
+            if (allSettled) { rafId = null; return; }
+            rafId = requestAnimationFrame(tick);
+        }
+
+        link.addEventListener('mouseenter', () => {
+            waving = true;
+            if (!rafId) rafId = requestAnimationFrame(tick);
+        });
+
+        link.addEventListener('mouseleave', () => {
+            waving = false;
+            if (!rafId) rafId = requestAnimationFrame(tick);
+        });
+    });
+})();
+

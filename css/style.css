@@ -217,7 +217,7 @@ body {
     transition: opacity 0.2s ease;
 }
 
-.nav-social:hover { opacity: 0.5; }
+.nav-social span { will-change: transform; }
 
 .nav-divider {
     display: none;
@@ -1389,6 +1389,67 @@ video::-webkit-media-controls-start-playback-button {
     .panel[data-index="3"].active:not(.expanded) .pixels-inner .showreel-meta {
         overflow: hidden;
         flex-shrink: 1;
+        min-height: 0;
+    }
+
+    /* ── Showreel unexpanded portrait — video fills full 16:9 at panel width ── */
+    .panel[data-index="0"].active:not(.expanded) .showreel-inner > .showreel-video-wrap {
+        flex: 0 0 auto;
+        width: 100%;
+        align-self: auto;
+    }
+    .panel[data-index="0"].active:not(.expanded) .showreel-inner > .showreel-meta {
+        flex: 1;
+        min-height: 0;
+        overflow: hidden;
+    }
+
+    /* ── 44 Pixels hero video unexpanded portrait — full-width 16:9 ── */
+    .panel[data-index="3"].active:not(.expanded) .pixels-inner > .showreel-video-wrap {
+        flex: 0 0 auto;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        align-self: auto;
+    }
+
+    /* ── Bolt 6 unexpanded portrait — video full-width 16:9, rive hidden ── */
+    .panel[data-index="4"].active:not(.expanded) .bolt6-right {
+        flex: 0 0 auto;
+        width: 100%;
+    }
+    .panel[data-index="4"].active:not(.expanded) .bolt6-right > .showreel-video-wrap {
+        flex: 0 0 auto;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        align-self: auto;
+    }
+    .panel[data-index="4"].active:not(.expanded) .bolt6-rive-wrap {
+        display: none;
+    }
+    .panel[data-index="4"].active:not(.expanded) .showreel-inner > .showreel-meta {
+        flex: 1;
+        min-height: 0;
+        overflow: hidden;
+    }
+
+    /* ── Rye Lane unexpanded portrait — two portrait videos side by side ── */
+    .panel[data-index="7"].active:not(.expanded) .rye-videos {
+        flex: 0 0 auto;
+        height: auto;
+        min-height: unset;
+        align-items: stretch;
+        justify-content: center;
+    }
+    .panel[data-index="7"].active:not(.expanded) .rye-videos .showreel-video-wrap.portrait {
+        flex: 1;
+        aspect-ratio: 9 / 16;
+        height: auto !important;
+        width: auto !important;
+        min-width: 0;
+        align-self: auto;
+    }
+    .panel[data-index="7"].active:not(.expanded) .showreel-inner.side > .showreel-meta {
+        overflow: hidden;
         min-height: 0;
     }
 }
