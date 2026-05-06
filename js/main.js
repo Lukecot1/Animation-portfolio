@@ -583,6 +583,9 @@ function updateRiveFontSizes() {
 
 // Nav name Rive
 const navNameCanvas = document.getElementById('nav-name-canvas');
+const _dpr = window.devicePixelRatio || 1;
+navNameCanvas.width  = Math.round((navNameCanvas.offsetWidth  || 147) * _dpr);
+navNameCanvas.height = Math.round((navNameCanvas.offsetHeight || 40)  * _dpr);
 const navNameRive = new rive.Rive({
     src: 'Rive/LukeCottrell[Text].riv',
     canvas: navNameCanvas,
@@ -595,7 +598,7 @@ const navNameRive = new rive.Rive({
 navNameRive.on(rive.EventType.Load, () => {
     navFontSizeProp = navNameRive.viewModelInstance.number('fontsize');
     navFontSizeProp.value = getRiveFontSize();
-    requestAnimationFrame(() => navNameRive.resizeDrawingSurfaceToCanvas());
+    navNameRive.resizeDrawingSurfaceToCanvas();
 });
 window.addEventListener('resize', () => {
     navNameRive.resizeDrawingSurfaceToCanvas();
