@@ -475,6 +475,11 @@ function closeMobileMenu() { mobileMenu.classList.remove('open'); }
 burgerBtn.addEventListener('click', openMobileMenu);
 mobileClose.addEventListener('click', closeMobileMenu);
 
+document.getElementById('mob-linkedin').addEventListener('click', (e) => {
+    e.preventDefault();
+    closeMobileMenu();
+    window.open('#', '_blank');
+});
 document.getElementById('mob-instagram').addEventListener('click', (e) => {
     e.preventDefault();
     closeMobileMenu();
@@ -570,12 +575,10 @@ function getRiveFontSize() {
 }
 
 let navFontSizeProp = null;
-let contactFontSizeProp = null;
 
 function updateRiveFontSizes() {
     const size = getRiveFontSize();
     if (navFontSizeProp) navFontSizeProp.value = size;
-    if (contactFontSizeProp) contactFontSizeProp.value = size;
 }
 
 // Nav name Rive
@@ -598,26 +601,6 @@ window.addEventListener('resize', () => {
     navNameRive.resizeDrawingSurfaceToCanvas();
     updateRiveFontSizes();
 });
-
-// Contact Rive
-const contactRive = new rive.Rive({
-    src: 'Rive/Contact.riv',
-    canvas: document.getElementById('nav-contact-canvas'),
-    artboard: 'Contact',
-    stateMachines: 'State Machine 1',
-    autoplay: true,
-    autoBind: true,
-    layout: new rive.Layout({ fit: rive.Fit.Contain, alignment: rive.Alignment.TopRight }),
-});
-contactRive.on(rive.EventType.Load, () => {
-    const vmi = contactRive.viewModelInstance;
-    contactFontSizeProp = vmi.number('fontsize');
-    contactFontSizeProp.value = getRiveFontSize();
-    vmi.trigger('insta').on(() => window.open('https://www.instagram.com/lukecottrell_animation/', '_blank'));
-    vmi.trigger('mail').on(() => window.open('mailto:lukefgc@icloud.com', '_blank'));
-    requestAnimationFrame(() => contactRive.resizeDrawingSurfaceToCanvas());
-});
-window.addEventListener('resize', () => contactRive.resizeDrawingSurfaceToCanvas());
 
 // Loader
 const loaderEl = document.getElementById('loader');
