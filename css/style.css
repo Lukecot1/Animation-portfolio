@@ -1287,9 +1287,9 @@ video::-webkit-media-controls-start-playback-button {
         align-self: auto;
     }
     .panel[data-index="3"].expanded .pixels-inner .showreel-meta {
-        flex: 1;
+        flex: 0 0 auto;
         min-width: 0;
-        overflow: hidden;
+        overflow: visible;
         justify-content: flex-start;
     }
 
