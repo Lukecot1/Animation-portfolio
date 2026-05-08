@@ -291,7 +291,7 @@ function renderAt(prog) {
 }
 
 function preloadPanel(idx) {
-    if (idx < 0 || idx >= panels.length || idx === 6) return;
+    if (idx < 0 || idx >= panels.length) return;
     const videoMap = {
         1: ['cookies-video'], 2: ['jellycat-video'], 3: ['pixels-video'],
         4: ['bolt6-video'],   5: ['chinatown-video'], 7: ['rye-video', 'cycling-video'],
@@ -299,8 +299,13 @@ function preloadPanel(idx) {
     };
     (videoMap[idx] || []).forEach(id => {
         const v = document.getElementById(id);
-        if (v && v.dataset.src) { v.src = v.dataset.src; delete v.dataset.src; }
+        if (v && v.dataset.src) { v.src = v.dataset.src; delete v.dataset.src; v.load(); }
     });
+    if (idx === 6) {
+        document.querySelectorAll('.myth-video').forEach(v => {
+            if (v.dataset.src) { v.src = v.dataset.src; delete v.dataset.src; v.load(); }
+        });
+    }
     if (idx === 9) {
         const iframe = document.getElementById('present-iframe');
         if (iframe && iframe.dataset.src) { iframe.src = iframe.dataset.src; delete iframe.dataset.src; }
@@ -1136,15 +1141,17 @@ mythForm.addEventListener('submit', (e) => {
     if (mythInput.value === MYTH_PASSWORD) {
         mythLockEl.classList.add('unlocked');
         sessionStorage.setItem('myth-unlocked', '1');
+        // Start buffering immediately so videos are ready by the time the fade-in completes
+        mythVideos = Array.from(document.querySelectorAll('.myth-video'));
+        mythVideos.forEach(v => {
+            if (v.dataset.src) { v.src = v.dataset.src; delete v.dataset.src; }
+            v.load();
+        });
         setTimeout(() => {
             mythLockEl.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
             mythDismissed = true;
             document.getElementById('myth-content').classList.add('revealed');
-            mythVideos = Array.from(document.querySelectorAll('.myth-video'));
-            mythVideos.forEach(v => {
-                if (v.dataset.src) { v.src = v.dataset.src; delete v.dataset.src; }
-                v.play().catch(() => {});
-            });
+            mythVideos.forEach(v => { v.play().catch(() => {}); });
             renderAt(visualPos);
         }, 1000);
     } else {

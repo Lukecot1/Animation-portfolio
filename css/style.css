@@ -1404,8 +1404,25 @@ video::-webkit-media-controls-start-playback-button {
     .jellycat-right .showreel-meta { order: 1; }
     .panel.expanded .jellycat-inner { overflow-y: auto; }
 
-    /* Myth grid — 2 videos by default, push below expand button */
-    .myth-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: 1fr; margin-top: 36px; }
+    /* Myth Studio unexpanded portrait — fill height, clear expand button */
+    .panel[data-index="6"]:not(.expanded) .myth-content-inner {
+        overflow: hidden; /* prevent scroll fighting the flex height chain */
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        padding-top: 68px;
+    }
+    .panel[data-index="6"]:not(.expanded) .myth-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: 1fr;
+        margin-top: 0;
+        flex: 1;
+        min-height: 0;
+        height: 0; /* forces flex to control size, not grid content */
+    }
+    .panel[data-index="6"]:not(.expanded) .myth-video {
+        object-fit: cover; /* fill each cell — no letterbox gaps */
+    }
 
     /* Expanded myth — fill blank cell with last video spanning full width */
     .panel.expanded .myth-content-inner .myth-video-wrap:last-child { grid-column: span 2; }
