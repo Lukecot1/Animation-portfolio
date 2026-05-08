@@ -926,6 +926,30 @@ document.getElementById('rye-expand').addEventListener('click', (e) => {
 const mythGrid = document.querySelector('.myth-grid');
 const mythVideoWraps = document.querySelectorAll('.myth-video-wrap');
 
+// Myth spotlight — hover to enlarge
+(function () {
+    if (window.matchMedia('(pointer: coarse)').matches) return;
+    const spotlight = document.getElementById('myth-spotlight');
+    const spotVid   = document.getElementById('myth-spotlight-vid');
+    if (!spotlight || !spotVid) return;
+
+    mythVideoWraps.forEach(wrap => {
+        const vid = wrap.querySelector('.myth-video');
+        wrap.addEventListener('mouseenter', () => {
+            if (!panels[6].classList.contains('expanded')) return;
+            if (!vid || !vid.src) return;
+            spotVid.src = vid.src;
+            spotVid.currentTime = vid.currentTime;
+            spotVid.play().catch(() => {});
+            spotlight.classList.add('active');
+        });
+        wrap.addEventListener('mouseleave', () => {
+            spotlight.classList.remove('active');
+            spotVid.pause();
+        });
+    });
+})();
+
 document.getElementById('myth-expand').addEventListener('click', (e) => {
     e.stopPropagation();
     const isExpanded = panels[6].classList.contains('expanded');

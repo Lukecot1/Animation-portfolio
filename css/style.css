@@ -1105,6 +1105,46 @@ video::-webkit-media-controls-start-playback-button {
 
 .myth-video-wrap:hover .myth-play-btn { opacity: 1; }
 
+/* MYTH SPOTLIGHT */
+
+#myth-spotlight {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.82);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.22s ease;
+    z-index: 15;
+}
+
+#myth-spotlight.active {
+    opacity: 1;
+}
+
+.myth-spotlight-inner {
+    height: min(80%, 700px);
+    width: auto;
+    max-width: 88%;
+    border-radius: 12px;
+    overflow: hidden;
+    transform: scale(0.86);
+    transition: transform 0.38s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.55);
+}
+
+#myth-spotlight.active .myth-spotlight-inner {
+    transform: scale(1);
+}
+
+#myth-spotlight-vid {
+    height: 100%;
+    width: auto;
+    display: block;
+}
+
 /* PANEL LOCK */
 
 .panel-lock {
@@ -1432,23 +1472,23 @@ video::-webkit-media-controls-start-playback-button {
         overflow: hidden;
     }
 
-    /* ── Rye Lane unexpanded portrait — two portrait videos side by side ── */
+    /* ── Rye Lane unexpanded portrait — two portrait videos fill tab height ── */
     .panel[data-index="7"].active:not(.expanded) .rye-videos {
-        flex: 0 0 auto;
-        height: auto;
-        min-height: unset;
+        flex: 1;
+        min-height: 0;
         align-items: stretch;
         justify-content: center;
     }
     .panel[data-index="7"].active:not(.expanded) .rye-videos .showreel-video-wrap.portrait {
-        flex: 1;
-        aspect-ratio: 9 / 16;
-        height: auto !important;
+        flex: 0 0 auto;
+        height: 100%;
         width: auto !important;
+        aspect-ratio: 9 / 16;
         min-width: 0;
         align-self: auto;
     }
     .panel[data-index="7"].active:not(.expanded) .showreel-inner.side > .showreel-meta {
+        flex: 0 0 auto;
         overflow: hidden;
         min-height: 0;
     }
