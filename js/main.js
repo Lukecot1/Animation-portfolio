@@ -294,13 +294,22 @@ function preloadPanel(idx) {
     if (idx < 0 || idx >= panels.length) return;
     const videoMap = {
         1: ['cookies-video'], 2: ['jellycat-video'], 3: ['pixels-video'],
-        4: ['bolt6-video'],   5: ['chinatown-video'], 7: ['rye-video', 'cycling-video'],
+        4: ['bolt6-video'],   5: ['chinatown-video'],
         8: ['divingboard-video'],
     };
     (videoMap[idx] || []).forEach(id => {
         const v = document.getElementById(id);
         if (v && v.dataset.src) { v.src = v.dataset.src; delete v.dataset.src; v.load(); }
     });
+    if (idx === 7) {
+        // Stagger — iOS Safari aborts the first load if a second starts immediately
+        const rye = document.getElementById('rye-video');
+        if (rye && rye.dataset.src) { rye.src = rye.dataset.src; delete rye.dataset.src; rye.load(); }
+        setTimeout(() => {
+            const cyc = document.getElementById('cycling-video');
+            if (cyc && cyc.dataset.src) { cyc.src = cyc.dataset.src; delete cyc.dataset.src; cyc.load(); }
+        }, 200);
+    }
     if (idx === 6) {
         document.querySelectorAll('.myth-video').forEach(v => {
             if (v.dataset.src) { v.src = v.dataset.src; delete v.dataset.src; v.load(); }
@@ -379,8 +388,11 @@ function onSettled() {
         if (snapped === 3) tryPlay(pixelsVideoEl);   else tryPause(pixelsVideoEl);
         if (snapped === 4) tryPlay(bolt6VideoEl);    else tryPause(bolt6VideoEl);
         if (snapped === 5) tryPlay(chinatownVideoEl);else tryPause(chinatownVideoEl);
-        if (snapped === 7) { tryPlay(ryeVideoEl); tryPlay(cyclingVideoEl); }
-        else { tryPause(ryeVideoEl); tryPause(cyclingVideoEl); }
+        if (snapped === 7) {
+            // Stagger loads — iOS Safari aborts the first load if a second starts immediately
+            tryPlay(ryeVideoEl);
+            setTimeout(() => tryPlay(cyclingVideoEl), 200);
+        } else { tryPause(ryeVideoEl); tryPause(cyclingVideoEl); }
         if (snapped === 8) tryPlay(divingboardVideoEl); else tryPause(divingboardVideoEl);
 
         const presentIframe = document.getElementById('present-iframe');
@@ -473,10 +485,14 @@ window.addEventListener('touchend', (e) => {
             3: [pixelsVideoEl],
             4: [bolt6VideoEl],
             5: [chinatownVideoEl],
-            7: [ryeVideoEl, cyclingVideoEl],
             8: [divingboardVideoEl],
         };
         (videosByPanel[snapped] || []).forEach(safePlay);
+        if (snapped === 7) {
+            // Stagger — iOS Safari aborts the first load if a second starts immediately
+            safePlay(ryeVideoEl);
+            setTimeout(() => safePlay(cyclingVideoEl), 200);
+        }
     }
 });
 
@@ -931,7 +947,7 @@ document.getElementById('rye-expand').addEventListener('click', (e) => {
 const mythGrid = document.querySelector('.myth-grid');
 const mythVideoWraps = document.querySelectorAll('.myth-video-wrap');
 
-// Myth spotlight — hover to enlarge
+// Myth spotlight — hover to enlarge (desktop)
 (function () {
     if (window.matchMedia('(pointer: coarse)').matches) return;
     const spotlight = document.getElementById('myth-spotlight');
@@ -953,6 +969,33 @@ const mythVideoWraps = document.querySelectorAll('.myth-video-wrap');
             spotVid.pause();
         });
     });
+})();
+
+// Myth spotlight — tap to enlarge (touch/mobile)
+(function () {
+    if (!window.matchMedia('(pointer: coarse)').matches) return;
+    const spotlight = document.getElementById('myth-spotlight');
+    const spotVid   = document.getElementById('myth-spotlight-vid');
+    if (!spotlight || !spotVid) return;
+
+    mythVideoWraps.forEach(wrap => {
+        wrap.addEventListener('touchstart', (e) => {
+            const vid = wrap.querySelector('.myth-video');
+            if (!vid || !vid.src) return;
+            e.preventDefault(); // block scroll/click cascade
+            spotVid.src = vid.src;
+            spotVid.currentTime = vid.currentTime;
+            spotVid.play().catch(() => {});
+            spotlight.classList.add('active');
+        }, { passive: false });
+    });
+
+    // Tap the overlay to dismiss
+    spotlight.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        spotlight.classList.remove('active');
+        spotVid.pause();
+    }, { passive: false });
 })();
 
 document.getElementById('myth-expand').addEventListener('click', (e) => {

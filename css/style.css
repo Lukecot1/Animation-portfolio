@@ -1122,6 +1122,7 @@ video::-webkit-media-controls-start-playback-button {
 
 #myth-spotlight.active {
     opacity: 1;
+    pointer-events: auto; /* allow tap-to-dismiss on touch */
 }
 
 .myth-spotlight-inner {
