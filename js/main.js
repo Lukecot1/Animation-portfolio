@@ -302,13 +302,10 @@ function preloadPanel(idx) {
         if (v && v.dataset.src) { v.src = v.dataset.src; delete v.dataset.src; v.load(); }
     });
     if (idx === 7) {
-        // Stagger — iOS Safari aborts the first load if a second starts immediately
+        // Only preload rye — cycling is chained off rye's canplay in onSettled
+        // to prevent iOS Safari aborting rye's fetch when cycling starts loading
         const rye = document.getElementById('rye-video');
         if (rye && rye.dataset.src) { rye.src = rye.dataset.src; delete rye.dataset.src; rye.load(); }
-        setTimeout(() => {
-            const cyc = document.getElementById('cycling-video');
-            if (cyc && cyc.dataset.src) { cyc.src = cyc.dataset.src; delete cyc.dataset.src; cyc.load(); }
-        }, 200);
     }
     if (idx === 6) {
         document.querySelectorAll('.myth-video').forEach(v => {
@@ -376,6 +373,8 @@ function onSettled() {
                 v.load();
                 v.addEventListener('canplay', () => v.play().catch(() => {}), { once: true });
             } else if (v.readyState < 3) {
+                // networkState 2 = NETWORK_LOADING; if not loading (e.g. fetch was aborted), restart
+                if (v.networkState !== 2) v.load();
                 v.addEventListener('canplay', () => v.play().catch(() => {}), { once: true });
             } else {
                 v.play().catch(() => {});

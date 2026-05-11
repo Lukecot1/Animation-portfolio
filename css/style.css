@@ -1498,11 +1498,11 @@ video::-webkit-media-controls-start-playback-button {
         justify-content: center;
     }
     .panel[data-index="7"].active:not(.expanded) .rye-videos .showreel-video-wrap.portrait {
-        flex: 0 0 auto;
-        height: 100%;
-        width: auto !important;
-        aspect-ratio: 9 / 16;
+        flex: 1 1 0;
         min-width: 0;
+        height: 100%;
+        max-height: 100%;
+        width: auto !important;
         align-self: auto;
     }
     .panel[data-index="7"].active:not(.expanded) .showreel-inner.side > .showreel-meta {
