@@ -1490,20 +1490,20 @@ video::-webkit-media-controls-start-playback-button {
         overflow: hidden;
     }
 
-    /* ── Rye Lane unexpanded portrait — two portrait videos fill tab height ── */
+    /* ── Rye Lane unexpanded portrait — two portrait videos side by side ── */
     .panel[data-index="7"].active:not(.expanded) .rye-videos {
         flex: 1;
         min-height: 0;
-        align-items: stretch;
+        align-items: center;
         justify-content: center;
     }
     .panel[data-index="7"].active:not(.expanded) .rye-videos .showreel-video-wrap.portrait {
-        flex: 1 1 0;
+        flex: 0 0 auto;
+        width: calc(50% - 4px) !important;
+        height: auto;
+        aspect-ratio: 9 / 16;
+        align-self: center;
         min-width: 0;
-        height: 100%;
-        max-height: 100%;
-        width: auto !important;
-        align-self: auto;
     }
     .panel[data-index="7"].active:not(.expanded) .showreel-inner.side > .showreel-meta {
         flex: 0 0 auto;
