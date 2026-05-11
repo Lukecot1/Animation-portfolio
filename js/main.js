@@ -404,8 +404,11 @@ function onSettled() {
         lastSnappedPanel = snapped;
         position = snapped;
 
-        preloadPanel(snapped - 1);
-        preloadPanel(snapped + 1);
+        // Skip adjacent preloads on mobile — bandwidth competition slows the current panel
+        if (!window.matchMedia('(pointer: coarse)').matches) {
+            preloadPanel(snapped - 1);
+            preloadPanel(snapped + 1);
+        }
     }
 }
 
