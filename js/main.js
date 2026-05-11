@@ -388,13 +388,8 @@ function onSettled() {
                 v.load();
                 v.addEventListener('canplay', () => v.play().catch(() => {}), { once: true });
             });
-            if (ryeVideoEl.dataset.src) { ryeVideoEl.src = ryeVideoEl.dataset.src; delete ryeVideoEl.dataset.src; }
             playV(ryeVideoEl);
-            const isTouch = window.matchMedia('(pointer: coarse)').matches;
-            setTimeout(() => {
-                if (cyclingVideoEl.dataset.src) { cyclingVideoEl.src = cyclingVideoEl.dataset.src; delete cyclingVideoEl.dataset.src; }
-                playV(cyclingVideoEl);
-            }, isTouch ? 800 : 200);
+            playV(cyclingVideoEl);
         } else { tryPause(ryeVideoEl); tryPause(cyclingVideoEl); }
         if (snapped === 8) tryPlay(divingboardVideoEl); else tryPause(divingboardVideoEl);
 
