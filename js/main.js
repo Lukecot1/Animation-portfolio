@@ -301,12 +301,6 @@ function preloadPanel(idx) {
         const v = document.getElementById(id);
         if (v && v.dataset.src) { v.src = v.dataset.src; delete v.dataset.src; v.load(); }
     });
-    if (idx === 7) {
-        // Only preload rye — cycling is chained off rye's canplay in onSettled
-        // to prevent iOS Safari aborting rye's fetch when cycling starts loading
-        const rye = document.getElementById('rye-video');
-        if (rye && rye.dataset.src) { rye.src = rye.dataset.src; delete rye.dataset.src; rye.load(); }
-    }
     if (idx === 6) {
         document.querySelectorAll('.myth-video').forEach(v => {
             if (v.dataset.src) { v.src = v.dataset.src; delete v.dataset.src; v.load(); }
@@ -388,18 +382,19 @@ function onSettled() {
         if (snapped === 4) tryPlay(bolt6VideoEl);    else tryPause(bolt6VideoEl);
         if (snapped === 5) tryPlay(chinatownVideoEl);else tryPause(chinatownVideoEl);
         if (snapped === 7) {
-            tryPlay(ryeVideoEl);
-            if (window.matchMedia('(pointer: coarse)').matches) {
-                // iOS Safari cancels rye's network request the moment cycling starts loading.
-                // Wait for rye to reach canplay before touching cycling at all.
-                if (ryeVideoEl.readyState >= 3) {
-                    tryPlay(cyclingVideoEl);
-                } else {
-                    ryeVideoEl.addEventListener('canplay', () => tryPlay(cyclingVideoEl), { once: true });
-                }
-            } else {
-                setTimeout(() => tryPlay(cyclingVideoEl), 200);
-            }
+            // Use play() directly — on iOS Safari play() initiates loading for muted videos.
+            // Fall back to load()+canplay only if play() is rejected.
+            const playV = v => v.play().catch(() => {
+                v.load();
+                v.addEventListener('canplay', () => v.play().catch(() => {}), { once: true });
+            });
+            if (ryeVideoEl.dataset.src) { ryeVideoEl.src = ryeVideoEl.dataset.src; delete ryeVideoEl.dataset.src; }
+            playV(ryeVideoEl);
+            const isTouch = window.matchMedia('(pointer: coarse)').matches;
+            setTimeout(() => {
+                if (cyclingVideoEl.dataset.src) { cyclingVideoEl.src = cyclingVideoEl.dataset.src; delete cyclingVideoEl.dataset.src; }
+                playV(cyclingVideoEl);
+            }, isTouch ? 800 : 200);
         } else { tryPause(ryeVideoEl); tryPause(cyclingVideoEl); }
         if (snapped === 8) tryPlay(divingboardVideoEl); else tryPause(divingboardVideoEl);
 
