@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ask Luke | Luke Cottrell</title>
+    <link rel="icon" type="image/png" href="data:,">
+    <link rel="preload" href="assets/Aeonik-Regular.ttf" as="font" type="font/truetype" crossorigin>
+    <link rel="preload" href="assets/Aeonik-Bold.ttf" as="font" type="font/truetype" crossorigin>
+    <link rel="stylesheet" href="css/ask-luke.css">
+</head>
+<body>
+
+    <a class="back-link" href="index.html">← lukecottrell.co.uk</a>
+
+    <h1 class="page-title">Ask Luke...</h1>
+
+    <div class="cards-wrap">
+
+        <!-- Card 1: Luke's Top Trumps card -->
+        <div class="card luke-card">
+            <div class="card-header">
+                <span class="card-header-name">Luke Cottrell</span>
+                <span class="card-header-role">Motion Designer · Creative Technologist</span>
+            </div>
+
+            <div class="card-photo">
+                <img src="assets/luke-portrait.png" alt="Luke Cottrell">
+            </div>
+
+            <div class="card-body">
+                <div>
+                    <div class="pill-section-label">Skills</div>
+                    <div class="pill-group" id="skills-group">
+                        <button class="pill" data-id="character-animation" data-bg="#5470FF" data-text="#fff">Character Animation</button>
+                        <button class="pill" data-id="motion-graphics"     data-bg="#FFAE00" data-text="#000">Motion Graphics</button>
+                        <button class="pill" data-id="rive-interaction"    data-bg="#00794A" data-text="#fff">Rive</button>
+                        <button class="pill" data-id="storyboarding"       data-bg="#FF6600" data-text="#fff">Storyboarding</button>
+                        <button class="pill" data-id="art-direction"       data-bg="#D61A33" data-text="#fff">Art Direction</button>
+                        <button class="pill" data-id="after-effects"       data-bg="#AB6ED9" data-text="#fff">After Effects</button>
+                        <button class="pill" data-id="cavalry"             data-bg="#00346B" data-text="#fff">Cavalry</button>
+                        <button class="pill" data-id="figma"               data-bg="#FFB0F8" data-text="#000">Figma</button>
+                        <button class="pill" data-id="photoshop"           data-bg="#BEBEBE" data-text="#000">Photoshop</button>
+                        <button class="pill" data-id="character-design"    data-bg="#FF6600" data-text="#fff">Character Design</button>
+                        <button class="pill" data-id="ui-ux"               data-bg="#5470FF" data-text="#fff">UI / UX</button>
+                    </div>
+                </div>
+                <div>
+                    <div class="pill-section-label">Services</div>
+                    <div class="pill-group" id="services-group">
+                        <button class="pill" data-id="brand-identity"      data-bg="#AB6ED9" data-text="#fff">Brand Identity</button>
+                        <button class="pill" data-id="creative-technology" data-bg="#FFB0F8" data-text="#000">Creative Technology</button>
+                        <button class="pill" data-id="web-design"          data-bg="#00346B" data-text="#fff">Web Design</button>
+                        <button class="pill" data-id="campaign-content"    data-bg="#BEBEBE" data-text="#000">Campaign Content</button>
+                        <button class="pill" data-id="logo-animation"      data-bg="#FFAE00" data-text="#000">Logo Animation</button>
+                        <button class="pill" data-id="character-animation-svc" data-bg="#5470FF" data-text="#fff">Character Animation</button>
+                        <button class="pill" data-id="explainer-videos"    data-bg="#D61A33" data-text="#fff">Explainer Videos</button>
+                        <button class="pill" data-id="motion-design"       data-bg="#00794A" data-text="#fff">Motion Design</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 2: Brief card -->
+        <div class="card brief-card">
+            <div class="card-header">
+                <span class="card-header-name">Your Brief</span>
+                <span class="card-header-role">Pick up to 4</span>
+            </div>
+
+            <div class="brief-body">
+                <p class="brief-empty" id="brief-empty">Select a service<br>to start your brief →</p>
+                <div class="brief-pills" id="brief-pills"></div>
+            </div>
+
+            <div class="card-footer">
+                <button class="send-btn" id="send-btn" disabled>Select a service first</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const PILL_DATA = {};
+        const selected = new Set();
+        const MAX = 4;
+
+        // Index all source pills from data attributes
+        document.querySelectorAll('#skills-group .pill, #services-group .pill').forEach(pill => {
+            const id = pill.dataset.id;
+            PILL_DATA[id] = {
+                label: pill.textContent.trim(),
+                bg: pill.dataset.bg,
+                textColor: pill.dataset.text
+            };
+            pill.addEventListener('click', () => {
+                if (selected.has(id)) {
+                    deselect(id);
+                } else if (selected.size < MAX) {
+                    select(id, pill);
+                }
+            });
+        });
+
+        function select(id, sourceEl) {
+            selected.add(id);
+            const d = PILL_DATA[id];
+
+            // Flip source pill to its colour
+            sourceEl.style.background = d.bg;
+            sourceEl.style.color = d.textColor;
+            sourceEl.classList.add('selected');
+
+            // Animate clone flying across to brief card
+            animateTransfer(sourceEl, id);
+            updateUI();
+        }
+
+        function deselect(id, briefPillEl) {
+            selected.delete(id);
+
+            // Revert source pill to white
+            const sourcePill = document.querySelector(`[data-id="${id}"]`);
+            if (sourcePill) {
+                sourcePill.style.background = '';
+                sourcePill.style.color = '';
+                sourcePill.classList.remove('selected');
+            }
+
+            // Animate brief pill out
+            const target = briefPillEl || document.querySelector(`#brief-pills [data-id="${id}"]`);
+            if (target) {
+                target.classList.add('pill-exiting');
+                setTimeout(() => target.remove(), 200);
+            }
+
+            updateUI();
+        }
+
+        function animateTransfer(sourceEl, id) {
+            const d = PILL_DATA[id];
+            const sourceRect = sourceEl.getBoundingClientRect();
+            const destRect = document.getElementById('brief-pills').getBoundingClientRect();
+
+            // Create a fixed-position clone that flies across
+            const clone = document.createElement('button');
+            clone.className = 'pill pill-flying';
+            clone.textContent = d.label;
+            clone.style.cssText = `
+                top: ${sourceRect.top}px;
+                left: ${sourceRect.left}px;
+                width: ${sourceRect.width}px;
+                height: ${sourceRect.height}px;
+                background: ${d.bg};
+                color: ${d.textColor};
+                transition: transform 0.42s cubic-bezier(0.34, 1.2, 0.64, 1), opacity 0.35s ease;
+            `;
+            document.body.appendChild(clone);
+
+            void clone.offsetWidth; // force reflow before animating
+
+            const tx = destRect.left - sourceRect.left;
+            const ty = destRect.top - sourceRect.top;
+            clone.style.transform = `translate(${tx}px, ${ty}px) scale(0.88)`;
+            clone.style.opacity = '0';
+
+            setTimeout(() => {
+                clone.remove();
+                addBriefPill(id); // land in brief card with pop-in
+            }, 400);
+        }
+
+        function addBriefPill(id) {
+            if (!selected.has(id)) return; // deselected before clone arrived
+
+            const d = PILL_DATA[id];
+            const briefPills = document.getElementById('brief-pills');
+
+            const btn = document.createElement('button');
+            btn.className = 'pill selected pill-entering';
+            btn.dataset.id = id;
+            btn.style.background = d.bg;
+            btn.style.color = d.textColor;
+            btn.innerHTML = `${d.label}<span class="pill-remove" aria-hidden="true">×</span>`;
+            btn.addEventListener('click', () => deselect(id, btn));
+            briefPills.appendChild(btn);
+
+            setTimeout(() => btn.classList.remove('pill-entering'), 320);
+        }
+
+        function updateUI() {
+            const emptyMsg = document.getElementById('brief-empty');
+            const sendBtn = document.getElementById('send-btn');
+            const wasDisabled = sendBtn.disabled;
+            const full = selected.size >= MAX;
+
+            // Dim unselected pills when limit is reached
+            document.querySelectorAll('#skills-group .pill, #services-group .pill').forEach(pill => {
+                const isSelected = selected.has(pill.dataset.id);
+                pill.style.opacity = (full && !isSelected) ? '0.25' : '';
+                pill.style.pointerEvents = (full && !isSelected) ? 'none' : '';
+            });
+
+            if (selected.size > 0) {
+                emptyMsg.classList.add('hidden');
+                sendBtn.disabled = false;
+                sendBtn.textContent = 'Send Enquiry →';
+                sendBtn.onclick = sendEnquiry;
+                if (wasDisabled) {
+                    sendBtn.classList.remove('btn-spring');
+                    void sendBtn.offsetWidth;
+                    sendBtn.classList.add('btn-spring');
+                }
+            } else {
+                emptyMsg.classList.remove('hidden');
+                sendBtn.disabled = true;
+                sendBtn.textContent = 'Select a service first';
+                sendBtn.onclick = null;
+            }
+        }
+
+        function sendEnquiry() {
+            const labels = Array.from(selected).map(id => PILL_DATA[id].label);
+            const subject = encodeURIComponent('Work Enquiry: ' + labels.join(', '));
+            window.location.href = `mailto:lukefgc@icloud.com?subject=${subject}`;
+        }
+    </script>
+
+</body>
+</html>

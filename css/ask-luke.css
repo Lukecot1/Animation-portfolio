@@ -1,0 +1,312 @@
+@font-face {
+    font-family: 'Aeonik';
+    src: url('../assets/Aeonik-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Aeonik';
+    src: url('../assets/Aeonik-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Force Aeonik everywhere — buttons included */
+html {
+    font-family: 'Aeonik', sans-serif;
+}
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: inherit;
+}
+
+body {
+    background: #fff;
+    -webkit-font-smoothing: antialiased;
+    color: #000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 40px 24px;
+    gap: 16px;
+}
+
+/* Back link */
+.back-link {
+    position: fixed;
+    top: 24px;
+    left: 24px;
+    font-size: 13px;
+    font-weight: 400;
+    color: #000;
+    text-decoration: none;
+    opacity: 0.4;
+    letter-spacing: 0.02em;
+    transition: opacity 0.2s ease;
+}
+.back-link:hover { opacity: 1; }
+
+/* Page title */
+.page-title {
+    font-size: 48px;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    text-align: center;
+}
+
+/* Cards wrapper */
+.cards-wrap {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 840px;
+}
+
+/* Shared card style */
+.card {
+    background: #fff;
+    border-radius: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06), 0 12px 40px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Card 1 — Luke */
+.luke-card {
+    width: 380px;
+    flex-shrink: 0;
+}
+
+/* White header */
+.card-header {
+    background: #fff;
+    color: #000;
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+.card-header-name {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+}
+.card-header-role {
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.4;
+}
+
+/* Photo */
+.card-photo {
+    width: 100%;
+    aspect-ratio: 3 / 3.2;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+.card-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+}
+
+/* Pill sections */
+.card-body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.pill-section-label {
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.4;
+    margin-bottom: 10px;
+}
+
+.pill-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+/* Pills — default: white fill, black border */
+.pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 400;
+    background: #fff;
+    color: #000;
+    border: 2px solid #000;
+    cursor: pointer;
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        opacity 0.15s ease,
+        transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+    white-space: nowrap;
+    user-select: none;
+    -webkit-user-select: none;
+}
+.pill:hover:not(.selected) {
+    opacity: 0.6;
+}
+.pill:active {
+    transform: scale(0.93);
+}
+
+/* Selected: colour applied via JS inline style, border hidden */
+.pill.selected {
+    border-color: transparent;
+}
+
+/* Remove × — always visible so pill hugs text naturally, brightens on hover */
+.pill .pill-remove {
+    font-size: 12px;
+    line-height: 1;
+    opacity: 0.45;
+    transition: opacity 0.15s ease;
+}
+.pill:hover .pill-remove {
+    opacity: 1;
+}
+
+/* Transfer animation — flying clone inherits .pill */
+.pill-flying {
+    position: fixed !important;
+    pointer-events: none;
+    z-index: 999;
+    border-color: transparent !important;
+}
+
+/* Brief pill entrance */
+@keyframes pill-pop-in {
+    0%   { transform: scale(0.4); opacity: 0; }
+    65%  { transform: scale(1.1);  opacity: 1; }
+    100% { transform: scale(1);   opacity: 1; }
+}
+@keyframes pill-pop-out {
+    0%   { transform: scale(1);   opacity: 1; }
+    100% { transform: scale(0.4); opacity: 0; }
+}
+.pill-entering {
+    animation: pill-pop-in 0.32s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+.pill-exiting {
+    animation: pill-pop-out 0.2s ease forwards;
+    pointer-events: none;
+}
+
+/* Card 2 — Brief */
+.brief-card {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.brief-body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+    min-height: 200px;
+}
+
+.brief-empty {
+    font-size: 13px;
+    font-weight: 400;
+    color: #000;
+    opacity: 0.25;
+    line-height: 1.5;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    pointer-events: none;
+}
+.brief-empty.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.brief-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+/* Send button */
+.card-footer {
+    padding: 16px 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+@keyframes btn-spring {
+    0%   { transform: scale(0.88); }
+    55%  { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.send-btn {
+    width: 100%;
+    padding: 14px 20px;
+    border-radius: 100px;
+    border: none;
+    background: #000;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    transition: background 0.2s ease, opacity 0.3s ease, transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.send-btn:hover:not(:disabled) {
+    background: #222;
+    transform: scale(1.01);
+}
+.send-btn:active:not(:disabled) {
+    transform: scale(0.97);
+}
+.send-btn:disabled {
+    opacity: 0.18;
+    cursor: default;
+}
+.send-btn.btn-spring {
+    animation: btn-spring 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Responsive */
+@media (max-width: 700px) {
+    body {
+        padding: 80px 16px 32px;
+        justify-content: flex-start;
+    }
+    .cards-wrap {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 24px;
+    }
+    .luke-card {
+        width: 100%;
+    }
+}
