@@ -389,9 +389,18 @@ function onSettled() {
         if (snapped === 4) tryPlay(bolt6VideoEl);    else tryPause(bolt6VideoEl);
         if (snapped === 5) tryPlay(chinatownVideoEl);else tryPause(chinatownVideoEl);
         if (snapped === 7) {
-            // Stagger loads — iOS Safari aborts the first load if a second starts immediately
             tryPlay(ryeVideoEl);
-            setTimeout(() => tryPlay(cyclingVideoEl), 200);
+            if (window.matchMedia('(pointer: coarse)').matches) {
+                // iOS Safari cancels rye's network request the moment cycling starts loading.
+                // Wait for rye to reach canplay before touching cycling at all.
+                if (ryeVideoEl.readyState >= 3) {
+                    tryPlay(cyclingVideoEl);
+                } else {
+                    ryeVideoEl.addEventListener('canplay', () => tryPlay(cyclingVideoEl), { once: true });
+                }
+            } else {
+                setTimeout(() => tryPlay(cyclingVideoEl), 200);
+            }
         } else { tryPause(ryeVideoEl); tryPause(cyclingVideoEl); }
         if (snapped === 8) tryPlay(divingboardVideoEl); else tryPause(divingboardVideoEl);
 
@@ -491,11 +500,6 @@ window.addEventListener('touchend', (e) => {
             8: [divingboardVideoEl],
         };
         (videosByPanel[snapped] || []).forEach(safePlay);
-        if (snapped === 7) {
-            // Stagger — iOS Safari aborts the first load if a second starts immediately
-            safePlay(ryeVideoEl);
-            setTimeout(() => safePlay(cyclingVideoEl), 200);
-        }
     }
 });
 
