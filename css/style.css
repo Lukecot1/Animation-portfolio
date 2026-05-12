@@ -1072,6 +1072,20 @@ video::-webkit-media-controls-start-playback-button {
     }
 }
 
+/* ── NEST HUB & SHORT LANDSCAPE (e.g. 1024×600) ── */
+@media (max-height: 680px) and (min-width: 769px) {
+    /* Reduce title padding to give the tab row more vertical space */
+    .page-title {
+        padding: 24px 0;
+        min-height: calc(1em + 48px);
+    }
+    /* Show full video frame instead of cropping in constrained height */
+    #jellycat-video,
+    #cookies-video {
+        object-fit: contain;
+    }
+}
+
 @media (max-width: 768px), (orientation: portrait) {
     .panel[data-index="6"].expanded .myth-grid {
         grid-template-columns: repeat(2, 1fr);
