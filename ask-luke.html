@@ -210,6 +210,9 @@
                     sendBtn.classList.remove('btn-spring');
                     void sendBtn.offsetWidth;
                     sendBtn.classList.add('btn-spring');
+                    if (window.innerWidth <= 700) {
+                        sendBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }
                 }
             } else {
                 emptyMsg.classList.remove('hidden');
@@ -222,7 +225,11 @@
         function sendEnquiry() {
             const labels = Array.from(selected).map(id => PILL_DATA[id].label);
             const subject = encodeURIComponent('Work Enquiry: ' + labels.join(', '));
-            window.location.href = `mailto:lukefgc@icloud.com?subject=${subject}`;
+            const a = document.createElement('a');
+            a.href = `mailto:lukefgc@icloud.com?subject=${subject}`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
         }
     </script>
 
