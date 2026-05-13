@@ -97,7 +97,10 @@
                 if (selected.has(id)) {
                     deselect(id);
                 } else if (selected.size < MAX) {
-                    select(id, pill);
+                    const usedColors = new Set(Array.from(selected).map(sid => PILL_DATA[sid].bg));
+                    if (!usedColors.has(PILL_DATA[id].bg)) {
+                        select(id, pill);
+                    }
                 }
             });
         });
