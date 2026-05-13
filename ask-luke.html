@@ -193,12 +193,14 @@
             const sendBtn = document.getElementById('send-btn');
             const wasDisabled = sendBtn.disabled;
             const full = selected.size >= MAX;
+            const usedColors = new Set(Array.from(selected).map(id => PILL_DATA[id].bg));
 
-            // Dim unselected pills when limit is reached
             document.querySelectorAll('#skills-group .pill, #services-group .pill').forEach(pill => {
                 const isSelected = selected.has(pill.dataset.id);
-                pill.style.opacity = (full && !isSelected) ? '0.25' : '';
-                pill.style.pointerEvents = (full && !isSelected) ? 'none' : '';
+                const colorTaken = !isSelected && usedColors.has(pill.dataset.bg);
+                const shouldDim = (full && !isSelected) || colorTaken;
+                pill.style.opacity = shouldDim ? '0.25' : '';
+                pill.style.pointerEvents = shouldDim ? 'none' : '';
             });
 
             if (selected.size > 0) {
