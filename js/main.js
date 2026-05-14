@@ -519,10 +519,10 @@ const burgerBtn    = document.getElementById('burger-btn');
 const mobileMenu   = document.getElementById('mobile-menu');
 const mobileClose  = document.getElementById('mobile-menu-close');
 
-function openMobileMenu()  { mobileMenu.classList.add('open'); }
-function closeMobileMenu() { mobileMenu.classList.remove('open'); }
+function openMobileMenu()  { mobileMenu.classList.add('open');    burgerBtn.classList.add('open'); }
+function closeMobileMenu() { mobileMenu.classList.remove('open'); burgerBtn.classList.remove('open'); }
 
-burgerBtn.addEventListener('click', openMobileMenu);
+burgerBtn.addEventListener('click', () => burgerBtn.classList.contains('open') ? closeMobileMenu() : openMobileMenu());
 mobileClose.addEventListener('click', closeMobileMenu);
 
 document.getElementById('mob-linkedin').addEventListener('click', (e) => {
