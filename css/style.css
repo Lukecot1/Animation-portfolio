@@ -990,6 +990,44 @@ video::-webkit-media-controls-start-playback-button {
     scrollbar-width: none;
     justify-content: center;
 }
+.panel[data-index="3"].expanded .pixels-inner .showreel-meta::-webkit-scrollbar { display: none; }
+
+/* Wordcast stat grid */
+.pixels-stats-label {
+    opacity: 0.45 !important;
+    font-size: 11px !important;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 8px;
+}
+
+.pixels-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px 20px;
+}
+
+.pixels-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.pixels-stat-num {
+    font-size: 26px;
+    font-weight: 400;
+    color: #fff;
+    letter-spacing: -0.02em;
+    line-height: 1;
+}
+
+.pixels-stat-label {
+    font-size: 11px;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.45);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
 
 .panel[data-index="3"].expanded .pixels-inner .showreel-meta::-webkit-scrollbar { display: none; }
 
