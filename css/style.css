@@ -1029,6 +1029,8 @@ video::-webkit-media-controls-start-playback-button {
     letter-spacing: 0.06em;
 }
 
+.pixels-stats-sep { margin-top: 14px !important; }
+
 .panel[data-index="3"].expanded .pixels-inner .showreel-meta::-webkit-scrollbar { display: none; }
 
 /* 44 PIXELS UNEXPANDED — cap height on wide views so video doesn't balloon */
@@ -1519,6 +1521,9 @@ video::-webkit-media-controls-start-playback-button {
         flex-shrink: 1;
         min-height: 0;
     }
+
+    /* 44 Pixels — prioritise stats over description on mobile */
+    .panel[data-index="3"] .pixels-desc { order: 5; }
 
     /* ── Showreel unexpanded portrait — video fills full 16:9 at panel width ── */
     .panel[data-index="0"].active:not(.expanded) .showreel-inner > .showreel-video-wrap {
