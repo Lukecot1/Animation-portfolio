@@ -1609,7 +1609,7 @@ video::-webkit-media-controls-start-playback-button {
     }
 
     /* 44 Pixels — prioritise stats over description on mobile */
-    .panel[data-index="3"] .pixels-desc { order: 5; }
+    .panel[data-index="3"].active:not(.expanded) .pixels-desc { order: 5; }
 
     /* Show compact Cue summary in unexpanded mobile only */
     .panel[data-index="3"].active:not(.expanded) .pixels-cue-inline { display: block; }
