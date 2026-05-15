@@ -355,7 +355,7 @@ body {
 .showreel-inner {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 16px;
     flex: 1;
     min-height: 0;
@@ -364,7 +364,7 @@ body {
 
 .showreel-inner.side {
     flex-direction: row;
-    align-items: center;
+    align-items: stretch;
     gap: clamp(16px, 2.5vw, 40px);
 }
 
@@ -435,9 +435,12 @@ body {
     flex: 1;
     min-width: 0;
     min-height: 0;
+    overflow-y: auto;
+    scrollbar-width: none;
     display: flex;
     flex-direction: column;
     gap: 10px;
+    justify-content: flex-start;
 }
 
 .showreel-video-wrap {
@@ -973,7 +976,7 @@ video::-webkit-media-controls-start-playback-button {
 
 .panel[data-index="3"].expanded .pixels-inner {
     flex-direction: row;
-    align-items: center;
+    align-items: stretch;
     gap: clamp(16px, 2.5vw, 40px);
 }
 
@@ -984,11 +987,17 @@ video::-webkit-media-controls-start-playback-button {
 }
 
 .panel[data-index="3"].expanded .pixels-inner .showreel-meta {
-    flex: 1;
+    flex: 1 1 0;
     min-width: 0;
+    min-height: 0;
     overflow-y: auto;
     scrollbar-width: none;
-    justify-content: center;
+}
+.panel[data-index="3"].expanded .pixels-inner .showreel-meta::before,
+.panel[data-index="3"].expanded .pixels-inner .showreel-meta::after {
+    content: '';
+    flex: 1;
+    min-height: 0;
 }
 .panel[data-index="3"].expanded .pixels-inner .showreel-meta::-webkit-scrollbar { display: none; }
 
@@ -1032,9 +1041,10 @@ video::-webkit-media-controls-start-playback-button {
 .pixels-stats-sep { margin-top: 14px !important; }
 .pixels-cue-inline { display: none; }
 
+
 .panel[data-index="3"].expanded .pixels-inner .showreel-meta::-webkit-scrollbar { display: none; }
 
-/* 44 PIXELS UNEXPANDED — cap height on wide views so video doesn't balloon */
+/* 44 PIXELS UNEXPANDED */
 .panel[data-index="3"]:not(.expanded) .pixels-inner > .showreel-video-wrap {
     flex: 1;
     min-height: 0;
@@ -1043,6 +1053,18 @@ video::-webkit-media-controls-start-playback-button {
     aspect-ratio: 16 / 9;
     align-self: center;
 }
+/* Unexpanded: single text line, grids hidden */
+.pixels-stats-oneline {
+    display: none;
+    font-size: 11px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.45);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.panel[data-index="3"].active:not(.expanded) .pixels-stats-oneline { display: block; }
+.panel[data-index="3"].active:not(.expanded) .pixels-stat-grid { display: none; }
 
 /* SHOWREEL — keep video wrap proportional, no cropping on wide views */
 .panel[data-index="0"] .showreel-inner > .showreel-video-wrap {
@@ -1166,8 +1188,9 @@ video::-webkit-media-controls-start-playback-button {
     /* 44 Pixels expanded */
     .panel[data-index="3"].expanded .pixels-inner {
         flex-direction: column !important;
-        align-items: stretch;
-        justify-content: flex-start;
+        align-items: stretch !important;
+        justify-content: flex-start !important;
+        overflow: hidden !important;
     }
     .panel[data-index="3"].expanded .pixels-inner .showreel-video-wrap {
         flex: 0 0 auto !important;
@@ -1176,33 +1199,18 @@ video::-webkit-media-controls-start-playback-button {
         aspect-ratio: 16 / 9;
     }
     .panel[data-index="3"].expanded .pixels-inner .showreel-meta {
-        flex: 1;
-        min-height: 0;
-        overflow-y: auto;
-        justify-content: flex-start;
+        flex: 1 1 0 !important;
+        min-height: 0 !important;
+        overflow-y: auto !important;
+        justify-content: flex-start !important;
     }
 
-    /* 44 Pixels unexpanded — side by side on Nest Hub */
-    .panel[data-index="3"].active:not(.expanded) .pixels-inner {
-        flex-direction: row !important;
-        align-items: stretch;
-        gap: 16px;
-    }
-    .panel[data-index="3"].active:not(.expanded) .pixels-inner > .showreel-video-wrap {
-        flex: 0 0 55% !important;
-        min-height: 0;
-        width: auto !important;
-        max-width: none !important;
-        aspect-ratio: 16 / 9;
-        align-self: center;
-    }
+    /* 44 Pixels unexpanded — Nest Hub: keep video as main focus, stats strip already handled globally */
     .panel[data-index="3"].active:not(.expanded) .pixels-inner .showreel-meta {
-        flex: 1;
+        flex: 0 0 auto;
         min-height: 0;
         overflow: hidden;
-        flex-shrink: 1;
     }
-    .panel[data-index="3"].active:not(.expanded) .pixels-desc { order: 5; }
 
     /* Bolt 6 expanded */
     .panel[data-index="4"].expanded .showreel-inner {
