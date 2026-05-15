@@ -1143,6 +1143,59 @@ video::-webkit-media-controls-start-playback-button {
     #cookies-video {
         object-fit: contain;
     }
+
+    /* Stack all side-by-side layouts vertically — screen is too short for left/right */
+    .showreel-inner.side {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+    }
+    .showreel-inner.side > .showreel-video-wrap,
+    .showreel-inner.side > .rye-videos {
+        flex: 0 0 auto !important;
+        width: 100% !important;
+        max-height: 44vh;
+    }
+    .showreel-inner.side .showreel-meta {
+        flex: 1;
+        width: 100%;
+        margin-top: 0;
+        overflow-y: auto;
+    }
+
+    /* 44 Pixels expanded */
+    .panel[data-index="3"].expanded .pixels-inner {
+        flex-direction: column !important;
+        align-items: stretch;
+    }
+    .panel[data-index="3"].expanded .pixels-inner .showreel-video-wrap {
+        flex: 0 0 auto !important;
+        width: 100% !important;
+        max-height: 44vh;
+        aspect-ratio: 16 / 9;
+    }
+    .panel[data-index="3"].expanded .pixels-inner .showreel-meta {
+        flex: 1;
+        overflow-y: auto;
+        justify-content: flex-start;
+    }
+
+    /* Bolt 6 expanded */
+    .panel[data-index="4"].expanded .showreel-inner {
+        flex-direction: column !important;
+        align-items: stretch;
+    }
+    .panel[data-index="4"].expanded .showreel-inner > .showreel-video-wrap {
+        flex: 0 0 auto !important;
+        width: 100% !important;
+        max-height: 44vh;
+        aspect-ratio: 16 / 9;
+    }
+    .panel[data-index="4"].expanded .showreel-inner > .showreel-meta {
+        flex: 1;
+        overflow-y: auto;
+        justify-content: flex-start;
+    }
 }
 
 @media (max-width: 768px), (orientation: portrait) {
