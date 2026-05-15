@@ -1167,6 +1167,7 @@ video::-webkit-media-controls-start-playback-button {
     .panel[data-index="3"].expanded .pixels-inner {
         flex-direction: column !important;
         align-items: stretch;
+        justify-content: flex-start;
     }
     .panel[data-index="3"].expanded .pixels-inner .showreel-video-wrap {
         flex: 0 0 auto !important;
@@ -1176,9 +1177,32 @@ video::-webkit-media-controls-start-playback-button {
     }
     .panel[data-index="3"].expanded .pixels-inner .showreel-meta {
         flex: 1;
+        min-height: 0;
         overflow-y: auto;
         justify-content: flex-start;
     }
+
+    /* 44 Pixels unexpanded — side by side on Nest Hub */
+    .panel[data-index="3"].active:not(.expanded) .pixels-inner {
+        flex-direction: row !important;
+        align-items: stretch;
+        gap: 16px;
+    }
+    .panel[data-index="3"].active:not(.expanded) .pixels-inner > .showreel-video-wrap {
+        flex: 0 0 55% !important;
+        min-height: 0;
+        width: auto !important;
+        max-width: none !important;
+        aspect-ratio: 16 / 9;
+        align-self: center;
+    }
+    .panel[data-index="3"].active:not(.expanded) .pixels-inner .showreel-meta {
+        flex: 1;
+        min-height: 0;
+        overflow: hidden;
+        flex-shrink: 1;
+    }
+    .panel[data-index="3"].active:not(.expanded) .pixels-desc { order: 5; }
 
     /* Bolt 6 expanded */
     .panel[data-index="4"].expanded .showreel-inner {
