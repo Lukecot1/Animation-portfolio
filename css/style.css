@@ -249,8 +249,8 @@ body {
     letter-spacing: -0.5px;
     line-height: 1;
     flex-shrink: 0;
-    padding: 48px 0;
-    min-height: calc(1em + 96px);
+    padding: 24px 0;
+    min-height: calc(1em + 48px);
 }
 
 @keyframes letterIn {
