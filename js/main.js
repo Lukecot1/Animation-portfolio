@@ -951,13 +951,14 @@ const mythVideoWraps = document.querySelectorAll('.myth-video-wrap');
     if (!spotlight || !spotVid) return;
 
     mythVideoWraps.forEach(wrap => {
-        const vid = wrap.querySelector('.myth-video');
         wrap.addEventListener('mouseenter', () => {
-            if (!panels[6].classList.contains('expanded')) return;
-            if (!vid || !vid.src) return;
-            spotVid.src = vid.src;
-            spotVid.currentTime = vid.currentTime;
-            spotVid.play().catch(() => {});
+            const vid = wrap.querySelector('.myth-video');
+            if (!vid) return;
+            if (vid.src) {
+                spotVid.src = vid.src;
+                spotVid.currentTime = vid.currentTime;
+                spotVid.play().catch(() => {});
+            }
             spotlight.classList.add('active');
         });
         wrap.addEventListener('mouseleave', () => {

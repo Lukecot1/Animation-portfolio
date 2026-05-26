@@ -1280,7 +1280,12 @@ video::-webkit-media-controls-start-playback-button {
 
 #myth-spotlight.active {
     opacity: 1;
-    pointer-events: auto; /* allow tap-to-dismiss on touch */
+}
+
+@media (pointer: coarse) {
+    #myth-spotlight.active {
+        pointer-events: auto;
+    }
 }
 
 .myth-spotlight-inner {
