@@ -9,6 +9,36 @@
     <link rel="preload" href="assets/Aeonik-Regular.ttf" as="font" type="font/truetype" crossorigin>
     <link rel="preconnect" href="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev" crossorigin>
     <link rel="preconnect" href="https://player.vimeo.com" crossorigin>
+    <script>
+      (function () {
+        var WORKER  = 'https://analytics-worker.lukefgc.workers.dev';
+        var SITE_ID = 'lukecottrell_co_uk';
+        var start   = Date.now();
+        var maxScroll = 0;
+
+        window.addEventListener('scroll', function () {
+          var el  = document.documentElement;
+          var pct = Math.round((window.scrollY / (el.scrollHeight - el.clientHeight)) * 100);
+          if (pct > maxScroll) maxScroll = pct;
+        }, { passive: true });
+
+        function send() {
+          var payload = JSON.stringify({
+            site_id:      SITE_ID,
+            path:         window.location.pathname,
+            referrer:     document.referrer,
+            scroll_depth: maxScroll,
+            time_on_page: Math.round((Date.now() - start) / 1000)
+          });
+          navigator.sendBeacon(WORKER + '/event', new Blob([payload], { type: 'application/json' }));
+        }
+
+        document.addEventListener('visibilitychange', function () {
+          if (document.visibilityState === 'hidden') send();
+        });
+        window.addEventListener('pagehide', send);
+      })();
+    </script>
 </head>
 <body>
 
