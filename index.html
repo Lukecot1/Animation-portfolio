@@ -15,6 +15,15 @@
         var SITE_ID = 'lukecottrell_co_uk';
         var start   = Date.now();
         var maxScroll = 0;
+        var exited = false;
+
+        // Record the visit immediately on load
+        navigator.sendBeacon(WORKER + '/event', JSON.stringify({
+          site_id:  SITE_ID,
+          path:     window.location.pathname,
+          referrer: document.referrer,
+          type:     'pageview'
+        }));
 
         window.addEventListener('scroll', function () {
           var el  = document.documentElement;
@@ -23,14 +32,16 @@
         }, { passive: true });
 
         function send() {
-          var payload = JSON.stringify({
+          if (exited) return;
+          exited = true;
+          navigator.sendBeacon(WORKER + '/event', JSON.stringify({
             site_id:      SITE_ID,
             path:         window.location.pathname,
             referrer:     document.referrer,
             scroll_depth: maxScroll,
-            time_on_page: Math.round((Date.now() - start) / 1000)
-          });
-          navigator.sendBeacon(WORKER + '/event', payload);
+            time_on_page: Math.round((Date.now() - start) / 1000),
+            type:         'exit'
+          }));
         }
 
         document.addEventListener('visibilitychange', function () {
