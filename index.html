@@ -25,11 +25,15 @@
           type:     'pageview'
         }));
 
-        window.addEventListener('scroll', function () {
-          var el  = document.documentElement;
-          var pct = Math.round((window.scrollY / (el.scrollHeight - el.clientHeight)) * 100);
+        // Track scroll on window and any scrollable child element
+        function onScroll(e) {
+          var el = e.target === document ? document.documentElement : e.target;
+          var scrollable = el.scrollHeight - el.clientHeight;
+          if (scrollable <= 0) return;
+          var pct = Math.round(((e.target === document ? window.scrollY : el.scrollTop) / scrollable) * 100);
           if (pct > maxScroll) maxScroll = pct;
-        }, { passive: true });
+        }
+        window.addEventListener('scroll', onScroll, { passive: true, capture: true });
 
         function send() {
           if (exited) return;
@@ -47,7 +51,7 @@
         document.addEventListener('visibilitychange', function () {
           if (document.visibilityState === 'hidden') send();
         });
-        window.addEventListener('pagehide', send);
+        window.addEventListener('pagehide', send, { capture: true });
       })();
     </script>
 </head>
