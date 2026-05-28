@@ -442,16 +442,19 @@ function onWheel(e) {
 // --- Touch scroll (iOS / iPad) ---
 let touchStartY = 0;
 let touchStartTarget = 0;
+let touchScrolled = false; // true when finger moved enough to be a scroll, not a tap
 
 window.addEventListener('touchstart', (e) => {
     touchStartY = e.touches[0].clientY;
     touchStartTarget = targetPos;
+    touchScrolled = false;
 }, { passive: true });
 
 window.addEventListener('touchmove', (e) => {
     if (expandedPanelIndex >= 0) return;
     e.preventDefault();
     const deltaY = touchStartY - e.touches[0].clientY;
+    if (Math.abs(deltaY) > 10) touchScrolled = true;
     targetPos = Math.max(0, Math.min(panels.length - 1,
         touchStartTarget + deltaY / (window.innerHeight * 0.3)));
     startAnim();
@@ -462,6 +465,8 @@ window.addEventListener('touchend', (e) => {
     clearTimeout(snapTimer);
     const snapped = Math.round(targetPos);
     moveTo(snapped);
+    // Reset after click fires so the panel click handler can read the flag first
+    setTimeout(() => { touchScrolled = false; }, 50);
     if (!e.target.closest('button, a')) {
         // Call play() directly here while we still have user-activation context
         const safePlay = v => {
@@ -501,6 +506,7 @@ function goTo(next) {
 
 panels.forEach((panel, i) => {
     panel.addEventListener('click', () => {
+        if (touchScrolled) return; // Twitter/X in-app browser fires click after scroll
         if (panel.classList.contains('active')) return;
         panelSprings[i].target = 0;
         startSpring();
