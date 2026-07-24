@@ -539,7 +539,7 @@ document.getElementById('mob-linkedin').addEventListener('click', (e) => {
 document.getElementById('mob-instagram').addEventListener('click', (e) => {
     e.preventDefault();
     closeMobileMenu();
-    window.open('https://www.instagram.com/lukecottrell_animation/', '_blank');
+    window.open('https://www.instagram.com/lukecottrellstudio/', '_blank');
 });
 document.getElementById('mob-email').addEventListener('click', (e) => {
     e.preventDefault();
