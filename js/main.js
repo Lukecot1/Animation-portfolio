@@ -8,22 +8,10 @@ const CURSOR_CIRCLE = [
     [3.03,1.75],[1.75,3.03],[0,3.5],[-1.75,3.03],
     [-3.03,1.75],[-3.5,0],[-3.03,-1.75],[-1.75,-3.03]
 ];
-const CURSOR_TRI = [   // 4 pts per vertex
-    [0,-4],[0,-4],[0,-4],[0,-4],
-    [3.46,2],[3.46,2],[3.46,2],[3.46,2],
-    [-3.46,2],[-3.46,2],[-3.46,2],[-3.46,2]
-];
-const CURSOR_SQ = [    // 3 pts per corner
-    [3,-3],[3,-3],[3,-3],
-    [3,3],[3,3],[3,3],
-    [-3,3],[-3,3],[-3,3],
-    [-3,-3],[-3,-3],[-3,-3]
-];
 
 let cursorPts    = CURSOR_CIRCLE.map(p => [...p]);
 let cursorTarget = CURSOR_CIRCLE;
 let cursorHover  = false;
-let nextShape    = 'tri'; // cycles tri → sq → tri on each new hover
 let cursorLastT  = null;
 
 function cursorLerpPt(a, b, t) { return [a[0]+(b[0]-a[0])*t, a[1]+(b[1]-a[1])*t]; }
@@ -35,15 +23,6 @@ window.addEventListener('mousemove', e => {
 
 document.addEventListener('mouseover', e => {
     const hit = !!e.target.closest('a, button, .panel:not(.expanded)');
-    if (hit && !cursorHover) {
-        // Snap immediately to triangle or square, then toggle for next time
-        const snapPts = nextShape === 'tri' ? CURSOR_TRI : CURSOR_SQ;
-        cursorPts    = snapPts.map(p => [...p]);
-        cursorTarget = snapPts;
-        nextShape    = nextShape === 'tri' ? 'sq' : 'tri';
-    } else if (!hit && cursorHover) {
-        cursorTarget = CURSOR_CIRCLE;
-    }
     cursorHover = hit;
     cursorEl.classList.toggle('cursor--hover', hit);
 });
@@ -91,6 +70,7 @@ let mythVideos          = [];
 let expandedPanelIndex  = -1;
 let showreelVideoEl  = null;
 let showreelPlayBool = null;
+let explainerVideoEl = null;
 let cookiesVideoEl   = null;
 let cookiesPlayBool  = null;
 let ryeVideoEl          = null;
@@ -110,15 +90,16 @@ let chinatownPlayBool   = null;
 
 const panelTitles = [
     'Showreel',                  // 0
-    'Do you accept cookies?',    // 1
-    'JellyCat',                  // 2
-    '44 Pixels',                 // 3
-    'Bolt 6',                    // 4
-    'China Town',                // 5
-    'Myth Studio',               // 6
-    'Rye Lane Bagels',           // 7
-    'Diving Board',              // 8
-    'Present Model Management',  // 9
+    'Explainer Video',           // 1
+    'Do you accept cookies?',    // 2
+    'JellyCat',                  // 3
+    '44 Pixels',                 // 4
+    'Bolt 6',                    // 5
+    'China Town',                // 6
+    'Myth Studio',               // 7
+    'Rye Lane Bagels',           // 8
+    'Diving Board',              // 9
+    'Present Model Management',  // 10
 ];
 
 function typewriteTitle(text, el) {
@@ -219,7 +200,16 @@ function renderAt(prog) {
         }
     }
 
-    if (cookiesVideoEl && Math.abs(clamped - 1) > 0) {
+    if (explainerVideoEl && Math.abs(clamped - 1) > 0) {
+        if (!explainerVideoEl.paused) explainerVideoEl.pause();
+        if (!explainerVideoEl.muted) {
+            explainerVideoEl.muted = true;
+            const vb = document.getElementById('explainer-vol');
+            if (vb) vb.classList.remove('unmuted');
+        }
+    }
+
+    if (cookiesVideoEl && Math.abs(clamped - 2) > 0) {
         if (!cookiesVideoEl.paused) cookiesVideoEl.pause();
         if (!cookiesVideoEl.muted) {
             cookiesVideoEl.muted = true;
@@ -228,17 +218,17 @@ function renderAt(prog) {
         }
     }
 
-    if (jellycatVideoEl && Math.abs(clamped - 2) > 0) {
+    if (jellycatVideoEl && Math.abs(clamped - 3) > 0) {
         if (!jellycatVideoEl.paused) jellycatVideoEl.pause();
         if (!jellycatVideoEl.muted) { jellycatVideoEl.muted = true; const vb = document.getElementById('jellycat-vol'); if (vb) vb.classList.remove('unmuted'); }
     }
 
-    if (bolt6VideoEl && Math.abs(clamped - 4) > 0) {
+    if (bolt6VideoEl && Math.abs(clamped - 5) > 0) {
         if (!bolt6VideoEl.paused) bolt6VideoEl.pause();
         if (!bolt6VideoEl.muted) { bolt6VideoEl.muted = true; const vb = document.getElementById('bolt6-vol'); if (vb) vb.classList.remove('unmuted'); }
     }
 
-    if (chinatownVideoEl && Math.abs(clamped - 5) > 0) {
+    if (chinatownVideoEl && Math.abs(clamped - 6) > 0) {
         if (!chinatownVideoEl.paused) chinatownVideoEl.pause();
         if (!chinatownVideoEl.muted) {
             chinatownVideoEl.muted = true;
@@ -247,22 +237,22 @@ function renderAt(prog) {
         }
     }
 
-    if (pixelsVideoEl && Math.abs(clamped - 3) > 0) {
+    if (pixelsVideoEl && Math.abs(clamped - 4) > 0) {
         if (!pixelsVideoEl.paused) pixelsVideoEl.pause();
         if (!pixelsVideoEl.muted) { pixelsVideoEl.muted = true; const vb = document.getElementById('pixels-vol'); if (vb) vb.classList.remove('unmuted'); }
     }
 
-    if (divingboardVideoEl && Math.abs(clamped - 8) > 0) {
+    if (divingboardVideoEl && Math.abs(clamped - 9) > 0) {
         if (!divingboardVideoEl.paused) divingboardVideoEl.pause();
         if (!divingboardVideoEl.muted) { divingboardVideoEl.muted = true; const vb = document.getElementById('divingboard-vol'); if (vb) vb.classList.remove('unmuted'); }
     }
 
-    if (cyclingVideoEl && Math.abs(clamped - 7) > 0) {
+    if (cyclingVideoEl && Math.abs(clamped - 8) > 0) {
         if (!cyclingVideoEl.paused) cyclingVideoEl.pause();
         if (!cyclingVideoEl.muted) { cyclingVideoEl.muted = true; const vb = document.getElementById('cycling-vol'); if (vb) vb.classList.remove('unmuted'); }
     }
 
-    if (ryeVideoEl && Math.abs(clamped - 7) > 0) {
+    if (ryeVideoEl && Math.abs(clamped - 8) > 0) {
         if (!ryeVideoEl.paused) ryeVideoEl.pause();
         if (!ryeVideoEl.muted) {
             ryeVideoEl.muted = true;
@@ -271,7 +261,7 @@ function renderAt(prog) {
         }
     }
 
-    if (Math.abs(clamped - 6) > 0 && mythVideos.length > 0 && mythVideos.some(v => !v.paused)) {
+    if (Math.abs(clamped - 7) > 0 && mythVideos.length > 0 && mythVideos.some(v => !v.paused)) {
         stopAllMythVideos();
     }
 
@@ -281,7 +271,7 @@ function renderAt(prog) {
             mythLockEl.style.pointerEvents = 'none';
         } else {
             mythLockEl.style.transition = '';
-            const dist = Math.abs(clamped - 6);
+            const dist = Math.abs(clamped - 7);
             const p = Math.max(0, 1 - dist);
             mythLockEl.style.opacity = p;
             mythLockEl.style.transform = `scale(${0.88 + 0.12 * p})`;
@@ -293,20 +283,20 @@ function renderAt(prog) {
 function preloadPanel(idx) {
     if (idx < 0 || idx >= panels.length) return;
     const videoMap = {
-        1: ['cookies-video'], 2: ['jellycat-video'], 3: ['pixels-video'],
-        4: ['bolt6-video'],   5: ['chinatown-video'],
-        8: ['divingboard-video'],
+        1: ['explainer-video'], 2: ['cookies-video'], 3: ['jellycat-video'], 4: ['pixels-video'],
+        5: ['bolt6-video'],     6: ['chinatown-video'], 8: ['rye-video', 'cycling-video'],
+        9: ['divingboard-video'],
     };
     (videoMap[idx] || []).forEach(id => {
         const v = document.getElementById(id);
         if (v && v.dataset.src) { v.src = v.dataset.src; delete v.dataset.src; v.load(); }
     });
-    if (idx === 6) {
+    if (idx === 7) {
         document.querySelectorAll('.myth-video').forEach(v => {
             if (v.dataset.src) { v.src = v.dataset.src; delete v.dataset.src; v.load(); }
         });
     }
-    if (idx === 9) {
+    if (idx === 10) {
         const iframe = document.getElementById('present-iframe');
         if (iframe && iframe.dataset.src) { iframe.src = iframe.dataset.src; delete iframe.dataset.src; }
     }
@@ -341,7 +331,7 @@ function onSettled() {
         typewriteTitle(panelTitles[snapped]);
 
 
-        if (lastSnappedPanel === 6 && snapped !== 6) {
+        if (lastSnappedPanel === 7 && snapped !== 7) {
             if (mythLockEl) {
                 mythLockEl.classList.remove('unlocked');
                 mythLockEl.style.transition = '';
@@ -375,26 +365,28 @@ function onSettled() {
             }
         };
 
-        if (snapped === 0) tryPlay(showreelVideoEl); else tryPause(showreelVideoEl);
-        if (snapped === 1) tryPlay(cookiesVideoEl);  else tryPause(cookiesVideoEl);
-        if (snapped === 2) tryPlay(jellycatVideoEl); else tryPause(jellycatVideoEl);
-        if (snapped === 3) tryPlay(pixelsVideoEl);   else tryPause(pixelsVideoEl);
-        if (snapped === 4) tryPlay(bolt6VideoEl);    else tryPause(bolt6VideoEl);
-        if (snapped === 5) tryPlay(chinatownVideoEl);else tryPause(chinatownVideoEl);
-        if (snapped === 7) {
-            // Use play() directly — on iOS Safari play() initiates loading for muted videos.
-            // Fall back to load()+canplay only if play() is rejected.
-            const playV = v => v.play().catch(() => {
-                v.load();
-                v.addEventListener('canplay', () => v.play().catch(() => {}), { once: true });
-            });
+        if (snapped === 0) tryPlay(showreelVideoEl);  else tryPause(showreelVideoEl);
+        if (snapped === 1) tryPlay(explainerVideoEl); else tryPause(explainerVideoEl);
+        if (snapped === 2) tryPlay(cookiesVideoEl);   else tryPause(cookiesVideoEl);
+        if (snapped === 3) tryPlay(jellycatVideoEl);  else tryPause(jellycatVideoEl);
+        if (snapped === 4) tryPlay(pixelsVideoEl);    else tryPause(pixelsVideoEl);
+        if (snapped === 5) tryPlay(bolt6VideoEl);     else tryPause(bolt6VideoEl);
+        if (snapped === 6) tryPlay(chinatownVideoEl); else tryPause(chinatownVideoEl);
+        if (snapped === 8) {
+            const playV = v => {
+                if (v.dataset.src) { v.src = v.dataset.src; delete v.dataset.src; }
+                v.play().catch(() => {
+                    v.load();
+                    v.addEventListener('canplay', () => v.play().catch(() => {}), { once: true });
+                });
+            };
             playV(ryeVideoEl);
             playV(cyclingVideoEl);
         } else { tryPause(ryeVideoEl); tryPause(cyclingVideoEl); }
-        if (snapped === 8) tryPlay(divingboardVideoEl); else tryPause(divingboardVideoEl);
+        if (snapped === 9) tryPlay(divingboardVideoEl); else tryPause(divingboardVideoEl);
 
         const presentIframe = document.getElementById('present-iframe');
-        if (snapped === 9 && presentIframe && presentIframe.dataset.src) {
+        if (snapped === 10 && presentIframe && presentIframe.dataset.src) {
             presentIframe.src = presentIframe.dataset.src;
             delete presentIframe.dataset.src;
         }
@@ -486,12 +478,13 @@ window.addEventListener('touchend', (e) => {
         };
         const videosByPanel = {
             0: [showreelVideoEl],
-            1: [cookiesVideoEl],
-            2: [jellycatVideoEl],
-            3: [pixelsVideoEl],
-            4: [bolt6VideoEl],
-            5: [chinatownVideoEl],
-            8: [divingboardVideoEl],
+            1: [explainerVideoEl],
+            2: [cookiesVideoEl],
+            3: [jellycatVideoEl],
+            4: [pixelsVideoEl],
+            5: [bolt6VideoEl],
+            6: [chinatownVideoEl],
+            9: [divingboardVideoEl],
         };
         (videosByPanel[snapped] || []).forEach(safePlay);
     }
@@ -768,6 +761,7 @@ function setupPlayBtn(videoEl, btnEl, wrapEl) {
 
 
 showreelVideoEl = document.getElementById('showreel-video');
+explainerVideoEl    = document.getElementById('explainer-video');
 cookiesVideoEl      = document.getElementById('cookies-video');
 jellycatVideoEl     = document.getElementById('jellycat-video');
 bolt6VideoEl        = document.getElementById('bolt6-video');
@@ -781,14 +775,16 @@ ryeVideoEl          = document.getElementById('rye-video');
 // Wire up all play/pause buttons
 const videoWraps = Array.from(document.querySelectorAll('.showreel-video-wrap'));
 setupPlayBtn(showreelVideoEl,    document.getElementById('showreel-play-btn'),   videoWraps[0]);
-setupPlayBtn(cookiesVideoEl,     document.getElementById('cookies-play-btn'),    videoWraps[1]);
-setupPlayBtn(jellycatVideoEl,    document.getElementById('jellycat-play-btn'),   videoWraps[2]);
-setupPlayBtn(bolt6VideoEl,       document.getElementById('bolt6-play-btn'),      videoWraps[4]);
-setupPlayBtn(ryeVideoEl,         document.getElementById('rye-play-btn'),        videoWraps[5]);
-setupPlayBtn(cyclingVideoEl,     document.getElementById('cycling-play-btn'),    videoWraps[6]);
-setupPlayBtn(divingboardVideoEl, document.getElementById('divingboard-play-btn'),videoWraps[7]);
+setupPlayBtn(explainerVideoEl,   document.getElementById('explainer-play-btn'),  videoWraps[1]);
+setupPlayBtn(cookiesVideoEl,     document.getElementById('cookies-play-btn'),    videoWraps[2]);
+setupPlayBtn(jellycatVideoEl,    document.getElementById('jellycat-play-btn'),   videoWraps[3]);
+setupPlayBtn(bolt6VideoEl,       document.getElementById('bolt6-play-btn'),      videoWraps[5]);
+setupPlayBtn(ryeVideoEl,         document.getElementById('rye-play-btn'),        videoWraps[7]);
+setupPlayBtn(cyclingVideoEl,     document.getElementById('cycling-play-btn'),    videoWraps[8]);
+setupPlayBtn(divingboardVideoEl, document.getElementById('divingboard-play-btn'),videoWraps[9]);
 
 const showreelVolBtn    = document.getElementById('showreel-vol');
+const explainerVolBtn   = document.getElementById('explainer-vol');
 const cookiesVolBtn     = document.getElementById('cookies-vol');
 const jellycatVolBtn    = document.getElementById('jellycat-vol');
 const bolt6VolBtn       = document.getElementById('bolt6-vol');
@@ -797,7 +793,8 @@ const divingboardVolBtn = document.getElementById('divingboard-vol');
 const cyclingVolBtn     = document.getElementById('cycling-vol');
 const ryeVolBtn         = document.getElementById('rye-vol');
 
-[[showreelVolBtn, () => showreelVideoEl], [cookiesVolBtn, () => cookiesVideoEl],
+[[showreelVolBtn, () => showreelVideoEl], [explainerVolBtn, () => explainerVideoEl],
+ [cookiesVolBtn, () => cookiesVideoEl],
  [jellycatVolBtn, () => jellycatVideoEl], [bolt6VolBtn, () => bolt6VideoEl],
  [pixelsVolBtn, () => pixelsVideoEl],
  [divingboardVolBtn, () => divingboardVideoEl], [cyclingVolBtn, () => cyclingVideoEl],
@@ -927,19 +924,37 @@ document.getElementById('showreel-expand').addEventListener('click', (e) => {
     }
 });
 
+// Explainer expand/collapse
+document.getElementById('explainer-expand').addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isExpanded = panels[1].classList.contains('expanded');
+    panels[1].classList.toggle('expanded');
+    if (!isExpanded) {
+        panels.forEach(p => p.classList.remove('active'));
+        panels[1].classList.add('active');
+        targetPos = 1;
+        visualPos = 1;
+        lastSnappedPanel = 1;
+        typewriteTitle(panelTitles[1]);
+        expandPanel(1);
+    } else {
+        collapsePanel();
+    }
+});
+
 // Rye Lane expand/collapse
 document.getElementById('rye-expand').addEventListener('click', (e) => {
     e.stopPropagation();
-    const isExpanded = panels[7].classList.contains('expanded');
-    panels[7].classList.toggle('expanded');
+    const isExpanded = panels[8].classList.contains('expanded');
+    panels[8].classList.toggle('expanded');
     if (!isExpanded) {
         panels.forEach(p => p.classList.remove('active'));
-        panels[7].classList.add('active');
-        targetPos = 7;
-        visualPos = 7;
-        lastSnappedPanel = 7;
-        typewriteTitle(panelTitles[7]);
-        expandPanel(7);
+        panels[8].classList.add('active');
+        targetPos = 8;
+        visualPos = 8;
+        lastSnappedPanel = 8;
+        typewriteTitle(panelTitles[8]);
+        expandPanel(8);
     } else {
         collapsePanel();
     }
@@ -1003,16 +1018,16 @@ const mythVideoWraps = document.querySelectorAll('.myth-video-wrap');
 
 document.getElementById('myth-expand').addEventListener('click', (e) => {
     e.stopPropagation();
-    const isExpanded = panels[6].classList.contains('expanded');
-    panels[6].classList.toggle('expanded');
+    const isExpanded = panels[7].classList.contains('expanded');
+    panels[7].classList.toggle('expanded');
     if (!isExpanded) {
         panels.forEach(p => p.classList.remove('active'));
-        panels[6].classList.add('active');
-        targetPos = 6;
-        visualPos = 6;
-        lastSnappedPanel = 6;
-        typewriteTitle(panelTitles[6]);
-        expandPanel(6);
+        panels[7].classList.add('active');
+        targetPos = 7;
+        visualPos = 7;
+        lastSnappedPanel = 7;
+        typewriteTitle(panelTitles[7]);
+        expandPanel(7);
     } else {
         collapsePanel();
     }
@@ -1043,16 +1058,16 @@ function loadBolt6Rives() {
 
 document.getElementById('bolt6-expand').addEventListener('click', (e) => {
     e.stopPropagation();
-    const isExpanded = panels[4].classList.contains('expanded');
-    panels[4].classList.toggle('expanded');
+    const isExpanded = panels[5].classList.contains('expanded');
+    panels[5].classList.toggle('expanded');
     if (!isExpanded) {
         panels.forEach(p => p.classList.remove('active'));
-        panels[4].classList.add('active');
-        targetPos = 4;
-        visualPos = 4;
-        lastSnappedPanel = 4;
-        typewriteTitle(panelTitles[4]);
-        expandPanel(4);
+        panels[5].classList.add('active');
+        targetPos = 5;
+        visualPos = 5;
+        lastSnappedPanel = 5;
+        typewriteTitle(panelTitles[5]);
+        expandPanel(5);
         loadBolt6Rives();
     } else {
         collapsePanel();
@@ -1061,42 +1076,6 @@ document.getElementById('bolt6-expand').addEventListener('click', (e) => {
 
 // JellyCat expand/collapse
 document.getElementById('jellycat-expand').addEventListener('click', (e) => {
-    e.stopPropagation();
-    const isExpanded = panels[2].classList.contains('expanded');
-    panels[2].classList.toggle('expanded');
-    if (!isExpanded) {
-        panels.forEach(p => p.classList.remove('active'));
-        panels[2].classList.add('active');
-        targetPos = 2;
-        visualPos = 2;
-        lastSnappedPanel = 2;
-        typewriteTitle(panelTitles[2]);
-        expandPanel(2);
-    } else {
-        collapsePanel();
-    }
-});
-
-// Cookies expand/collapse
-document.getElementById('cookies-expand').addEventListener('click', (e) => {
-    e.stopPropagation();
-    const isExpanded = panels[1].classList.contains('expanded');
-    panels[1].classList.toggle('expanded');
-    if (!isExpanded) {
-        panels.forEach(p => p.classList.remove('active'));
-        panels[1].classList.add('active');
-        targetPos = 1;
-        visualPos = 1;
-        lastSnappedPanel = 1;
-        typewriteTitle(panelTitles[1]);
-        expandPanel(1);
-    } else {
-        collapsePanel();
-    }
-});
-
-// 44 Pixels expand/collapse
-document.getElementById('pixels-expand').addEventListener('click', (e) => {
     e.stopPropagation();
     const isExpanded = panels[3].classList.contains('expanded');
     panels[3].classList.toggle('expanded');
@@ -1113,19 +1092,55 @@ document.getElementById('pixels-expand').addEventListener('click', (e) => {
     }
 });
 
+// Cookies expand/collapse
+document.getElementById('cookies-expand').addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isExpanded = panels[2].classList.contains('expanded');
+    panels[2].classList.toggle('expanded');
+    if (!isExpanded) {
+        panels.forEach(p => p.classList.remove('active'));
+        panels[2].classList.add('active');
+        targetPos = 2;
+        visualPos = 2;
+        lastSnappedPanel = 2;
+        typewriteTitle(panelTitles[2]);
+        expandPanel(2);
+    } else {
+        collapsePanel();
+    }
+});
+
+// 44 Pixels expand/collapse
+document.getElementById('pixels-expand').addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isExpanded = panels[4].classList.contains('expanded');
+    panels[4].classList.toggle('expanded');
+    if (!isExpanded) {
+        panels.forEach(p => p.classList.remove('active'));
+        panels[4].classList.add('active');
+        targetPos = 4;
+        visualPos = 4;
+        lastSnappedPanel = 4;
+        typewriteTitle(panelTitles[4]);
+        expandPanel(4);
+    } else {
+        collapsePanel();
+    }
+});
+
 // China Town expand/collapse
 document.getElementById('chinatown-expand').addEventListener('click', (e) => {
     e.stopPropagation();
-    const isExpanded = panels[5].classList.contains('expanded');
-    panels[5].classList.toggle('expanded');
+    const isExpanded = panels[6].classList.contains('expanded');
+    panels[6].classList.toggle('expanded');
     if (!isExpanded) {
         panels.forEach(p => p.classList.remove('active'));
-        panels[5].classList.add('active');
-        targetPos = 5;
-        visualPos = 5;
-        lastSnappedPanel = 5;
-        typewriteTitle(panelTitles[5]);
-        expandPanel(5);
+        panels[6].classList.add('active');
+        targetPos = 6;
+        visualPos = 6;
+        lastSnappedPanel = 6;
+        typewriteTitle(panelTitles[6]);
+        expandPanel(6);
     } else {
         collapsePanel();
     }
@@ -1133,24 +1148,6 @@ document.getElementById('chinatown-expand').addEventListener('click', (e) => {
 
 // Diving Board expand/collapse
 document.getElementById('divingboard-expand').addEventListener('click', (e) => {
-    e.stopPropagation();
-    const isExpanded = panels[8].classList.contains('expanded');
-    panels[8].classList.toggle('expanded');
-    if (!isExpanded) {
-        panels.forEach(p => p.classList.remove('active'));
-        panels[8].classList.add('active');
-        targetPos = 8;
-        visualPos = 8;
-        lastSnappedPanel = 8;
-        typewriteTitle(panelTitles[8]);
-        expandPanel(8);
-    } else {
-        collapsePanel();
-    }
-});
-
-// Present expand/collapse
-document.getElementById('present-expand').addEventListener('click', (e) => {
     e.stopPropagation();
     const isExpanded = panels[9].classList.contains('expanded');
     panels[9].classList.toggle('expanded');
@@ -1162,6 +1159,24 @@ document.getElementById('present-expand').addEventListener('click', (e) => {
         lastSnappedPanel = 9;
         typewriteTitle(panelTitles[9]);
         expandPanel(9);
+    } else {
+        collapsePanel();
+    }
+});
+
+// Present expand/collapse
+document.getElementById('present-expand').addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isExpanded = panels[10].classList.contains('expanded');
+    panels[10].classList.toggle('expanded');
+    if (!isExpanded) {
+        panels.forEach(p => p.classList.remove('active'));
+        panels[10].classList.add('active');
+        targetPos = 10;
+        visualPos = 10;
+        lastSnappedPanel = 10;
+        typewriteTitle(panelTitles[10]);
+        expandPanel(10);
     } else {
         collapsePanel();
     }

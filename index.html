@@ -6,7 +6,15 @@
     <title>Luke Cottrell</title>
     <link rel="icon" id="favicon" type="image/png" href="data:,">
     <link rel="stylesheet" href="css/style.css">
+    <meta name="description" content="Luke Cottrell is a motion designer and creative technologist specialising in character-driven animation and interactive motion design.">
+    <meta property="og:title" content="Luke Cottrell — Motion Designer &amp; Creative Technologist">
+    <meta property="og:description" content="Motion designer specialising in expressive, character-driven animation and crisp, engaging motion graphics.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://lukecottrell.co.uk">
     <link rel="preload" href="assets/Aeonik-Regular.ttf" as="font" type="font/truetype" crossorigin>
+    <link rel="preload" href="assets/Aeonik-Bold.ttf" as="font" type="font/truetype" crossorigin>
+    <link rel="preload" href="Rive/Luket.riv" as="fetch" crossorigin>
+    <link rel="preload" href="Rive/LukeCottrell[Text].riv" as="fetch" crossorigin>
     <link rel="preconnect" href="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev" crossorigin>
     <link rel="preconnect" href="https://player.vimeo.com" crossorigin>
     <script>
@@ -57,7 +65,7 @@
 </head>
 <body>
 
-    <svg id="cursor" xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="-4 -4 8 8">
+    <svg id="cursor" xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="-4 -4 8 8">
         <polygon id="cursor-shape" points="0,-3.5 1.75,-3.03 3.03,-1.75 3.5,0 3.03,1.75 1.75,3.03 0,3.5 -1.75,3.03 -3.03,1.75 -3.5,0 -3.03,-1.75 -1.75,-3.03"/>
     </svg>
 
@@ -101,7 +109,7 @@
                 </button>
                 <div class="panel-inner showreel-inner">
                     <div class="showreel-video-wrap">
-                        <video id="showreel-video" src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/Luke%20Cottrell%20showreel%202025.mp4" autoplay muted loop playsinline></video>
+                        <video id="showreel-video" src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/Luke%20Cottrell%20showreel%202025.mp4" autoplay muted loop webkit-playsinline playsinline></video>
                         <button class="play-btn" id="showreel-play-btn" aria-label="Play/Pause"><svg class="play-icon" width="20" height="20" viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21" fill="white"/></svg><svg class="pause-icon" width="20" height="20" viewBox="0 0 24 24"><rect x="5" y="3" width="4" height="18" rx="1" fill="white"/><rect x="15" y="3" width="4" height="18" rx="1" fill="white"/></svg></button>
                         <div class="video-timeline" id="showreel-timeline"><div class="timeline-progress" id="showreel-progress" style="background:#ffffff"></div></div>
                         <button class="vol-btn" id="showreel-vol" aria-label="Toggle volume">
@@ -117,14 +125,52 @@
                     </div>
                 </div>
             </div>
-            <div class="panel" data-index="1" style="--tab-color:#5470FF;">
+            <div class="panel" data-index="1" style="--tab-color:#AED5FF;">
+                <button class="expand-btn" id="explainer-expand" aria-label="Expand">
+                    <svg class="expand-icon" width="24" height="24" viewBox="0 0 22 22" fill="none"><path d="M2 2l7 7M2 2h6M2 2v6" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 20l-7-7M20 20h-6M20 20v-6" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <svg class="collapse-icon" width="24" height="24" viewBox="0 0 22 22" fill="none"><path d="M9 2v6H3M9 8L2 2M13 20v-6h6M13 14l7 6" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+                <div class="panel-inner showreel-inner jellycat-inner">
+                    <div class="showreel-video-wrap">
+                        <video id="explainer-video" data-src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/1920x1080_web.mp4" muted loop webkit-playsinline playsinline></video>
+                        <button class="play-btn" id="explainer-play-btn" aria-label="Play/Pause"><svg class="play-icon" width="20" height="20" viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21" fill="white"/></svg><svg class="pause-icon" width="20" height="20" viewBox="0 0 24 24"><rect x="5" y="3" width="4" height="18" rx="1" fill="white"/><rect x="15" y="3" width="4" height="18" rx="1" fill="white"/></svg></button>
+                        <button class="vol-btn" id="explainer-vol" aria-label="Toggle volume">
+                            <svg class="vol-on" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M19 5a10 10 0 0 1 0 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                            <svg class="vol-off" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/><line x1="23" y1="9" x2="17" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="17" y1="9" x2="23" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                        </button>
+                    </div>
+                    <div class="jellycat-right">
+                        <div class="showreel-meta">
+                            <span class="tab-type">Personal</span>
+                            <span class="showreel-title">Explainer Video</span>
+                            <span class="showreel-sub">Concept explainer video on how to play Pingpong (table tennis). The project was designed in Figma and then imported to After Effects and animated.</span>
+                        </div>
+                        <div class="style-frames" id="explainer-frames">
+                            <img src="assets/explainer/frame-01.webp" alt="" loading="lazy">
+                            <img src="assets/explainer/frame-02.webp" alt="" loading="lazy">
+                            <img src="assets/explainer/frame-03.webp" alt="" loading="lazy">
+                            <img src="assets/explainer/frame-04.webp" alt="" loading="lazy">
+                            <img src="assets/explainer/frame-05.webp" alt="" loading="lazy">
+                            <img src="assets/explainer/frame-06.webp" alt="" loading="lazy">
+                            <img src="assets/explainer/frame-07.webp" alt="" loading="lazy">
+                            <img src="assets/explainer/frame-08.webp" alt="" loading="lazy">
+                            <img src="assets/explainer/frame-09.webp" alt="" loading="lazy">
+                            <img src="assets/explainer/frame-10.webp" alt="" loading="lazy">
+                            <img src="assets/explainer/frame-11.webp" alt="" loading="lazy">
+                            <img src="assets/explainer/frame-12.webp" alt="" loading="lazy">
+                            <img src="assets/explainer/frame-13.webp" alt="" loading="lazy">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel" data-index="2" style="--tab-color:#5470FF;">
                 <button class="expand-btn" id="cookies-expand" aria-label="Expand">
                     <svg class="expand-icon" width="24" height="24" viewBox="0 0 22 22" fill="none"><path d="M2 2l7 7M2 2h6M2 2v6" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 20l-7-7M20 20h-6M20 20v-6" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     <svg class="collapse-icon" width="24" height="24" viewBox="0 0 22 22" fill="none"><path d="M9 2v6H3M9 8L2 2M13 20v-6h6M13 14l7 6" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </button>
                 <div class="panel-inner showreel-inner" id="cookies-inner">
                     <div class="showreel-video-wrap">
-                        <video id="cookies-video" data-src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/DoYouAcceptCookies%3F.mp4" autoplay muted loop playsinline></video>
+                        <video id="cookies-video" data-src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/DoYouAcceptCookies%3F.mp4" autoplay muted loop webkit-playsinline playsinline></video>
                         <button class="play-btn" id="cookies-play-btn" aria-label="Play/Pause"><svg class="play-icon" width="20" height="20" viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21" fill="white"/></svg><svg class="pause-icon" width="20" height="20" viewBox="0 0 24 24"><rect x="5" y="3" width="4" height="18" rx="1" fill="white"/><rect x="15" y="3" width="4" height="18" rx="1" fill="white"/></svg></button>
                         <div class="video-timeline" id="cookies-timeline"><div class="timeline-progress" id="cookies-progress" style="background:#5470FF"></div></div>
                         <button class="vol-btn" id="cookies-vol" aria-label="Toggle volume">
@@ -149,14 +195,14 @@
                     </div>
                 </div>
             </div>
-            <div class="panel" data-index="2" style="--tab-color:#FFAE00;">
+            <div class="panel" data-index="3" style="--tab-color:#FFAE00;">
                 <button class="expand-btn" id="jellycat-expand" aria-label="Expand">
                     <svg class="expand-icon" width="24" height="24" viewBox="0 0 22 22" fill="none"><path d="M2 2l7 7M2 2h6M2 2v6" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 20l-7-7M20 20h-6M20 20v-6" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     <svg class="collapse-icon" width="24" height="24" viewBox="0 0 22 22" fill="none"><path d="M9 2v6H3M9 8L2 2M13 20v-6h6M13 14l7 6" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </button>
                 <div class="panel-inner showreel-inner jellycat-inner">
                     <div class="showreel-video-wrap">
-                        <video id="jellycat-video" data-src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/Bumping%20into%20Buddies%2010sLoop%20CPR.mp4" autoplay muted loop playsinline></video>
+                        <video id="jellycat-video" data-src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/Bumping%20into%20Buddies%2010sLoop%20CPR.mp4" autoplay muted loop webkit-playsinline playsinline></video>
                         <button class="play-btn" id="jellycat-play-btn" aria-label="Play/Pause"><svg class="play-icon" width="20" height="20" viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21" fill="white"/></svg><svg class="pause-icon" width="20" height="20" viewBox="0 0 24 24"><rect x="5" y="3" width="4" height="18" rx="1" fill="white"/><rect x="15" y="3" width="4" height="18" rx="1" fill="white"/></svg></button>
                         <button class="vol-btn" id="jellycat-vol" aria-label="Toggle volume">
                             <svg class="vol-on" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M19 5a10 10 0 0 1 0 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
@@ -178,11 +224,11 @@
                     </div>
                 </div>
             </div>
-            <div class="panel" data-index="3" style="--tab-color:#434343;">
+            <div class="panel" data-index="4" style="--tab-color:#434343;">
                 <button class="expand-btn" id="pixels-expand" aria-label="Expand"><svg class="expand-icon" width="24" height="24" viewBox="0 0 22 22" fill="none"><path d="M2 2l7 7M2 2h6M2 2v6" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 20l-7-7M20 20h-6M20 20v-6" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><svg class="collapse-icon" width="24" height="24" viewBox="0 0 22 22" fill="none"><path d="M9 2v6H3M9 8L2 2M13 20v-6h6M13 14l7 6" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
                 <div class="panel-inner showreel-inner pixels-inner">
                     <div class="showreel-video-wrap">
-                        <video id="pixels-video" class="pixels-vid" data-src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/Showreel_May_2026mp4.mp4" autoplay muted loop playsinline></video>
+                        <video id="pixels-video" class="pixels-vid" data-src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/Showreel_May_2026mp4.mp4" autoplay muted loop webkit-playsinline playsinline></video>
                         <button class="vol-btn" id="pixels-vol" aria-label="Toggle volume">
                             <svg class="vol-on" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M19 5a10 10 0 0 1 0 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
                             <svg class="vol-off" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/><line x1="23" y1="9" x2="17" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="17" y1="9" x2="23" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
@@ -239,7 +285,7 @@
                     </div>
                 </div>
             </div>
-            <div class="panel" data-index="4" style="--tab-color:#00346B;">
+            <div class="panel" data-index="5" style="--tab-color:#00346B;">
                 <button class="expand-btn" id="bolt6-expand" aria-label="Expand">
                     <svg class="expand-icon" width="24" height="24" viewBox="0 0 22 22" fill="none"><path d="M2 2l7 7M2 2h6M2 2v6" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 20l-7-7M20 20h-6M20 20v-6" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     <svg class="collapse-icon" width="24" height="24" viewBox="0 0 22 22" fill="none"><path d="M9 2v6H3M9 8L2 2M13 20v-6h6M13 14l7 6" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -253,7 +299,7 @@
                     </div>
                     <div class="bolt6-right">
                         <div class="showreel-video-wrap">
-                            <video id="bolt6-video" data-src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/Bolt6Linkedin.mp4" autoplay muted loop playsinline></video>
+                            <video id="bolt6-video" data-src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/Bolt6Linkedin.mp4" autoplay muted loop webkit-playsinline playsinline></video>
                             <button class="play-btn" id="bolt6-play-btn" aria-label="Play/Pause"><svg class="play-icon" width="20" height="20" viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21" fill="white"/></svg><svg class="pause-icon" width="20" height="20" viewBox="0 0 24 24"><rect x="5" y="3" width="4" height="18" rx="1" fill="white"/><rect x="15" y="3" width="4" height="18" rx="1" fill="white"/></svg></button>
                             <button class="vol-btn" id="bolt6-vol" aria-label="Toggle volume">
                                 <svg class="vol-on" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M19 5a10 10 0 0 1 0 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
@@ -266,11 +312,11 @@
                     </div>
                 </div>
             </div>
-            <div class="panel" data-index="5" style="--tab-color:#D61A33;">
+            <div class="panel" data-index="6" style="--tab-color:#D61A33;">
                 <button class="expand-btn" id="chinatown-expand" aria-label="Expand"><svg class="expand-icon" width="24" height="24" viewBox="0 0 22 22" fill="none"><path d="M2 2l7 7M2 2h6M2 2v6" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 20l-7-7M20 20h-6M20 20v-6" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><svg class="collapse-icon" width="24" height="24" viewBox="0 0 22 22" fill="none"><path d="M9 2v6H3M9 8L2 2M13 20v-6h6M13 14l7 6" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
                 <div class="panel-inner showreel-inner side">
                     <div class="showreel-video-wrap square">
-                        <video id="chinatown-video" data-src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/china%20town%20square.mp4" autoplay muted loop playsinline></video>
+                        <video id="chinatown-video" data-src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/china%20town%20square.mp4" autoplay muted loop webkit-playsinline playsinline></video>
                     </div>
                     <div class="showreel-meta">
                         <span class="tab-type">Client</span>
@@ -280,7 +326,7 @@
                     </div>
                 </div>
             </div>
-            <div class="panel" data-index="6" style="--tab-color:#FF6600;">
+            <div class="panel" data-index="7" style="--tab-color:#FF6600;">
                 <div class="panel-inner myth-content-inner" id="myth-content">
                     <button class="expand-btn" id="myth-expand" aria-label="Expand">
                         <svg class="expand-icon" width="24" height="24" viewBox="0 0 22 22" fill="none"><path d="M2 2l7 7M2 2h6M2 2v6" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 20l-7-7M20 20h-6M20 20v-6" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -288,19 +334,19 @@
                     </button>
                     <div class="myth-grid">
                         <div class="myth-video-wrap">
-                            <video class="myth-video" data-src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/OB_AV_2A_SHOT%2034%20WATCH%20TOWER%20REVEAL%20MOTION%20TEST_01_1.mp4" autoplay muted loop playsinline></video>
+                            <video class="myth-video" data-src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/OB_AV_2A_SHOT%2034%20WATCH%20TOWER%20REVEAL%20MOTION%20TEST_01_1.mp4" autoplay muted loop webkit-playsinline playsinline></video>
                         </div>
                         <div class="myth-video-wrap">
-                            <video class="myth-video" data-src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/web_ZA_TOC_AV_4B_04_0100_Queenstyleframe_v0010_LC_1.mp4" autoplay muted loop playsinline></video>
+                            <video class="myth-video" data-src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/web_ZA_TOC_AV_4B_04_0100_Queenstyleframe_v0010_LC_1.mp4" autoplay muted loop webkit-playsinline playsinline></video>
                         </div>
                         <div class="myth-video-wrap">
-                            <video class="myth-video" data-src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/web_ZA_TOC_AV_4B_04_0150_noble_v009_LC_1_1.mp4" autoplay muted loop playsinline></video>
+                            <video class="myth-video" data-src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/web_ZA_TOC_AV_4B_04_0150_noble_v009_LC_1_1.mp4" autoplay muted loop webkit-playsinline playsinline></video>
                         </div>
                         <div class="myth-video-wrap">
-                            <video class="myth-video" data-src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/web_ZA_TOC_AV_4B_04_0170_Animation_v007_LC.aep_1.mp4" autoplay muted loop playsinline></video>
+                            <video class="myth-video" data-src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/web_ZA_TOC_AV_4B_04_0170_Animation_v007_LC.aep_1.mp4" autoplay muted loop webkit-playsinline playsinline></video>
                         </div>
                         <div class="myth-video-wrap">
-                            <video class="myth-video" data-src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/web_ZA_TOC_AV_4B_04_0200_Animation_v008_LC_1.mp4" autoplay muted loop playsinline></video>
+                            <video class="myth-video" data-src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/web_ZA_TOC_AV_4B_04_0200_Animation_v008_LC_1.mp4" autoplay muted loop webkit-playsinline playsinline></video>
                         </div>
                     </div>
                     <div class="myth-meta">
@@ -309,7 +355,7 @@
                     </div>
                     <div id="myth-spotlight">
                         <div class="myth-spotlight-inner">
-                            <video id="myth-spotlight-vid" autoplay muted loop playsinline></video>
+                            <video id="myth-spotlight-vid" autoplay muted loop webkit-playsinline playsinline></video>
                         </div>
                     </div>
                 </div>
@@ -329,7 +375,7 @@
                     </div>
                 </div>
             </div>
-            <div class="panel" data-index="7" style="--tab-color:#00794A;">
+            <div class="panel" data-index="8" style="--tab-color:#00794A;">
                 <button class="expand-btn" id="rye-expand" aria-label="Expand">
                     <svg class="expand-icon" width="24" height="24" viewBox="0 0 22 22" fill="none"><path d="M2 2l7 7M2 2h6M2 2v6" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 20l-7-7M20 20h-6M20 20v-6" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     <svg class="collapse-icon" width="24" height="24" viewBox="0 0 22 22" fill="none"><path d="M9 2v6H3M9 8L2 2M13 20v-6h6M13 14l7 6" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -337,7 +383,7 @@
                 <div class="panel-inner showreel-inner side">
                     <div class="rye-videos">
                         <div class="showreel-video-wrap portrait">
-                            <video id="rye-video" src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/rye_final.mp4" preload="metadata" autoplay muted loop playsinline webkit-playsinline></video>
+                            <video id="rye-video" data-src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/rye_final.mp4" autoplay muted loop webkit-playsinline playsinline webkit-playsinline></video>
                             <button class="play-btn" id="rye-play-btn" aria-label="Play/Pause"><svg class="play-icon" width="20" height="20" viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21" fill="white"/></svg><svg class="pause-icon" width="20" height="20" viewBox="0 0 24 24"><rect x="5" y="3" width="4" height="18" rx="1" fill="white"/><rect x="15" y="3" width="4" height="18" rx="1" fill="white"/></svg></button>
                             <button class="vol-btn" id="rye-vol" aria-label="Toggle volume">
                                 <svg class="vol-on" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M19 5a10 10 0 0 1 0 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
@@ -345,7 +391,7 @@
                             </button>
                         </div>
                         <div class="showreel-video-wrap portrait">
-                            <video id="cycling-video" src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/Cycling%20main%20test%201.mp4" preload="metadata" autoplay muted loop playsinline webkit-playsinline></video>
+                            <video id="cycling-video" data-src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/Cycling%20main%20test%201.mp4" autoplay muted loop webkit-playsinline playsinline webkit-playsinline></video>
                             <button class="play-btn" id="cycling-play-btn" aria-label="Play/Pause"><svg class="play-icon" width="20" height="20" viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21" fill="white"/></svg><svg class="pause-icon" width="20" height="20" viewBox="0 0 24 24"><rect x="5" y="3" width="4" height="18" rx="1" fill="white"/><rect x="15" y="3" width="4" height="18" rx="1" fill="white"/></svg></button>
                             <button class="vol-btn" id="cycling-vol" aria-label="Toggle volume">
                                 <svg class="vol-on" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M19 5a10 10 0 0 1 0 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
@@ -361,11 +407,11 @@
                     </div>
                 </div>
             </div>
-            <div class="panel" data-index="8" style="--tab-color:#FFB0F8;">
+            <div class="panel" data-index="9" style="--tab-color:#FFB0F8;">
                 <button class="expand-btn" id="divingboard-expand" aria-label="Expand"><svg class="expand-icon" width="24" height="24" viewBox="0 0 22 22" fill="none"><path d="M2 2l7 7M2 2h6M2 2v6" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 20l-7-7M20 20h-6M20 20v-6" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><svg class="collapse-icon" width="24" height="24" viewBox="0 0 22 22" fill="none"><path d="M9 2v6H3M9 8L2 2M13 20v-6h6M13 14l7 6" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
                 <div class="panel-inner showreel-inner">
                     <div class="showreel-video-wrap" id="divingboard-wrap">
-                        <video id="divingboard-video" data-src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/maddie%20and%20triggs%20response%201.mp4" autoplay muted loop playsinline></video>
+                        <video id="divingboard-video" data-src="https://pub-16ade1a1d97a4da09001e687bfb97ae7.r2.dev/maddie%20and%20triggs%20response%201.mp4" autoplay muted loop webkit-playsinline playsinline></video>
                         <button class="play-btn" id="divingboard-play-btn" aria-label="Play/Pause"><svg class="play-icon" width="20" height="20" viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21" fill="white"/></svg><svg class="pause-icon" width="20" height="20" viewBox="0 0 24 24"><rect x="5" y="3" width="4" height="18" rx="1" fill="white"/><rect x="15" y="3" width="4" height="18" rx="1" fill="white"/></svg></button>
                         <button class="vol-btn" id="divingboard-vol" aria-label="Toggle volume">
                             <svg class="vol-on" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M19 5a10 10 0 0 1 0 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
@@ -379,7 +425,7 @@
                     </div>
                 </div>
             </div>
-            <div class="panel" data-index="9" style="--tab-color:#AB6ED9;">
+            <div class="panel" data-index="10" style="--tab-color:#AB6ED9;">
                 <button class="expand-btn" id="present-expand" aria-label="Expand"><svg class="expand-icon" width="24" height="24" viewBox="0 0 22 22" fill="none"><path d="M2 2l7 7M2 2h6M2 2v6" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 20l-7-7M20 20h-6M20 20v-6" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><svg class="collapse-icon" width="24" height="24" viewBox="0 0 22 22" fill="none"><path d="M9 2v6H3M9 8L2 2M13 20v-6h6M13 14l7 6" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
                 <div class="panel-inner showreel-inner">
                     <div class="showreel-video-wrap vimeo-wrap">
@@ -398,7 +444,7 @@
 
     </div>
 
-    <script src="js/rive.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="js/rive.min.js" defer></script>
+    <script src="js/main.js" defer></script>
 </body>
 </html>
