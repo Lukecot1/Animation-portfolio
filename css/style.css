@@ -57,6 +57,30 @@
     transform: scale(0);
 }
 
+/* CONTENT LOADER — shown over panel while video buffers */
+
+#content-loader {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 90;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+#content-loader.visible {
+    opacity: 1;
+}
+
+#content-loader-canvas {
+    width: 60px;
+    height: 60px;
+    display: block;
+}
+
 @font-face {
     font-family: 'Aeonik';
     src: url('../assets/Aeonik-Regular.ttf') format('truetype');
@@ -411,6 +435,20 @@ body {
     max-height: 48vh;
     width: auto;
     align-self: center;
+}
+
+/* RYE LANE EXPANDED (landscape) — height-driven sizing, matches collapsed proportions */
+.panel[data-index="8"].expanded .rye-videos {
+    align-self: stretch;
+    flex: 0 0 auto;
+    justify-content: center;
+    min-height: 0;
+}
+.panel[data-index="8"].expanded .rye-videos .showreel-video-wrap.portrait {
+    flex: 0 0 auto;
+    height: 100%;
+    width: auto;
+    max-height: none;
 }
 
 .showreel-inner.side .showreel-video-wrap {
@@ -774,6 +812,7 @@ video::-webkit-media-controls-start-playback-button {
     aspect-ratio: 1 / 1;
     object-fit: contain;
     display: block;
+    background: rgba(0,0,0,0.04);
 }
 
 .panel.expanded .panel-inner {
@@ -1570,12 +1609,26 @@ video::-webkit-media-controls-start-playback-button {
     .showreel-video-wrap.square,
     .showreel-video-wrap.portrait   { width: 100% !important; aspect-ratio: unset; align-self: auto; }
 
-    /* Bolt 6 expanded — stack to column in portrait */
+    /* Bolt 6 expanded — video above text, matching collapsed order */
     .panel[data-index="5"].expanded .showreel-inner {
         flex-direction: column !important;
         align-items: stretch;
+        overflow: visible;
+    }
+    .panel[data-index="5"].expanded .bolt6-right {
+        order: 1;
+        flex: 0 0 auto;
+        width: 100%;
+    }
+    .panel[data-index="5"].expanded .bolt6-right > .showreel-video-wrap {
+        flex: 0 0 auto !important;
+        width: 100% !important;
+        aspect-ratio: 16 / 9 !important;
+        align-self: auto;
     }
     .panel[data-index="5"].expanded .showreel-inner > .showreel-meta {
+        order: 2;
+        flex: 0 0 auto;
         overflow-y: visible;
         max-height: none;
         align-self: auto;
@@ -1637,10 +1690,10 @@ video::-webkit-media-controls-start-playback-button {
         margin-top: 0;
         flex: 1;
         min-height: 0;
-        height: 0; /* forces flex to control size, not grid content */
+        height: 0;
     }
     .panel[data-index="7"]:not(.expanded) .myth-video {
-        object-fit: cover; /* fill each cell — no letterbox gaps */
+        object-fit: contain;
     }
 
     /* Expanded myth — fill blank cell with last video spanning full width */
@@ -1733,6 +1786,26 @@ video::-webkit-media-controls-start-playback-button {
         flex: 0 0 auto;
         overflow: hidden;
         min-height: 0;
+    }
+
+    /* Rye Lane expanded portrait — side-by-side portrait videos at correct 9:16, meta scrolls below */
+    .panel[data-index="8"].expanded .rye-videos {
+        flex: 0 0 auto !important;
+        height: auto;
+        min-height: 0;
+        justify-content: center;
+    }
+    .panel[data-index="8"].expanded .rye-videos .showreel-video-wrap.portrait {
+        flex: 1 !important;
+        height: auto !important;
+        aspect-ratio: 9 / 16 !important;
+        max-height: 55vh;
+        width: auto !important;
+        align-self: center;
+    }
+    .panel[data-index="8"].expanded .showreel-inner.side > .showreel-meta {
+        flex: 0 0 auto;
+        overflow-y: visible;
     }
 }
 

@@ -300,6 +300,10 @@ function preloadPanel(idx) {
         const iframe = document.getElementById('present-iframe');
         if (iframe && iframe.dataset.src) { iframe.src = iframe.dataset.src; delete iframe.dataset.src; }
     }
+    panels[idx].querySelectorAll('img[data-src]').forEach(img => {
+        img.src = img.dataset.src;
+        delete img.dataset.src;
+    });
 }
 
 // --- Lerp animation loop ---
@@ -391,9 +395,17 @@ function onSettled() {
             delete presentIframe.dataset.src;
         }
 
+        const panelVideoMap = {
+            0: showreelVideoEl,  1: explainerVideoEl, 2: cookiesVideoEl,
+            3: jellycatVideoEl,  4: pixelsVideoEl,    5: bolt6VideoEl,
+            6: chinatownVideoEl, 8: ryeVideoEl,       9: divingboardVideoEl,
+        };
+        trackVideoLoading(panelVideoMap[snapped] || null);
+
         lastSnappedPanel = snapped;
         position = snapped;
 
+        preloadPanel(snapped);
         // Skip adjacent preloads on mobile — bandwidth competition slows the current panel
         if (!window.matchMedia('(pointer: coarse)').matches) {
             preloadPanel(snapped - 1);
@@ -498,9 +510,15 @@ function goTo(next) {
 }
 
 panels.forEach((panel, i) => {
-    panel.addEventListener('click', () => {
+    panel.addEventListener('click', (e) => {
         if (touchScrolled) return; // Twitter/X in-app browser fires click after scroll
-        if (panel.classList.contains('active')) return;
+        if (panel.classList.contains('active')) {
+            if (panel.classList.contains('expanded')) return;
+            if (e.target.closest('button, a, input, video, canvas, iframe')) return;
+            const expandBtn = panel.querySelector('.expand-btn');
+            if (expandBtn) expandBtn.click();
+            return;
+        }
         panelSprings[i].target = 0;
         startSpring();
         preloadPanel(i);
@@ -508,8 +526,22 @@ panels.forEach((panel, i) => {
     });
 });
 
+document.addEventListener('click', (e) => {
+    if (expandedPanelIndex < 0) return;
+    if (e.target.closest('.panel.expanded')) return;
+    const idx = expandedPanelIndex;
+    panels[idx].classList.remove('expanded');
+    collapsePanel();
+});
+
 const navNameEl = document.querySelector('.nav-name');
-function goHome() { moveTo(0); }
+function goHome() {
+    if (expandedPanelIndex >= 0) {
+        panels[expandedPanelIndex].classList.remove('expanded');
+        collapsePanel();
+    }
+    moveTo(0);
+}
 navNameEl.addEventListener('click', goHome);
 navNameEl.addEventListener('touchend', (e) => { e.preventDefault(); goHome(); });
 
@@ -1221,6 +1253,69 @@ mythForm.addEventListener('submit', (e) => {
         setTimeout(() => { mythInput.placeholder = 'Password'; }, 1500);
     }
 });
+
+// ── Content loader (Rive, shown while panel video buffers) ────────────────────
+const contentLoaderEl     = document.getElementById('content-loader');
+const contentLoaderCanvas = document.getElementById('content-loader-canvas');
+
+let contentLoaderRive    = null;
+let contentLoaderTimer   = null;
+let contentLoaderVisible = false;
+let trackedVideo         = null;
+
+function initContentLoader() {
+    if (contentLoaderRive) return;
+    const dpr = window.devicePixelRatio || 1;
+    contentLoaderCanvas.width  = Math.round(60 * dpr);
+    contentLoaderCanvas.height = Math.round(60 * dpr);
+    contentLoaderRive = new rive.Rive({
+        src: 'Rive/Luket.riv',
+        canvas: contentLoaderCanvas,
+        artboard: 'Avatar',
+        stateMachines: 'State Machine 1',
+        autoplay: true,
+        onLoad() { contentLoaderRive.resizeDrawingSurfaceToCanvas(); },
+    });
+}
+
+function showContentLoader() {
+    if (contentLoaderVisible) return;
+    initContentLoader();
+    contentLoaderVisible = true;
+    contentLoaderEl.classList.add('visible');
+}
+
+function hideContentLoader() {
+    clearTimeout(contentLoaderTimer);
+    if (!contentLoaderVisible) return;
+    contentLoaderVisible = false;
+    contentLoaderEl.classList.remove('visible');
+}
+
+function trackVideoLoading(video) {
+    // Clean up previous listeners
+    if (trackedVideo) {
+        trackedVideo.removeEventListener('waiting', showContentLoader);
+        trackedVideo.removeEventListener('playing', hideContentLoader);
+        trackedVideo.removeEventListener('canplay', hideContentLoader);
+    }
+    trackedVideo = video;
+    clearTimeout(contentLoaderTimer);
+
+    if (!video) { hideContentLoader(); return; }
+
+    if (video.readyState < 3) {
+        // Only show loader if video isn't ready within 300ms — avoids flash on fast loads
+        contentLoaderTimer = setTimeout(showContentLoader, 300);
+    } else {
+        hideContentLoader();
+    }
+
+    video.addEventListener('waiting', showContentLoader);
+    video.addEventListener('playing', hideContentLoader);
+    video.addEventListener('canplay', hideContentLoader);
+}
+// ─────────────────────────────────────────────────────────────────────────────
 
 // ── Nav social wave animation ─────────────────────────────────────────────────
 (function () {
