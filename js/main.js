@@ -737,6 +737,24 @@ Promise.all([pageLoaded, minDelay]).then(() => {
             panel.style.setProperty('--reveal-delay', (i * 75) + 'ms');
             panel.classList.add('reveal');
         });
+
+        // Stagger-load all panel videos in the background so they're buffered before the user gets there.
+        // 2s head-start for the showreel, then one panel every 700ms.
+        const bgVideoOrder = [
+            'explainer-video', 'cookies-video', 'jellycat-video', 'pixels-video',
+            'bolt6-video', 'chinatown-video', 'rye-video', 'cycling-video', 'divingboard-video',
+        ];
+        bgVideoOrder.forEach((id, i) => {
+            setTimeout(() => {
+                const v = document.getElementById(id);
+                if (v && v.dataset.src) { v.src = v.dataset.src; delete v.dataset.src; v.load(); }
+            }, 2000 + i * 700);
+        });
+        setTimeout(() => {
+            document.querySelectorAll('.myth-video').forEach(v => {
+                if (v.dataset.src) { v.src = v.dataset.src; delete v.dataset.src; v.load(); }
+            });
+        }, 2000 + bgVideoOrder.length * 700);
     }, { once: true });
 });
 
@@ -883,6 +901,11 @@ setupTimeline(
     document.getElementById('showreel-video'),
     document.getElementById('showreel-timeline'),
     document.getElementById('showreel-progress')
+);
+setupTimeline(
+    document.getElementById('explainer-video'),
+    document.getElementById('explainer-timeline'),
+    document.getElementById('explainer-progress')
 );
 setupTimeline(
     document.getElementById('cookies-video'),
