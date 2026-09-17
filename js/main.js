@@ -569,7 +569,7 @@ document.getElementById('mob-instagram').addEventListener('click', (e) => {
 document.getElementById('mob-email').addEventListener('click', (e) => {
     e.preventDefault();
     closeMobileMenu();
-    window.open('mailto:lukefgc@icloud.com', '_blank');
+    window.open('mailto:luke@lukecottrell.co.uk', '_blank');
 });
 
 // Panel hover spring

@@ -231,7 +231,7 @@
             const labels = Array.from(selected).map(id => PILL_DATA[id].label);
             const subject = encodeURIComponent('Work Enquiry: ' + labels.join(', '));
             const a = document.createElement('a');
-            a.href = `mailto:lukefgc@icloud.com?subject=${subject}`;
+            a.href = `mailto:luke@lukecottrell.co.uk?subject=${subject}`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
